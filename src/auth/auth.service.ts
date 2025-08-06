@@ -241,7 +241,6 @@ export class AuthService {
             email: email.toLowerCase(),
             password: hashedPassword,
             provider: 'local',
-            username: email.split('@')[0],
             lastLoginIp: ipAddress,
             lastKnownDevice: hash,
             geoData: {

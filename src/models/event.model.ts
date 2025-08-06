@@ -29,13 +29,13 @@ export class Event {
   @Field((type) => Date)
   startTime: Date;
 
-  @Field((type) => TicketType)
+  @Field((type) => [TicketType])
   ticketType: TicketType[];
 
-  @Field((type) => Ticket)
+  @Field((type) => [Ticket])
   ticket: Ticket[];
 
-  @Field((type) => Payment)
+  @Field((type) => [Payment])
   payment: Payment[];
 
   @Field((type) => Date)

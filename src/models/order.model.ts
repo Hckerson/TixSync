@@ -13,7 +13,7 @@ export class Order {
   @Field((type) => Int)
   total: number;
 
-  @Field()
+  @Field(type => [String])
   itemId: string[];
 
   @Field((type) => Payment)

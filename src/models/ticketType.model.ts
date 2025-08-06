@@ -17,8 +17,8 @@ export class TicketType {
   @Field((type) => Int)
   price: number;
 
-  @Field((type) => Ticket)
-  ticket: Ticket;
+  @Field((type) => [Ticket])
+  ticket: Ticket[];
 
   @Field()
   eventId: string;

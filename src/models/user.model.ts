@@ -43,7 +43,7 @@ export class User {
   @Field({ nullable: true })
   lastKnownDevice: string;
 
-  @Field((type) => Session)
+  @Field((type) => [Session])
   session: Session[];
 
   @Field((type) => GeoData, { nullable: true })
