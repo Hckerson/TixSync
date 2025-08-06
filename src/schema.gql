@@ -1,0 +1,29 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateOrganizerInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Mutation {
+  createOrganizer(createOrganizerInput: CreateOrganizerInput!): Organizer!
+  removeOrganizer(id: Int!): Organizer!
+  updateOrganizer(updateOrganizerInput: UpdateOrganizerInput!): Organizer!
+}
+
+type Organizer {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Query {
+  organizer(id: Int!): Organizer!
+}
+
+input UpdateOrganizerInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}

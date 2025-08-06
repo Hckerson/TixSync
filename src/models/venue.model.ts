@@ -22,7 +22,7 @@ export class Venue {
   @Field((type) => Organizer)
   organizer: Organizer[];
 
-  @Field()
+  @Field((type) => Event)
   event: Event[];
 
   @Field((type) => Int)

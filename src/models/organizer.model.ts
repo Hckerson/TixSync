@@ -1,4 +1,4 @@
-import { Field, ObjectType, Int } from '@nestjs/graphql';
+import { Field, ObjectType, Int, ID } from '@nestjs/graphql';
 import { Venue } from './venue.model';
 import { Event } from './event.model';
 import { Role } from 'src/enums/role.enum';
@@ -24,6 +24,6 @@ export class Organizer {
   @Field()
   user: User;
 
-  @Field((type) => Int)
+  @Field((type) => ID)
   userId: number;
 }
