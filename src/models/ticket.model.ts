@@ -1,21 +1,27 @@
-import { User } from "./user.model";
-import { Role } from "src/enums/role.enum";
-import { ObjectType, Field } from "@nestjs/graphql";
+import { Event } from "./event.model";
+import { TicketType } from "./ticketType.model";
+import { ObjectType, Field, ID } from "@nestjs/graphql";
 
 @ObjectType()
 export  class Ticket {
+  @Field((type) => ID)
+  id: string;
+
   @Field()
-  username: string
+  eventId: string
   
-  @Field({nullable: true})
-  fullname: string
-
-  @Field(type => Role)
-  role: Role
-
-  @Field(type => User)
-  user: User
+  @Field(type => TicketType)
+  type: TicketType
 
   @Field()
-  userId: string
+  qrcode: string
+
+  @Field(type => Boolean)
+  isUsed: Boolean
+
+  @Field()
+  typeId: string
+
+  @Field(type=> Event)
+  event: Event
 }

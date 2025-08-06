@@ -8,6 +8,9 @@ import { EventCategory } from 'src/enums/eventCategory.enum';
 
 @ObjectType()
 export class Event {
+  @Field((type) => ID)
+  id: string;
+  
   @Field()
   title: string;
 

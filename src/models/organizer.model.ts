@@ -6,6 +6,9 @@ import { User } from './user.model';
 
 @ObjectType()
 export class Organizer {
+  @Field((type) => ID)
+  id: string;
+  
   @Field()
   username: string;
 

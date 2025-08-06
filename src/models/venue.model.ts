@@ -1,9 +1,12 @@
 import { Organizer } from './organizer.model';
 import { Event } from './event.model';
-import { Field, ObjectType, Int } from '@nestjs/graphql';
+import { Field, ObjectType, Int , ID} from '@nestjs/graphql';
 
 @ObjectType()
 export class Venue {
+  @Field((type) => ID)
+  id: string;
+
   @Field()
   name: string;
 

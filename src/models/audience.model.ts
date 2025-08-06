@@ -1,9 +1,12 @@
 import { User } from "./user.model";
 import { Role } from "src/enums/role.enum";
-import { ObjectType, Field } from "@nestjs/graphql";
+import { ObjectType, Field, ID } from "@nestjs/graphql";
 
 @ObjectType()
 export  class Audience {
+  @Field((type) => ID)
+  id: string;
+
   @Field()
   username: string
   

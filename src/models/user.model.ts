@@ -7,6 +7,9 @@ import { Field, ObjectType, Int, ID } from '@nestjs/graphql';
 
 @ObjectType()
 export class User {
+  @Field((type) => ID)
+  id: string;
+
   @Field()
   email: string;
 
@@ -22,36 +25,36 @@ export class User {
   @Field((type) => Boolean)
   twofaVerified: Boolean;
 
-  @Field(type => Date)
-  createdAt: Date
+  @Field((type) => Date)
+  createdAt: Date;
 
-  @Field(type => Date)
-  updatedAt: Date
+  @Field((type) => Date)
+  updatedAt: Date;
 
-  @Field({nullable: true})
-  verificationToken : string
+  @Field({ nullable: true })
+  verificationToken: string;
 
-  @Field({nullable: true})
-  speakeasySecret:string
+  @Field({ nullable: true })
+  speakeasySecret: string;
 
-  @Field({nullable: true})
-  lastLoginIp :string
+  @Field({ nullable: true })
+  lastLoginIp: string;
 
-  @Field({nullable: true})
-  lastKnownDevice :string
+  @Field({ nullable: true })
+  lastKnownDevice: string;
 
-  @Field(type => Session)
-  session: Session[]
+  @Field((type) => Session)
+  session: Session[];
 
-  @Field(type => GeoData, {nullable: true})
-  geoData: GeoData[]
+  @Field((type) => GeoData, { nullable: true })
+  geoData: GeoData[];
 
-  @Field(type => Organizer, {nullable: true})
-  organizer: Organizer[]
+  @Field((type) => Organizer, { nullable: true })
+  organizer: Organizer[];
 
-  @Field(type => Admin, {nullable: true})
-  admin: Admin[]
+  @Field((type) => Admin, { nullable: true })
+  admin: Admin[];
 
-  @Field(type => Audience, {nullable: true})
-  audience: Audience[]
+  @Field((type) => Audience, { nullable: true })
+  audience: Audience[];
 }

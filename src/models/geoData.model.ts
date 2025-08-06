@@ -1,6 +1,26 @@
-import { ObjectType, Field } from "@nestjs/graphql";
+import { User } from './user.model';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 
 @ObjectType()
-export  class GeoData {
-  
+export class GeoData {
+  @Field((type) => ID)
+  id: string;
+
+  @Field()
+  userId: string;
+
+  @Field()
+  country: string;
+
+  @Field()
+  region: string;
+
+  @Field()
+  timezone: string;
+
+  @Field()
+  city: string;
+
+  @Field((type) => User)
+  user: User;
 }
