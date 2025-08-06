@@ -1,0 +1,192 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  ORGANIZER
+  AUDIENCE
+}
+
+enum OrderCategory {
+  TICKET
+  MERCH
+}
+
+enum EventCategory {
+  MUSIC
+  TECH
+  SPORT
+}
+
+enum Status {
+  PENDING
+  SUCCESSFUL
+  FAILED
+}
+
+enum Name {
+  VIP
+  REGULAR
+  STUDENT
+}
+
+model User {
+  id                String     @id @default(uuid())
+  email             String     @unique
+  password          String
+  provider          String     @default("")
+  emailVerified     Boolean    @default(false)
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  twofaVerified     Boolean    @default(false)
+  verificationToken String?
+  speakeasySecret   String?
+  lastLoginIp       String?
+  lastKnownDevice   String?
+  sessions          Session[]
+  geoData           GeoData?
+  organizer         Organizer?
+  admin             Admin?
+  audience          Audience?
+}
+
+model Admin {
+  id       String  @id @default(uuid())
+  username String
+  fullname String?
+  role     Role    @default(ADMIN)
+  user     User    @relation(fields: [userId], references: [id])
+  userId   String  @unique
+}
+
+model Audience {
+  id       String  @id @default(uuid())
+  username String
+  fullname String?
+  role     Role    @default(AUDIENCE)
+  user     User    @relation(fields: [userId], references: [id])
+  userId   String  @unique
+}
+
+model Organizer {
+  id       String             @id @default(uuid())
+  username String
+  fullname String?
+  venue    OrganizerOnVenue[]
+  event    Event[]
+  role     Role               @default(ORGANIZER)
+  user     User               @relation(fields: [userId], references: [id])
+  userId   String             @unique
+}
+
+model Venue {
+  id        String             @id @default(uuid())
+  name      String
+  address   String
+  city      String
+  state     String
+  country   String
+  organizer OrganizerOnVenue[]
+  event     Event[]
+  capacity  Int
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+}
+
+model OrganizerOnVenue {
+  venueId     String
+  venue       Venue     @relation(fields: [venueId], references: [id])
+  organizerId String
+  organizer   Organizer @relation(fields: [organizerId], references: [id])
+  assignedAt  DateTime  @default(now())
+
+  @@id([venueId, organizerId])
+}
+
+model Event {
+  id          String        @id @default(uuid())
+  title       String
+  description String
+  category    EventCategory
+  organizerId String
+  organizer   Organizer     @relation(fields: [organizerId], references: [id])
+  startTime   DateTime
+  ticketType  TicketType[]
+  ticket      Ticket[]
+  payment     Payment[]
+  endTime     DateTime
+  venueId     String
+  venue       Venue         @relation(fields: [venueId], references: [id])
+}
+
+model TicketType {
+  id      String   @id @default(uuid())
+  event   Event    @relation(fields: [eventId], references: [id])
+  name    Name
+  price   Int
+  ticket  Ticket[]
+  eventId String
+
+  @@unique([name, eventId])
+}
+
+model Ticket {
+  id      String     @id @default(uuid())
+  eventId String
+  type    TicketType @relation(fields: [typeId], references: [id])
+  qrcode  String
+  isUsed  Boolean    @default(false)
+  typeId  String
+  event   Event      @relation(fields: [eventId], references: [id])
+}
+
+model Order {
+  id      String        @id @default(uuid())
+  item    OrderCategory
+  total   Int
+  itemId  String[]
+  payment Payment?
+}
+
+model Payment {
+  id      String   @id @default(uuid())
+  eventId String
+  amount  Int
+  orderId String   @unique
+  order   Order    @relation(fields: [orderId], references: [id])
+  status  Status   @default(PENDING)
+  paidAt  DateTime @default(now())
+  event   Event    @relation(fields: [eventId], references: [id])
+}
+
+model Session {
+  id            String   @id @default(uuid())
+  userId        String
+  rememberToken String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model GeoData {
+  id       String @id @default(uuid())
+  userId   String @unique
+  country  String
+  region   String
+  timezone String
+  city     String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}

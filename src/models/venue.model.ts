@@ -1,0 +1,30 @@
+import { Organizer } from './organizer.model';
+import { Event } from './event.model';
+import { Field, ObjectType, Int } from '@nestjs/graphql';
+
+@ObjectType()
+export class Venue {
+  @Field()
+  name: string;
+
+  @Field()
+  address: string;
+
+  @Field()
+  city: string;
+
+  @Field()
+  state: string;
+
+  @Field()
+  country: string;
+
+  @Field((type) => Organizer)
+  organizer: Organizer[];
+
+  @Field()
+  event: Event[];
+
+  @Field((type) => Int)
+  capacity: number;
+}
