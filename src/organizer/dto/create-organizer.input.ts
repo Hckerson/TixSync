@@ -1,7 +1,23 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { Role } from 'src/enums/role.enum';
+import { InputType, Int, Field, ID } from '@nestjs/graphql';
 
 @InputType()
 export class CreateOrganizerInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field()
+  username: string;
+
+  @Field({ nullable: true })
+  fullname: string;
+
+  @Field()
+  venueId: string;
+
+  @Field(type => [Event])
+  event: Event[];
+
+  @Field((type) => Role)
+  role: Role;
+
+  @Field((type) => ID)
+  userId: number;
 }

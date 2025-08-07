@@ -1,16 +1,33 @@
-import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
+import { EventService } from 'src/event/event.service';
+import { VenueService } from 'src/venue/venue.service';
 import { OrganizerService } from './organizer.service';
+import { Venue } from 'src/venue/entities/venue.entity';
+import { Event } from 'src/event/entities/event.entity';
 import { Organizer } from './entities/organizer.entity';
 import { CreateOrganizerInput } from './dto/create-organizer.input';
 import { UpdateOrganizerInput } from './dto/update-organizer.input';
-import { Venue } from 'src/models/venue.model';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 
 @Resolver(() => Organizer)
 export class OrganizerResolver {
-  constructor(private readonly organizerService: OrganizerService) {}
+  constructor(
+    private readonly venueService: VenueService,
+    private readonly eventService: EventService,
+    private readonly organizerService: OrganizerService,
+  ) {}
 
   @Mutation(() => Organizer)
-  createOrganizer(@Args('createOrganizerInput') createOrganizerInput: CreateOrganizerInput) {
+  createOrganizer(
+    @Args('createOrganizerInput') createOrganizerInput: CreateOrganizerInput,
+  ) {
     return this.organizerService.create(createOrganizerInput);
   }
 
@@ -25,8 +42,13 @@ export class OrganizerResolver {
   }
 
   @Mutation(() => Organizer)
-  updateOrganizer(@Args('updateOrganizerInput') updateOrganizerInput: UpdateOrganizerInput) {
-    return this.organizerService.update(updateOrganizerInput.id, updateOrganizerInput);
+  updateOrganizer(
+    @Args('updateOrganizerInput') updateOrganizerInput: UpdateOrganizerInput,
+  ) {
+    return this.organizerService.update(
+      updateOrganizerInput.id,
+      updateOrganizerInput,
+    );
   }
 
   @Mutation(() => Organizer)
@@ -34,8 +56,15 @@ export class OrganizerResolver {
     return this.organizerService.remove(id);
   }
 
-  @ResolveField('venue', ()=> [Venue])
-  async getVenue(@Parent() organizer:Organizer){
-    const  {id} = organizer
+  @ResolveField('venue', () => [Venue])
+  async getVenues(@Parent() organizer: Organizer) {
+    const { id } = organizer;
+    return await this.venueService.findMany(+id)
+  }
+
+  @ResolveField('event', ()=> [Event])
+  async getEvents(@Parent() organizer: Organizer) {
+    const {id} = organizer
+     return await  this.venueService.findMany(+id)
   }
 }

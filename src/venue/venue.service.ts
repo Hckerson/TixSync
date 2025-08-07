@@ -16,6 +16,11 @@ export class VenueService {
     return `This action returns a #${id} venue`;
   }
 
+  async findMany(id: number) {
+    return `This action returns a #${id} venue`;
+  }
+
+
   update(id: number, updateVenueInput: UpdateVenueInput) {
     return `This action updates a #${id} venue`;
   }
