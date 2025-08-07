@@ -43,25 +43,6 @@ enum Name {
   STUDENT
 }
 
-model User {
-  id                String     @id @default(uuid())
-  email             String     @unique
-  password          String
-  provider          String     @default("")
-  emailVerified     Boolean    @default(false)
-  createdAt         DateTime   @default(now())
-  updatedAt         DateTime   @updatedAt
-  twofaVerified     Boolean    @default(false)
-  verificationToken String?
-  speakeasySecret   String?
-  lastLoginIp       String?
-  lastKnownDevice   String?
-  sessions          Session[]
-  geoData           GeoData?
-  organizer         Organizer?
-  admin             Admin?
-  audience          Audience?
-}
 
 model Admin {
   id       String  @id @default(uuid())
@@ -81,41 +62,6 @@ model Audience {
   userId   String  @unique
 }
 
-model Organizer {
-  id       String             @id @default(uuid())
-  username String
-  fullname String?
-  venue    OrganizerOnVenue[]
-  event    Event[]
-  role     Role               @default(ORGANIZER)
-  user     User               @relation(fields: [userId], references: [id])
-  userId   String             @unique
-}
-
-model Venue {
-  id        String             @id @default(uuid())
-  name      String
-  address   String
-  city      String
-  state     String
-  country   String
-  organizer OrganizerOnVenue[]
-  event     Event[]
-  capacity  Int
-  createdAt DateTime           @default(now())
-  updatedAt DateTime           @updatedAt
-}
-
-model OrganizerOnVenue {
-  venueId     String
-  venue       Venue     @relation(fields: [venueId], references: [id])
-  organizerId String
-  organizer   Organizer @relation(fields: [organizerId], references: [id])
-  assignedAt  DateTime  @default(now())
-
-  @@id([venueId, organizerId])
-}
-
 model Event {
   id          String        @id @default(uuid())
   title       String
@@ -131,27 +77,38 @@ model Event {
   venueId     String
   venue       Venue         @relation(fields: [venueId], references: [id])
 }
-
-model TicketType {
-  id      String   @id @default(uuid())
-  event   Event    @relation(fields: [eventId], references: [id])
-  name    Name
-  price   Int
-  ticket  Ticket[]
-  eventId String
-
-  @@unique([name, eventId])
+model GeoData {
+  id       String @id @default(uuid())
+  userId   String @unique
+  country  String
+  region   String
+  timezone String
+  city     String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+model Organizer {
+  id       String             @id @default(uuid())
+  username String
+  fullname String?
+  venue    OrganizerOnVenue[]
+  event    Event[]
+  role     Role               @default(ORGANIZER)
+  user     User               @relation(fields: [userId], references: [id])
+  userId   String             @unique
 }
 
-model Ticket {
-  id      String     @id @default(uuid())
-  eventId String
-  type    TicketType @relation(fields: [typeId], references: [id])
-  qrcode  String
-  isUsed  Boolean    @default(false)
-  typeId  String
-  event   Event      @relation(fields: [eventId], references: [id])
+
+model OrganizerOnVenue {
+  venueId     String
+  venue       Venue     @relation(fields: [venueId], references: [id])
+  organizerId String
+  organizer   Organizer @relation(fields: [organizerId], references: [id])
+  assignedAt  DateTime  @default(now())
+
+  @@id([venueId, organizerId])
 }
+
+
 
 model Order {
   id      String        @id @default(uuid())
@@ -181,12 +138,56 @@ model Session {
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model GeoData {
-  id       String @id @default(uuid())
-  userId   String @unique
-  country  String
-  region   String
-  timezone String
-  city     String
-  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+model TicketType {
+  id      String   @id @default(uuid())
+  event   Event    @relation(fields: [eventId], references: [id])
+  name    Name
+  price   Int
+  ticket  Ticket[]
+  eventId String
+
+  @@unique([name, eventId])
+}
+
+model Ticket {
+  id      String     @id @default(uuid())
+  eventId String
+  type    TicketType @relation(fields: [typeId], references: [id])
+  qrcode  String
+  isUsed  Boolean    @default(false)
+  typeId  String
+  event   Event      @relation(fields: [eventId], references: [id])
+}
+model User {
+  id                String     @id @default(uuid())
+  email             String     @unique
+  password          String
+  provider          String     @default("")
+  emailVerified     Boolean    @default(false)
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  twofaVerified     Boolean    @default(false)
+  verificationToken String?
+  speakeasySecret   String?
+  lastLoginIp       String?
+  lastKnownDevice   String?
+  sessions          Session[]
+  geoData           GeoData?
+  organizer         Organizer?
+  admin             Admin?
+  audience          Audience?
+}
+
+model Venue {
+  id        String             @id @default(uuid())
+  name      String
+  address   String
+  city      String
+  state     String
+  country   String
+  organizer OrganizerOnVenue[]
+  event     Event[]
+  capacity  Int
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
 }

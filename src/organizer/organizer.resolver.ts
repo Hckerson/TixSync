@@ -1,8 +1,9 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
 import { OrganizerService } from './organizer.service';
 import { Organizer } from './entities/organizer.entity';
 import { CreateOrganizerInput } from './dto/create-organizer.input';
 import { UpdateOrganizerInput } from './dto/update-organizer.input';
+import { Venue } from 'src/models/venue.model';
 
 @Resolver(() => Organizer)
 export class OrganizerResolver {
@@ -31,5 +32,10 @@ export class OrganizerResolver {
   @Mutation(() => Organizer)
   removeOrganizer(@Args('id', { type: () => Int }) id: number) {
     return this.organizerService.remove(id);
+  }
+
+  @ResolveField('venue', ()=> [Venue])
+  async getVenue(@Parent() organizer:Organizer){
+    const  {id} = organizer
   }
 }

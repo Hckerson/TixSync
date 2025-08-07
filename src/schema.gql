@@ -19,7 +19,7 @@ type Organizer {
 }
 
 type Query {
-  organizer(id: Int!): Organizer!
+  organizer: [Organizer!]!
 }
 
 input UpdateOrganizerInput {
