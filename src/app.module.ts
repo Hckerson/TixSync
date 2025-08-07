@@ -18,6 +18,7 @@ import { TickettypeModule } from './tickettype/tickettype.module';
 import { TicketModule } from './ticket/ticket.module';
 import { UserModule } from './user/user.module';
 import { VenueModule } from './venue/venue.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { VenueModule } from './venue/venue.module';
     TicketModule,
     UserModule,
     VenueModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,10 +1,10 @@
-import { Venue } from 'src/models/venue.model';
-import { Ticket } from 'src/models/ticket.model';
-import { Payment } from 'src/models/payment.model';
-import { Organizer } from 'src/models/organizer.model';
-import { TicketType } from 'src/models/ticketType.model';
-import { Field, ObjectType, Int, ID } from '@nestjs/graphql';
+import { Venue } from 'src/venue/entities/venue.entity';
+import { Ticket } from 'src/ticket/entities/ticket.entity';
+import { Field, ObjectType,  ID , GraphQLISODateTime} from '@nestjs/graphql';
 import { EventCategory } from 'src/enums/eventCategory.enum';
+import { Payment } from 'src/payment/entities/payment.entity';
+import { Organizer } from 'src/organizer/entities/organizer.entity';
+import { TicketType } from 'src/tickettype/entities/tickettype.entity';
 
 @ObjectType()
 export class Event {
@@ -26,7 +26,7 @@ export class Event {
   @Field((type) => Organizer)
   organizer: Organizer;
 
-  @Field((type) => Date)
+  @Field((type) => GraphQLISODateTime)
   startTime: Date;
 
   @Field((type) => [TicketType])

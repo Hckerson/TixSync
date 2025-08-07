@@ -1,5 +1,5 @@
-import { User } from 'src/models/user.model';
-import { ObjectType, Field , ID} from '@nestjs/graphql';
+import { User } from 'src/user/entities/user.entity';
+import { ObjectType, Field , ID, GraphQLISODateTime} from '@nestjs/graphql';
 
 @ObjectType()
 export class Session {
@@ -12,10 +12,10 @@ export class Session {
   @Field({ nullable: true })
   rememberToken: string;
 
-  @Field((type) => Date)
+  @Field((type) => GraphQLISODateTime)
   createdAt: Date;
 
-  @Field((type) => Date)
+  @Field((type) => GraphQLISODateTime)
   updatedAt: Date;
 
   @Field((type) => User)

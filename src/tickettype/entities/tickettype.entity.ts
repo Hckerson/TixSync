@@ -1,6 +1,6 @@
 import { Name } from 'src/enums/name.enum';
-import { Ticket } from 'src/models/ticket.model';
 import { Event } from 'src/event/entities/event.entity';
+import { Ticket } from 'src/ticket/entities/ticket.entity';
 import { ObjectType, Field, Int ,ID} from '@nestjs/graphql';
 
 @ObjectType()

@@ -31,13 +31,13 @@ export class OrganizerResolver {
     return this.organizerService.create(createOrganizerInput);
   }
 
-  @Query(() => [Organizer], { name: 'organizer' })
-  findAll() {
+  @Query(() => [Organizer], { name: 'organizers' })
+  findAllOrganizer() {
     return this.organizerService.findAll();
   }
 
   @Query(() => Organizer, { name: 'organizer' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOneOrganizer(@Args('id', { type: () => Int }) id: number) {
     return this.organizerService.findOne(id);
   }
 
@@ -47,7 +47,7 @@ export class OrganizerResolver {
   ) {
     return this.organizerService.update(
       updateOrganizerInput.id,
-      updateOrganizerInput,
+      updateOrganizerInput, 
     );
   }
 
@@ -59,12 +59,12 @@ export class OrganizerResolver {
   @ResolveField('venue', () => [Venue])
   async getVenues(@Parent() organizer: Organizer) {
     const { id } = organizer;
-    return await this.venueService.findMany(+id)
+    return await this.venueService.findMany({organizerId:id})
   }
 
   @ResolveField('event', ()=> [Event])
   async getEvents(@Parent() organizer: Organizer) {
     const {id} = organizer
-     return await  this.venueService.findMany(+id)
+     return await  this.eventService.findMany({organizerId: id})
   }
 }

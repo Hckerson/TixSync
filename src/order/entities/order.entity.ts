@@ -1,6 +1,6 @@
-import { Payment } from 'src/models/payment.model';
 import { ObjectType, Field, Int , ID} from '@nestjs/graphql';
 import { OrderCategory } from 'src/enums/orderCategory.enum';
+import { Payment } from 'src/payment/entities/payment.entity';
 
 @ObjectType()
 export class Order {

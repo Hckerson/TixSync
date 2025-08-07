@@ -12,8 +12,8 @@ export class CreateOrganizerInput {
   @Field()
   venueId: string;
 
-  @Field(type => [Event])
-  event: Event[];
+  @Field((type) => Int)
+  eventId: number;
 
   @Field((type) => Role)
   role: Role;

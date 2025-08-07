@@ -1,9 +1,9 @@
-import { Field, ObjectType, ID } from '@nestjs/graphql';
 import { Admin } from 'src/admin/entities/admin.entity';
 import { Session } from 'src/session/entities/session.entity';
 import { GeoData } from 'src/goedata/entities/goedatum.entity';
 import { Audience } from 'src/audience/entities/audience.entity';
 import { Organizer } from 'src/organizer/entities/organizer.entity';
+import { Field, ObjectType, ID, GraphQLISODateTime } from '@nestjs/graphql';
 
 @ObjectType()
 export class User {
@@ -25,10 +25,10 @@ export class User {
   @Field((type) => Boolean)
   twofaVerified: Boolean;
 
-  @Field((type) => Date)
+  @Field((type) => GraphQLISODateTime)
   createdAt: Date;
 
-  @Field((type) => Date)
+  @Field((type) => GraphQLISODateTime)
   updatedAt: Date;
 
   @Field({ nullable: true })

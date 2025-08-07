@@ -2,28 +2,371 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input CreateOrganizerInput {
+type Admin {
+  fullname: String
+  id: ID!
+  role: Role!
+  user: User!
+  userId: String!
+  username: String!
+}
+
+type Audience {
+  fullname: String
+  id: ID!
+  role: Role!
+  user: User!
+  userId: String!
+  username: String!
+}
+
+input CreateAdminInput {
   """Example field (placeholder)"""
   exampleField: Int!
+}
+
+input CreateAudienceInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateEventInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateGoedatumInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateOrderInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateOrganizerInput {
+  eventId: Int!
+  fullname: String
+  role: Role!
+  userId: ID!
+  username: String!
+  venueId: String!
+}
+
+input CreatePaymentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateSessionInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateTicketInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateTickettypeInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateVenueInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Event {
+  category: EventCategory!
+  description: String!
+  endTime: DateTime!
+  id: ID!
+  organizer: Organizer!
+  organizerId: ID!
+  payment: [Payment!]!
+  startTime: DateTime!
+  ticket: [Ticket!]!
+  ticketType: [TicketType!]!
+  title: String!
+  venue: Venue!
+  venueId: ID!
+}
+
+"""All categoryies of the event"""
+enum EventCategory {
+  MUSIC
+  SPORT
+  TECH
+}
+
+type GeoData {
+  city: String!
+  country: String!
+  id: ID!
+  region: String!
+  timezone: String!
+  user: User!
+  userId: String!
 }
 
 type Mutation {
+  createAdmin(createAdminInput: CreateAdminInput!): Admin!
+  createAudience(createAudienceInput: CreateAudienceInput!): Audience!
+  createEvent(createEventInput: CreateEventInput!): Event!
+  createGoedatum(createGoedatumInput: CreateGoedatumInput!): GeoData!
+  createOrder(createOrderInput: CreateOrderInput!): Order!
   createOrganizer(createOrganizerInput: CreateOrganizerInput!): Organizer!
+  createPayment(createPaymentInput: CreatePaymentInput!): Payment!
+  createSession(createSessionInput: CreateSessionInput!): Session!
+  createTicket(createTicketInput: CreateTicketInput!): Ticket!
+  createTickettype(createTickettypeInput: CreateTickettypeInput!): TicketType!
+  createUser(createUserInput: CreateUserInput!): User!
+  createVenue(createVenueInput: CreateVenueInput!): Venue!
+  removeAdmin(id: Int!): Admin!
+  removeAudience(id: Int!): Audience!
+  removeEvent(id: Int!): Event!
+  removeGoedatum(id: Int!): GeoData!
+  removeOrder(id: Int!): Order!
   removeOrganizer(id: Int!): Organizer!
+  removePayment(id: Int!): Payment!
+  removeSession(id: Int!): Session!
+  removeTicket(id: Int!): Ticket!
+  removeTickettype(id: Int!): TicketType!
+  removeUser(id: Int!): User!
+  removeVenue(id: Int!): Venue!
+  updateAdmin(updateAdminInput: UpdateAdminInput!): Admin!
+  updateAudience(updateAudienceInput: UpdateAudienceInput!): Audience!
+  updateEvent(updateEventInput: UpdateEventInput!): Event!
+  updateGoedatum(updateGoedatumInput: UpdateGoedatumInput!): GeoData!
+  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
   updateOrganizer(updateOrganizerInput: UpdateOrganizerInput!): Organizer!
+  updatePayment(updatePaymentInput: UpdatePaymentInput!): Payment!
+  updateSession(updateSessionInput: UpdateSessionInput!): Session!
+  updateTicket(updateTicketInput: UpdateTicketInput!): Ticket!
+  updateTickettype(updateTickettypeInput: UpdateTickettypeInput!): TicketType!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  updateVenue(updateVenueInput: UpdateVenueInput!): Venue!
+}
+
+"""Names of all the ticket tiers"""
+enum Name {
+  REGULAR
+  STUDENT
+  VIP
+}
+
+type Order {
+  id: ID!
+  item: OrderCategory!
+  itemId: [String!]!
+  payment: Payment!
+  total: Int!
+}
+
+"""Category of the order, e.g(ticket, merch)"""
+enum OrderCategory {
+  MERCH
+  TICKET
 }
 
 type Organizer {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  event: [Event!]!
+  fullname: String
+  id: ID!
+  role: Role!
+  user: User!
+  userId: ID!
+  username: String!
+  venue: [Venue!]!
+}
+
+type Payment {
+  amount: Int!
+  event: Event!
+  eventId: String!
+  id: ID!
+  order: Order!
+  orderId: String!
+  paidAt: DateTime!
+  status: Status!
 }
 
 type Query {
-  organizer: [Organizer!]!
+  admin(id: Int!): Admin!
+  audience(id: Int!): Audience!
+  event(id: Int!): Event!
+  goedata: [GeoData!]!
+  goedatum(id: Int!): GeoData!
+  order(id: Int!): Order!
+  organizer(id: Int!): Organizer!
+  organizers: [Organizer!]!
+  payment(id: Int!): Payment!
+  session(id: Int!): Session!
+  ticket(id: Int!): Ticket!
+  tickettype(id: Int!): TicketType!
+  user(id: Int!): User!
+  venue(id: Int!): Venue!
 }
 
-input UpdateOrganizerInput {
+"""Role assigned to the user"""
+enum Role {
+  ADMIN
+  AUDIENCE
+  ORGANIZER
+}
+
+type Session {
+  createdAt: DateTime!
+  id: ID!
+  rememberToken: String
+  updatedAt: DateTime!
+  user: User!
+  userId: String!
+}
+
+"""Status of the order"""
+enum Status {
+  FAILED
+  PENDING
+  SUCCESSFUL
+}
+
+type Ticket {
+  event: Event!
+  eventId: String!
+  id: ID!
+  isUsed: Boolean!
+  qrcode: String!
+  type: TicketType!
+  typeId: String!
+}
+
+type TicketType {
+  event: Event!
+  eventId: String!
+  id: ID!
+  name: Name!
+  price: Int!
+  ticket: [Ticket!]!
+}
+
+input UpdateAdminInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!
+}
+
+input UpdateAudienceInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateEventInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateGoedatumInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateOrderInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateOrganizerInput {
+  eventId: Int
+  fullname: String
+  id: Int!
+  role: Role
+  userId: ID
+  username: String
+  venueId: String
+}
+
+input UpdatePaymentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateSessionInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateTicketInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateTickettypeInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateVenueInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+type User {
+  admin: Admin
+  audience: Audience
+  createdAt: DateTime!
+  email: String!
+  emailVerified: Boolean!
+  geoData: GeoData
+  id: ID!
+  lastKnownDevice: String
+  lastLoginIp: String
+  organizer: Organizer
+  password: String!
+  provider: String!
+  session: [Session!]!
+  speakeasySecret: String
+  twofaVerified: Boolean!
+  updatedAt: DateTime!
+  verificationToken: String
+}
+
+type Venue {
+  address: String!
+  capacity: Int!
+  city: String!
+  country: String!
+  event: [Event!]!
+  id: ID!
+  name: String!
+  organizer: [Organizer!]!
+  state: String!
 }

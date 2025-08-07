@@ -1,7 +1,7 @@
-import { Order } from './order.model';
-import { Event } from './event.model';
 import { Status } from 'src/enums/status.enum';
-import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
+import { Order } from 'src/order/entities/order.entity';
+import { Event } from 'src/event/entities/event.entity';
+import { ObjectType, Field, Int, ID,GraphQLISODateTime } from '@nestjs/graphql';
 
 @ObjectType()
 export class Payment {
@@ -23,7 +23,7 @@ export class Payment {
   @Field((type) => Status)
   status: Status;
 
-  @Field((type) => Date)
+  @Field((type) => GraphQLISODateTime)
   paidAt: Date;
 
   @Field((type) => Event)
