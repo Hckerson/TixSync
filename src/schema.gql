@@ -46,10 +46,10 @@ input CreateOrderInput {
 }
 
 input CreateOrganizerInput {
-  eventId: Int!
+  eventId: String!
   fullname: String
   role: Role!
-  userId: ID!
+  userId: String!
   username: String!
   venueId: String!
 }
@@ -211,7 +211,7 @@ type Query {
   goedata: [GeoData!]!
   goedatum(id: Int!): GeoData!
   order(id: Int!): Order!
-  organizer(id: Int!): Organizer!
+  organizer(id: String!): Organizer!
   organizers: [Organizer!]!
   payment(id: Int!): Payment!
   session(id: Int!): Session!
@@ -294,11 +294,11 @@ input UpdateOrderInput {
 }
 
 input UpdateOrganizerInput {
-  eventId: Int
+  eventId: String
   fullname: String
-  id: Int!
+  id: String!
   role: Role
-  userId: ID
+  userId: String
   username: String
   venueId: String
 }

@@ -12,12 +12,12 @@ export class CreateOrganizerInput {
   @Field()
   venueId: string;
 
-  @Field((type) => Int)
-  eventId: number;
+  @Field()
+  eventId: string;
 
   @Field((type) => Role)
   role: Role;
 
-  @Field((type) => ID)
-  userId: number;
+  @Field()
+  userId: string;
 }

@@ -19,9 +19,9 @@ export class OrganizerService {
     try {
       const allOrganizers = await this.prisma.organizer.findMany();
       if (!allOrganizers) return 'No organizer found';
-      return allOrganizers.map(organizer => ({
+      return allOrganizers.map((organizer) => ({
         ...organizer,
-        role: Role[organizer.role as  keyof typeof Role] // This converts "ORGANIZER" string to Role.ORGANIZER enum
+        role: Role[organizer.role as keyof typeof Role], // This converts "ORGANIZER" string to Role.ORGANIZER enum
       }));
     } catch (error) {
       console.error(`Error fetching all organizers: ${error}`);
@@ -36,17 +36,35 @@ export class OrganizerService {
 
     try {
       const organizer = await this.prisma.organizer.findUnique({
-        where:{
-          id
-        }
-      })
+        where: {
+          id,
+        },
+      });
     } catch (error) {
-      console.error(`Error fetchig organizer with id ${id}: ${error}`)
+      console.error(`Error fetchig organizer with id ${id}: ${error}`);
     }
   }
 
-  update(id: number, updateOrganizerInput: UpdateOrganizerInput) {
-    return `This action updates a #${id} organizer`;
+  async update(id: string, updateOrganizerInput: UpdateOrganizerInput) {
+    /**
+     * Update the existing data of an organizer
+     * @param id -ID of the organizer
+     * @param updateOrganizerInput -New data to be entered
+     */
+    try {
+      const { id: orgId, userId, role, ...rest } = updateOrganizerInput;
+      const updatedData = await this.prisma.organizer.update({
+        where: {
+          id,
+        },
+        data: {
+          ...rest,
+          role: role,
+        },
+      });
+    } catch (error) {
+      console.error(`Error updating orgaizer with id ${id}: ${error}`);
+    }
   }
 
   remove(id: number) {
