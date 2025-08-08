@@ -1,6 +1,7 @@
 import { Venue } from 'src/venue/entities/venue.entity';
 import { EventCategory } from 'src/enums/eventCategory.enum';
 import { Payment } from 'src/payment/entities/payment.entity';
+import { CreateOrganizerInput } from 'src/organizer/dto/create-organizer.input';
 import { CreateTicketInput } from 'src/ticket/dto/create-ticket.input';
 import { CreatePaymentInput } from 'src/payment/dto/create-payment.input';
 import { InputType, Int, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
@@ -19,6 +20,9 @@ export class CreateEventInput {
 
   @Field()
   organizerId: string;
+
+  @Field(()=> CreateOrganizerInput)
+  organizer: CreateOrganizerInput
 
   @Field(() => GraphQLISODateTime)
   startTime: Date;

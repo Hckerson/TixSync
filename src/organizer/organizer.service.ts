@@ -67,14 +67,13 @@ export class OrganizerService {
      * @param updateOrganizerInput -New data to be entered
      */
     try {
-      const { id: orgId, userId, role, ...rest } = updateOrganizerInput;
+      const { id: orgId, userId, ...rest } = updateOrganizerInput;
       const updatedData = await this.prisma.organizer.update({
         where: {
           id,
         },
         data: {
           ...rest,
-          role: role,
         },
       });
       if (!updatedData) return { message: 'delete failed', status: 400 };

@@ -38,6 +38,7 @@ input CreateEventInput {
   category: EventCategory!
   description: String!
   endTime: DateTime!
+  organizer: CreateOrganizerInput!
   organizerId: String!
   payment: [CreatePaymentInput!]!
   startTime: DateTime!
@@ -302,6 +303,7 @@ input UpdateEventInput {
   description: String
   endTime: DateTime
   id: String!
+  organizer: CreateOrganizerInput
   organizerId: String
   payment: [CreatePaymentInput!]
   startTime: DateTime

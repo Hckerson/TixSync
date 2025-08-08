@@ -3,7 +3,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateEventInput } from './dto/create-event.input';
 import { UpdateEventInput } from './dto/update-event.input';
 
-
 @Injectable()
 export class EventService {
   constructor(private readonly prisma: PrismaService) {}
@@ -24,23 +23,92 @@ export class EventService {
     }
   }
 
-  findAll() {
-    return `This action returns all event`;
+  async findAll() {
+    /**
+     * Returns all event from the db
+     * @returns - JSON object containning all event
+     */
+    try {
+      const allEvent = await this.prisma.event.findMany();
+      if (!allEvent) return [];
+      return allEvent.map((event) => ({
+        ...event,
+      }));
+    } catch (error) {
+      console.error(`Error fetching all event: ${error}`);
+    }
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} event`;
+  async findOne(id: string) {
+    /**
+     * Finds and returns an event identified by an id
+     * @param id -ID of the event
+     */
+
+    try {
+      const event = await this.prisma.event.findUnique({
+        where: {
+          id,
+        },
+      });
+      if (!event) return [];
+      return event;
+    } catch (error) {
+      console.error(`Error fetching event with id ${id}: ${error}`);
+    }
   }
 
   async findMany(organizerId: string) {
     return `This action returns a venue`;
   }
 
-  update(id: string, updateEventInput: UpdateEventInput) {
-    return `This action updates a #${id} event`;
+  async update(id: string, updateEventInput: UpdateEventInput) {
+    /**
+     * Update the existing data of an event
+     * @param id -ID of the event
+     * @param updateeventInput -New data to be entered
+     */
+    try {
+      const {
+        id: orgId,
+        organizerId,
+        organizer,
+        ticketType,
+        ticket,
+        payment,
+        venueId,
+        ...rest
+      } = updateEventInput;
+      const updatedData = await this.prisma.event.update({
+        where: {
+          id,
+        },
+        data: {
+          ...rest,
+        },
+      });
+      if (!updatedData) return { message: 'delete failed', status: 400 };
+      return { message: 'success', status: 200 };
+    } catch (error) {
+      console.error(`Error updating event with id ${id}: ${error}`);
+    }
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} event`;
+  async remove(id: string) {
+    /**
+     * Deletes an event
+     * @param id -ID of the event
+     */
+    try {
+      const deletedEvent = await this.prisma.event.delete({
+        where: {
+          id,
+        },
+      });
+      if (!deletedEvent) return { message: 'delete failed', status: 400 };
+      return { message: 'success', status: 200 };
+    } catch (error) {
+      console.error(`Error deleting event`);
+    }
   }
 }
