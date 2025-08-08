@@ -6,7 +6,7 @@ import { Field, ObjectType, Int, ID } from '@nestjs/graphql';
 
 @ObjectType()
 export class Organizer {
-  @Field((type) => ID)
+  @Field()
   id: string;
   
   @Field()

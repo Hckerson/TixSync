@@ -185,7 +185,7 @@ enum OrderCategory {
 type Organizer {
   event: [Event!]!
   fullname: String
-  id: ID!
+  id: String!
   role: Role!
   user: User!
   userId: ID!

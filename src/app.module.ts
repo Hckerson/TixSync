@@ -37,6 +37,7 @@ import { PaymentModule } from './payment/payment.module';
       graphiql:true,
       sortSchema:true,
       driver: ApolloDriver,
+      context: ({ req, res }) => ({ req, res }),
       autoSchemaFile:join(process.cwd(), 'src/schema.gql'),
     }),
     AdminModule,

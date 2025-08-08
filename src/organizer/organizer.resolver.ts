@@ -37,7 +37,7 @@ export class OrganizerResolver {
   }
 
   @Query(() => Organizer, { name: 'organizer' })
-  findOneOrganizer(@Args('id', { type: () => Int }) id: number) {
+  findOneOrganizer(@Args('id') id: string) {
     return this.organizerService.findOne(id);
   }
 

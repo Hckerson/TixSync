@@ -8,6 +8,7 @@ import { Mailtrap } from './service/mailtrap.service';
 import { QrcodeService } from 'src/lib/qr-code.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SpeakeasyService } from 'src/lib/speakesy.service';
+import { GqlThrottlerGuard } from './throttler/gql-throttle';
 import { VerificationLink } from 'src/lib/verificationLink.service';
 import { RiskAssesmentService } from 'src/lib/risk-assesment.service';
 import { LocalStrategy } from './service/passport/strategies/local.strategy';
@@ -30,7 +31,7 @@ import { GoogleStrategy } from './service/passport/strategies/google.strategy';
     RiskAssesmentService,
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard,
+      useClass: GqlThrottlerGuard,
     },
   ],
   exports:[AuthService]
