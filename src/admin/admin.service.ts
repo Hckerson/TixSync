@@ -1,26 +1,104 @@
 import { Injectable } from '@nestjs/common';
+import { Role } from 'src/enums/role.enum';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateAdminInput } from './dto/create-admin.input';
 import { UpdateAdminInput } from './dto/update-admin.input';
 
 @Injectable()
 export class AdminService {
+  constructor(private readonly prisma: PrismaService) {}
   create(createAdminInput: CreateAdminInput) {
-    return 'This action adds a new admin';
+    /**
+     * Creates a new admin
+     * @param createAdminInput -Data to be entered
+     * @returns -JSON object containing success/failure status
+     */
+    try {
+      const newAdmin = this.prisma.admin.create({
+        data: createAdminInput,
+      });
+      if (!newAdmin) return { message: 'create failed', status: 400 };
+      return { message: 'success', status: 200 };
+    } catch (error) {
+      console.error(`Error creating admin: ${error}`);
+    }
   }
 
-  findAll() {
-    return `This action returns all admin`;
+  async findAll() {
+      /**
+     * Returns all admin from the db
+     * @returns - JSON object containning all admin
+     */
+      try {
+        const allAdmin = await this.prisma.admin.findMany();
+        if (!allAdmin) return [];
+        return allAdmin.map((admin) => ({
+          ...admin,
+          role: Role[admin.role as keyof typeof Role], // This converts "ADMIN" string to Role.ADMIN enum
+        }));
+      } catch (error) {
+        console.error(`Error fetching all admin: ${error}`);
+      }
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} admin`;
+  async findOne(id: string) {
+    /**
+     * Finds and returns an admin identified by an id
+     * @param id -ID of the admin
+     */
+
+    try {
+      const admin = await this.prisma.admin.findUnique({
+        where: {
+          id,
+        },
+      });
+      if (!admin) return [];
+      return admin;
+    } catch (error) {
+      console.error(`Error fetching admin with id ${id}: ${error}`);
+    }
   }
 
-  update(id: string, updateAdminInput: UpdateAdminInput) {
-    return `This action updates a #${id} admin`;
+  async update(id: string, updateAdminInput: UpdateAdminInput) {
+    /**
+     * Update the existing data of an admin
+     * @param id -ID of the admin
+     * @param updateadminInput -New data to be entered
+     */
+    try {
+      const { id: orgId, userId, role, ...rest } = updateAdminInput;
+      const updatedData = await this.prisma.admin.update({
+        where: {
+          id,
+        },
+        data: {
+          ...rest,
+          role: role,
+        },
+      });
+      if (!updatedData) return { message: 'delete failed', status: 400 };
+      return { message: 'success', status: 200 };
+    } catch (error) {
+      console.error(`Error updating admin with id ${id}: ${error}`);
+    }
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} admin`;
+  async remove(id: string) {
+    /**
+     * Deletes an admin
+     * @param id -ID of the admin
+     */
+    try {
+      const deletedAdmin = await this.prisma.admin.delete({
+        where: {
+          id,
+        },
+      });
+      if (!deletedAdmin) return { message: 'delete failed', status: 400 };
+      return { message: 'success', status: 200 };
+    } catch (error) {
+      console.error(`Error deleting admin`);
+    }
   }
 }

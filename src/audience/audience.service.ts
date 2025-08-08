@@ -1,26 +1,104 @@
+import { Role } from 'src/enums/role.enum';
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateAudienceInput } from './dto/create-audience.input';
 import { UpdateAudienceInput } from './dto/update-audience.input';
 
 @Injectable()
 export class AudienceService {
+  constructor(private readonly prisma: PrismaService) {}
   create(createAudienceInput: CreateAudienceInput) {
-    return 'This action adds a new audience';
+       /**
+     * Creates a new audience
+     * @param createaudienceInput -Data to be entered
+     * @returns -JSON object containing success/failure status
+     */
+       try {
+        const newAudience = this.prisma.audience.create({
+          data: createAudienceInput,
+        });
+        if (!newAudience) return { message: 'create failed', status: 400 };
+        return { message: 'success', status: 200 };
+      } catch (error) {
+        console.error(`Error creating audience: ${error}`);
+      }
   }
 
-  findAll() {
-    return `This action returns all audience`;
+  async findAll() {
+    /**
+     * Returns all audience from the db
+     * @returns - JSON object containning all audience
+     */
+    try {
+      const allAudience = await this.prisma.audience.findMany();
+      if (!allAudience) return [];
+      return allAudience.map((audience) => ({
+        ...audience,
+        role: Role[audience.role as keyof typeof Role], // This converts "AUDIENCE" string to Role.AUDIENCE enum
+      }));
+    } catch (error) {
+      console.error(`Error fetching all audience: ${error}`);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} audience`;
+  async findOne(id: string) {
+    /**
+     * Finds and returns an audience identified by an id
+     * @param id -ID of the audience
+     */
+
+    try {
+      const audience = await this.prisma.audience.findUnique({
+        where: {
+          id,
+        },
+      });
+      if (!audience) return [];
+      return audience;
+    } catch (error) {
+      console.error(`Error fetching audience with id ${id}: ${error}`);
+    }
   }
 
-  update(id: number, updateAudienceInput: UpdateAudienceInput) {
-    return `This action updates a #${id} audience`;
+  async update(id: string, updateAudienceInput: UpdateAudienceInput) {
+    /**
+     * Update the existing data of an audience
+     * @param id -ID of the audience
+     * @param updateAudienceInput -New data to be entered
+     */
+    try {
+      const { id: orgId, role, ...rest } = updateAudienceInput;
+      const updatedData = await this.prisma.audience.update({
+        where: {
+          id,
+        },
+        data: {
+          ...rest,
+          role: role,
+        },
+      });
+      if (!updatedData) return { message: 'delete failed', status: 400 };
+      return { message: 'success', status: 200 };
+    } catch (error) {
+      console.error(`Error updating audience with id ${id}: ${error}`);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} audience`;
+  async remove(id: string) {
+    /**
+     * Deletes an audience
+     * @param id -ID of the audience
+     */
+    try {
+      const deletedAudience = await this.prisma.audience.delete({
+        where: {
+          id,
+        },
+      });
+      if (!deletedAudience) return { message: 'delete failed', status: 400 };
+      return { message: 'success', status: 200 };
+    } catch (error) {
+      console.error(`Error deleting audience`);
+    }
   }
 }

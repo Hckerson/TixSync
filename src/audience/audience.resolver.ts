@@ -1,8 +1,8 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { AudienceService } from './audience.service';
 import { Audience } from './entities/audience.entity';
 import { CreateAudienceInput } from './dto/create-audience.input';
 import { UpdateAudienceInput } from './dto/update-audience.input';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 
 @Resolver(() => Audience)
 export class AudienceResolver {
@@ -13,13 +13,13 @@ export class AudienceResolver {
     return this.audienceService.create(createAudienceInput);
   }
 
-  @Query(() => [Audience], { name: 'audience' })
+  @Query(() => [Audience], { name: 'audiences' })
   findAll() {
     return this.audienceService.findAll();
   }
 
   @Query(() => Audience, { name: 'audience' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id') id: string) {
     return this.audienceService.findOne(id);
   }
 
@@ -29,7 +29,7 @@ export class AudienceResolver {
   }
 
   @Mutation(() => Audience)
-  removeAudience(@Args('id', { type: () => Int }) id: number) {
+  removeAudience(@Args('id') id: string) {
     return this.audienceService.remove(id);
   }
 }

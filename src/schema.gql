@@ -28,13 +28,23 @@ input CreateAdminInput {
 }
 
 input CreateAudienceInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  fullname: String
+  role: Role!
+  userId: ID!
+  username: String!
 }
 
 input CreateEventInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  category: EventCategory!
+  description: String!
+  endTime: DateTime!
+  organizerId: String!
+  payment: [CreatePaymentInput!]!
+  startTime: DateTime!
+  ticket: [CreateTicketInput!]!
+  ticketType: [CreateTickettypeInput!]!
+  title: String!
+  venueId: ID!
 }
 
 input CreateGoedatumInput {
@@ -72,8 +82,11 @@ input CreateTicketInput {
 }
 
 input CreateTickettypeInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  event: CreateEventInput!
+  eventId: String!
+  name: Name!
+  price: Int!
+  ticket: [CreateTicketInput!]!
 }
 
 input CreateUserInput {
@@ -138,8 +151,8 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   createVenue(createVenueInput: CreateVenueInput!): Venue!
   removeAdmin(id: String!): Admin!
-  removeAudience(id: Int!): Audience!
-  removeEvent(id: Int!): Event!
+  removeAudience(id: String!): Audience!
+  removeEvent(id: String!): Event!
   removeGoedatum(id: Int!): GeoData!
   removeOrder(id: Int!): Order!
   removeOrganizer(id: String!): Organizer!
@@ -209,8 +222,10 @@ type Payment {
 type Query {
   admin(id: String!): Admin!
   admins: [Admin!]!
-  audience(id: Int!): Audience!
-  event(id: Int!): Event!
+  audience(id: String!): Audience!
+  audiences: [Audience!]!
+  event(id: String!): Event!
+  events: [Event!]!
   goedata: [GeoData!]!
   goedatum(id: Int!): GeoData!
   order(id: Int!): Order!
@@ -275,15 +290,25 @@ input UpdateAdminInput {
 }
 
 input UpdateAudienceInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  fullname: String
+  id: ID!
+  role: Role
+  userId: ID
+  username: String
 }
 
 input UpdateEventInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  category: EventCategory
+  description: String
+  endTime: DateTime
+  id: String!
+  organizerId: String
+  payment: [CreatePaymentInput!]
+  startTime: DateTime
+  ticket: [CreateTicketInput!]
+  ticketType: [CreateTickettypeInput!]
+  title: String
+  venueId: ID
 }
 
 input UpdateGoedatumInput {
@@ -327,9 +352,12 @@ input UpdateTicketInput {
 }
 
 input UpdateTickettypeInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  event: CreateEventInput
+  eventId: String
   id: Int!
+  name: Name
+  price: Int
+  ticket: [CreateTicketInput!]
 }
 
 input UpdateUserInput {

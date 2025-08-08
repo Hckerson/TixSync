@@ -31,7 +31,7 @@ export class OrganizerService {
      */
     try {
       const allOrganizers = await this.prisma.organizer.findMany();
-      if (!allOrganizers) return 'No organizer found';
+      if (!allOrganizers) return [];
       return allOrganizers.map((organizer) => ({
         ...organizer,
         role: Role[organizer.role as keyof typeof Role], // This converts "ORGANIZER" string to Role.ORGANIZER enum
@@ -53,10 +53,10 @@ export class OrganizerService {
           id,
         },
       });
-      if (!organizer) return { message: 'fetch failed', data: null };
+      if (!organizer) return [];
       return organizer;
     } catch (error) {
-      console.error(`Error fetchig organizer with id ${id}: ${error}`);
+      console.error(`Error fetching organizer with id ${id}: ${error}`);
     }
   }
 
