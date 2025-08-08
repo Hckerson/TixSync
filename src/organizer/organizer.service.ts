@@ -53,8 +53,8 @@ export class OrganizerService {
           id,
         },
       });
-      if (!organizer) return { message: 'organizer not found', data: null };
-      return { message: 'success', data: organizer };
+      if (!organizer) return { message: 'fetch failed', data: null };
+      return organizer;
     } catch (error) {
       console.error(`Error fetchig organizer with id ${id}: ${error}`);
     }

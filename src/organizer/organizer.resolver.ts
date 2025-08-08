@@ -1,3 +1,5 @@
+import { UserService } from 'src/user/user.service';
+import { User } from 'src/user/entities/user.entity';
 import { EventService } from 'src/event/event.service';
 import { VenueService } from 'src/venue/venue.service';
 import { OrganizerService } from './organizer.service';
@@ -19,6 +21,7 @@ import {
 @Resolver(() => Organizer)
 export class OrganizerResolver {
   constructor(
+    private readonly userService: UserService,
     private readonly venueService: VenueService,
     private readonly eventService: EventService,
     private readonly organizerService: OrganizerService,
@@ -59,12 +62,18 @@ export class OrganizerResolver {
   @ResolveField('venue', () => [Venue])
   async getVenues(@Parent() organizer: Organizer) {
     const { id } = organizer;
-    return await this.venueService.findMany({organizerId:id})
+    return await this.venueService.findMany(id)
+  }
+
+  @ResolveField('user', () => [User])
+  async getUser(@Parent() organizer: Organizer) {
+    const { id } = organizer;
+    return await this.userService.findOneByOrgId(id)
   }
 
   @ResolveField('event', ()=> [Event])
   async getEvents(@Parent() organizer: Organizer) {
     const {id} = organizer
-     return await  this.eventService.findMany({organizerId: id})
+     return await  this.eventService.findMany(id)
   }
 }

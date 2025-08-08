@@ -12,15 +12,15 @@ export class AdminService {
     return `This action returns all admin`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} admin`;
   }
 
-  update(id: number, updateAdminInput: UpdateAdminInput) {
+  update(id: string, updateAdminInput: UpdateAdminInput) {
     return `This action updates a #${id} admin`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} admin`;
   }
 }

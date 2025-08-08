@@ -16,7 +16,7 @@ export class EventService {
     return `This action returns a #${id} event`;
   }
 
-  async findMany({ organizerId: string }) {
+  async findMany( organizerId: string ) {
     return `This action returns a venue`;
   }
 

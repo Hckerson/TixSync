@@ -19,7 +19,7 @@ export class VenueResolver {
   }
 
   @Query(() => Venue, { name: 'venue' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id') id: string) {
     return this.venueService.findOne(id);
   }
 
@@ -29,7 +29,7 @@ export class VenueResolver {
   }
 
   @Mutation(() => Venue)
-  removeVenue(@Args('id', { type: () => Int }) id: number) {
+  removeVenue(@Args('id') id: string) {
     return this.venueService.remove(id);
   }
 }

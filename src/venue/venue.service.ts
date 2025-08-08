@@ -12,11 +12,15 @@ export class VenueService {
     return `This action returns all venue`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} venue`;
+  async findOne(organizerId: string) {
+    try {
+      
+    } catch (error) {
+      console.error(`Error fetching : ${error}`);
+    }
   }
 
-  async findMany({organizerId: string}) {
+  async findMany(organizerId: string) {
     return `This action returns a venue`;
   }
 
@@ -25,7 +29,7 @@ export class VenueService {
     return `This action updates a #${id} venue`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} venue`;
   }
 }

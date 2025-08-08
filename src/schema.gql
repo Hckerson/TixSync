@@ -21,8 +21,10 @@ type Audience {
 }
 
 input CreateAdminInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  fullname: String
+  role: Role!
+  userId: String!
+  username: String!
 }
 
 input CreateAudienceInput {
@@ -135,18 +137,18 @@ type Mutation {
   createTickettype(createTickettypeInput: CreateTickettypeInput!): TicketType!
   createUser(createUserInput: CreateUserInput!): User!
   createVenue(createVenueInput: CreateVenueInput!): Venue!
-  removeAdmin(id: Int!): Admin!
+  removeAdmin(id: String!): Admin!
   removeAudience(id: Int!): Audience!
   removeEvent(id: Int!): Event!
   removeGoedatum(id: Int!): GeoData!
   removeOrder(id: Int!): Order!
-  removeOrganizer(id: Int!): Organizer!
+  removeOrganizer(id: String!): Organizer!
   removePayment(id: Int!): Payment!
   removeSession(id: Int!): Session!
   removeTicket(id: Int!): Ticket!
   removeTickettype(id: Int!): TicketType!
-  removeUser(id: Int!): User!
-  removeVenue(id: Int!): Venue!
+  removeUser(id: String!): User!
+  removeVenue(id: String!): Venue!
   updateAdmin(updateAdminInput: UpdateAdminInput!): Admin!
   updateAudience(updateAudienceInput: UpdateAudienceInput!): Audience!
   updateEvent(updateEventInput: UpdateEventInput!): Event!
@@ -187,7 +189,7 @@ type Organizer {
   fullname: String
   id: String!
   role: Role!
-  user: User!
+  user: [User!]!
   userId: ID!
   username: String!
   venue: [Venue!]!
@@ -205,7 +207,8 @@ type Payment {
 }
 
 type Query {
-  admin(id: Int!): Admin!
+  admin(id: String!): Admin!
+  admins: [Admin!]!
   audience(id: Int!): Audience!
   event(id: Int!): Event!
   goedata: [GeoData!]!
@@ -217,8 +220,8 @@ type Query {
   session(id: Int!): Session!
   ticket(id: Int!): Ticket!
   tickettype(id: Int!): TicketType!
-  user(id: Int!): User!
-  venue(id: Int!): Venue!
+  user(id: String!): User!
+  venue(id: String!): Venue!
 }
 
 """Role assigned to the user"""
@@ -264,9 +267,11 @@ type TicketType {
 }
 
 input UpdateAdminInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  fullname: String
+  id: ID!
+  role: Role
+  userId: String
+  username: String
 }
 
 input UpdateAudienceInput {
@@ -296,7 +301,7 @@ input UpdateOrderInput {
 input UpdateOrganizerInput {
   eventId: String
   fullname: String
-  id: String!
+  id: ID!
   role: Role
   userId: String
   username: String

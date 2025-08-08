@@ -8,25 +8,22 @@ import { Field, ObjectType, Int, ID } from '@nestjs/graphql';
 export class Organizer {
   @Field()
   id: string;
-  
+
   @Field()
   username: string;
 
   @Field({ nullable: true })
   fullname: string;
 
-  @Field(type=> [Venue])
+  @Field((type) => [Venue])
   venue: Venue[];
 
-  @Field(type => [Event])
+  @Field((type) => [Event])
   event: Event[];
 
   @Field((type) => Role)
   role: Role;
 
-  @Field()
-  user: User;
-
   @Field((type) => ID)
-  userId: number;
+  userId: string;
 }

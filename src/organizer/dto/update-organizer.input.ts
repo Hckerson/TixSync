@@ -1,8 +1,8 @@
 import { CreateOrganizerInput } from './create-organizer.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { InputType, Field, Int, PartialType, ID } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateOrganizerInput extends PartialType(CreateOrganizerInput) {
-  @Field()
+  @Field(()=> ID)
   id: string;
 }
