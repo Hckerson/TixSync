@@ -8,7 +8,20 @@ import { Role } from 'src/enums/role.enum';
 export class OrganizerService {
   constructor(private readonly prisma: PrismaService) {}
   create(createOrganizerInput: CreateOrganizerInput) {
-    return 'This action adds a new organizer';
+    /**
+     * Creates a new organizer
+     * @param createOrganizerInput -Data to be entered
+     * @returns -JSON object containing success/failure status
+     */
+    try {
+      const newOrganizer = this.prisma.organizer.create({
+        data: createOrganizerInput,
+      });
+      if (!newOrganizer) return { message: 'create failed', status: 400 };
+      return { message: 'success', status: 200 };
+    } catch (error) {
+      console.error(`Error creating organizer: ${error}`);
+    }
   }
 
   async findAll() {
@@ -40,6 +53,8 @@ export class OrganizerService {
           id,
         },
       });
+      if (!organizer) return { message: 'organizer not found', data: null };
+      return { message: 'success', data: organizer };
     } catch (error) {
       console.error(`Error fetchig organizer with id ${id}: ${error}`);
     }
@@ -62,12 +77,28 @@ export class OrganizerService {
           role: role,
         },
       });
+      if (!updatedData) return { message: 'delete failed', status: 400 };
+      return { message: 'success', status: 200 };
     } catch (error) {
       console.error(`Error updating orgaizer with id ${id}: ${error}`);
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} organizer`;
+  async remove(id: string) {
+    /**
+     * Deletes an organizer
+     * @param id -ID of the organizer
+     */
+    try {
+      const deletedOrganizer = await this.prisma.organizer.delete({
+        where: {
+          id,
+        },
+      });
+      if (!deletedOrganizer) return { message: 'delete failed', status: 400 };
+      return { message: 'success', status: 200 };
+    } catch (error) {
+      console.error(`Error deleting organizer`);
+    }
   }
 }

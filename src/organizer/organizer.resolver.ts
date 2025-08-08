@@ -52,7 +52,7 @@ export class OrganizerResolver {
   }
 
   @Mutation(() => Organizer)
-  removeOrganizer(@Args('id', { type: () => Int }) id: number) {
+  removeOrganizer(@Args('id', ) id: string) {
     return this.organizerService.remove(id);
   }
 
