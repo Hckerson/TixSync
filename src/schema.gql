@@ -54,8 +54,10 @@ input CreateGoedatumInput {
 }
 
 input CreateOrderInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  iteId: [String!]!
+  item: OrderCategory!
+  payment: CreatePaymentInput!
+  total: Int!
 }
 
 input CreateOrganizerInput {
@@ -68,8 +70,11 @@ input CreateOrganizerInput {
 }
 
 input CreatePaymentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  amount: Int!
+  eventId: String!
+  orderId: String!
+  paidAt: DateTime!
+  status: Status!
 }
 
 input CreateSessionInput {
@@ -155,9 +160,9 @@ type Mutation {
   removeAudience(id: String!): Audience!
   removeEvent(id: String!): Event!
   removeGoedatum(id: Int!): GeoData!
-  removeOrder(id: Int!): Order!
+  removeOrder(id: String!): Order!
   removeOrganizer(id: String!): Organizer!
-  removePayment(id: Int!): Payment!
+  removePayment(id: String!): Payment!
   removeSession(id: Int!): Session!
   removeTicket(id: Int!): Ticket!
   removeTickettype(id: Int!): TicketType!
@@ -199,14 +204,14 @@ enum OrderCategory {
 }
 
 type Organizer {
-  event: [Event!]!
+  events: [Event!]!
   fullname: String
   id: String!
   role: Role!
   user: [User!]!
   userId: ID!
   username: String!
-  venue: [Venue!]!
+  venues: [Venue!]!
 }
 
 type Payment {
@@ -229,10 +234,12 @@ type Query {
   events: [Event!]!
   goedata: [GeoData!]!
   goedatum(id: Int!): GeoData!
-  order(id: Int!): Order!
+  order(id: String!): Order!
+  orders: [Order!]!
   organizer(id: String!): Organizer!
   organizers: [Organizer!]!
-  payment(id: Int!): Payment!
+  payment(id: String!): Payment!
+  payments: [Payment!]!
   session(id: Int!): Session!
   ticket(id: Int!): Ticket!
   tickettype(id: Int!): TicketType!
@@ -320,9 +327,11 @@ input UpdateGoedatumInput {
 }
 
 input UpdateOrderInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  id: String!
+  iteId: [String!]
+  item: OrderCategory
+  payment: CreatePaymentInput
+  total: Int
 }
 
 input UpdateOrganizerInput {
@@ -336,9 +345,12 @@ input UpdateOrganizerInput {
 }
 
 input UpdatePaymentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  amount: Int
+  eventId: String
+  id: String!
+  orderId: String
+  paidAt: DateTime
+  status: Status
 }
 
 input UpdateSessionInput {

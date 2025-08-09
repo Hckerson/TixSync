@@ -2,6 +2,16 @@ import { InputType, Int, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreateTicketInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field()
+  eventId: string
+
+  @Field()
+  qrcode: string
+
+  @Field(type => Boolean)
+  isUsed: boolean
+
+  @Field()
+  typeId: string
+
 }

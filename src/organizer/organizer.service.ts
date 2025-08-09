@@ -72,9 +72,7 @@ export class OrganizerService {
         where: {
           id,
         },
-        data: {
-          ...rest,
-        },
+        data: rest,
       });
       if (!updatedData) return { message: 'delete failed', status: 400 };
       return { message: 'success', status: 200 };

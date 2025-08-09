@@ -58,8 +58,47 @@ export class EventService {
     }
   }
 
-  async findMany(organizerId: string) {
-    return `This action returns a venue`;
+  async findOneByTicketId(ticketId: string) {
+    /**
+     * Finds and returns an event identified by a ticket id
+     * @param id -ID of the event
+     * @returns JSON object containg the event
+     */
+
+    try {
+      const event = await this.prisma.event.findFirst({
+        where: {
+          ticket: {
+            some: { id: ticketId },
+          },
+        },
+      });
+      if (!event) return [];
+      return event;
+    } catch (error) {
+      console.error(`Error fetching event with id ${ticketId}: ${error}`);
+    }
+  }
+
+  async findManyByOrgId(organizerId: string) {
+    /**
+     * Finds all the events whose organizer id is matches the one provided
+     * @param organizerId -ID of the organizer
+     * @returns JSON object containning all the events
+     */
+    try {
+      const allEvents = await this.prisma.event.findMany({
+        where: {
+          organizerId,
+        },
+      });
+      if (!allEvents) return [];
+      return allEvents;
+    } catch (error) {
+      console.error(
+        `Error fetching event with organizer id : ${organizerId}: ${error}`,
+      );
+    }
   }
 
   async update(id: string, updateEventInput: UpdateEventInput) {

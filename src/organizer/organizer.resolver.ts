@@ -59,7 +59,7 @@ export class OrganizerResolver {
     return this.organizerService.remove(id);
   }
 
-  @ResolveField('venue', () => [Venue])
+  @ResolveField('venues', () => [Venue])
   async getVenues(@Parent() organizer: Organizer) {
     const { id } = organizer;
     return await this.venueService.findMany(id)
@@ -71,9 +71,9 @@ export class OrganizerResolver {
     return await this.userService.findOneByOrgId(id)
   }
 
-  @ResolveField('event', ()=> [Event])
+  @ResolveField('events', ()=> [Event])
   async getEvents(@Parent() organizer: Organizer) {
     const {id} = organizer
-     return await  this.eventService.findMany(id)
+     return await  this.eventService.findManyByOrgId(id)
   }
 }

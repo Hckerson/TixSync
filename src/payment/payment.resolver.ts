@@ -1,8 +1,8 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { PaymentService } from './payment.service';
 import { Payment } from './entities/payment.entity';
 import { CreatePaymentInput } from './dto/create-payment.input';
+import { PaymentService } from './payment.service';
 import { UpdatePaymentInput } from './dto/update-payment.input';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 
 @Resolver(() => Payment)
 export class PaymentResolver {
@@ -13,13 +13,13 @@ export class PaymentResolver {
     return this.paymentService.create(createPaymentInput);
   }
 
-  @Query(() => [Payment], { name: 'payment' })
+  @Query(() => [Payment], { name: 'payments' })
   findAll() {
     return this.paymentService.findAll();
   }
 
   @Query(() => Payment, { name: 'payment' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id') id: string) {
     return this.paymentService.findOne(id);
   }
 
@@ -29,7 +29,7 @@ export class PaymentResolver {
   }
 
   @Mutation(() => Payment)
-  removePayment(@Args('id', { type: () => Int }) id: number) {
+  removePayment(@Args('id') id: string) {
     return this.paymentService.remove(id);
   }
 }

@@ -16,10 +16,10 @@ export class Organizer {
   fullname: string;
 
   @Field((type) => [Venue])
-  venue: Venue[];
+  venues: Venue[];
 
   @Field((type) => [Event])
-  event: Event[];
+  events: Event[];
 
   @Field((type) => Role)
   role: Role;
