@@ -83,8 +83,10 @@ input CreateSessionInput {
 }
 
 input CreateTicketInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  eventId: String!
+  isUsed: Boolean!
+  qrcode: String!
+  typeId: String!
 }
 
 input CreateTickettypeInput {
@@ -96,13 +98,23 @@ input CreateTickettypeInput {
 }
 
 input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  admin: CreateAdminInput
+  audience: CreateAudienceInput
+  email: String!
+  organizer: CreateOrganizerInput
+  password: String!
+  provider: String!
 }
 
 input CreateVenueInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  address: String!
+  capacity: Int!
+  city: String!
+  country: String!
+  event: [CreateEventInput!]!
+  name: String!
+  organizer: [CreateOrganizerInput!]!
+  state: String!
 }
 
 """
@@ -164,8 +176,8 @@ type Mutation {
   removeOrganizer(id: String!): Organizer!
   removePayment(id: String!): Payment!
   removeSession(id: Int!): Session!
-  removeTicket(id: Int!): Ticket!
-  removeTickettype(id: Int!): TicketType!
+  removeTicket(id: String!): Ticket!
+  removeTickettype(id: String!): TicketType!
   removeUser(id: String!): User!
   removeVenue(id: String!): Venue!
   updateAdmin(updateAdminInput: UpdateAdminInput!): Admin!
@@ -241,10 +253,13 @@ type Query {
   payment(id: String!): Payment!
   payments: [Payment!]!
   session(id: Int!): Session!
-  ticket(id: Int!): Ticket!
-  tickettype(id: Int!): TicketType!
+  ticket(id: String!): Ticket!
+  tickettype(id: String!): TicketType!
+  tickettypes: [TicketType!]!
   user(id: String!): User!
+  users: [User!]!
   venue(id: String!): Venue!
+  venues: [Venue!]!
 }
 
 """Role assigned to the user"""
@@ -347,7 +362,7 @@ input UpdateOrganizerInput {
 input UpdatePaymentInput {
   amount: Int
   eventId: String
-  id: String!
+  id: ID!
   orderId: String
   paidAt: DateTime
   status: Status
@@ -360,30 +375,42 @@ input UpdateSessionInput {
 }
 
 input UpdateTicketInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  eventId: String
+  id: ID!
+  isUsed: Boolean
+  qrcode: String
+  typeId: String
 }
 
 input UpdateTickettypeInput {
   event: CreateEventInput
   eventId: String
-  id: Int!
+  id: ID!
   name: Name
   price: Int
   ticket: [CreateTicketInput!]
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  admin: CreateAdminInput
+  audience: CreateAudienceInput
+  email: String
+  id: ID!
+  organizer: CreateOrganizerInput
+  password: String
+  provider: String
 }
 
 input UpdateVenueInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  address: String
+  capacity: Int
+  city: String
+  country: String
+  event: [CreateEventInput!]
+  id: ID!
+  name: String
+  organizer: [CreateOrganizerInput!]
+  state: String
 }
 
 type User {
@@ -414,6 +441,6 @@ type Venue {
   event: [Event!]!
   id: ID!
   name: String!
-  organizer: [Organizer!]!
+  organizer: Organizer!
   state: String!
 }

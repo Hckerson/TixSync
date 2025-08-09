@@ -5,6 +5,6 @@ import { EventService } from 'src/event/event.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Module({
-  providers: [TicketResolver, TicketService, PrismaService],
+  providers: [TicketResolver, TicketService, PrismaService, EventService],
 })
 export class TicketModule {}

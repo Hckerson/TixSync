@@ -1,26 +1,98 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTickettypeInput } from './dto/create-tickettype.input';
 import { UpdateTickettypeInput } from './dto/update-tickettype.input';
 
 @Injectable()
 export class TickettypeService {
-  create(createTickettypeInput: CreateTickettypeInput) {
-    return 'This action adds a new tickettype';
+  constructor(private readonly prisma: PrismaService) {}
+  create(createTicketTypeInput: CreateTickettypeInput) {
+    /**
+     * Creates a new ticketType
+     * @param createTicketTypetypeInput -Data to be entered
+     * @returns -JSON object containing success/failure status
+     */
+    try {
+      const { ticket, event, ...rest } = createTicketTypeInput;
+      const newticketType = this.prisma.ticketType.create({
+        data: rest,
+      });
+      if (!newticketType) return { message: 'create failed', status: 400 };
+      return { message: 'success', status: 200 };
+    } catch (error) {
+      console.error(`Error creating ticketType: ${error}`);
+    }
   }
 
-  findAll() {
-    return `This action returns all tickettype`;
+  async findAll() {
+    /**
+     * Returns all ticketType from the db
+     * @returns - JSON object containning all ticketType
+     */
+    try {
+      const allTicketType = await this.prisma.ticketType.findMany();
+      if (!allTicketType) return [];
+      return allTicketType;
+    } catch (error) {
+      console.error(`Error fetching all ticketType: ${error}`);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tickettype`;
+  async findOne(id: string) {
+    /**
+     * Finds and returns an ticketType identified by an id
+     * @param id -ID of the ticketType
+     */
+
+    try {
+      const ticketType = await this.prisma.ticketType.findUnique({
+        where: {
+          id,
+        },
+      });
+      if (!ticketType) return [];
+      return ticketType;
+    } catch (error) {
+      console.error(`Error fetching ticketType with id ${id}: ${error}`);
+    }
   }
 
-  update(id: number, updateTickettypeInput: UpdateTickettypeInput) {
-    return `This action updates a #${id} tickettype`;
+  async update(id: string, updateTickettypeInput: UpdateTickettypeInput) {
+    /**
+     * Update the existing data of an ticketType
+     * @param id -ID of the ticketType
+     * @param updateTickettypeInput -New data to be entered
+     */
+    try {
+      const { id: orgId, event, ticket, ...rest } = updateTickettypeInput;
+      const updatedData = await this.prisma.ticketType.update({
+        where: {
+          id,
+        },
+        data: rest,
+      });
+      if (!updatedData) return { message: 'delete failed', status: 400 };
+      return { message: 'success', status: 200 };
+    } catch (error) {
+      console.error(`Error updating orgaizer with id ${id}: ${error}`);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tickettype`;
+  async remove(id: string) {
+    /**
+     * Deletes an ticketType
+     * @param id -ID of the ticketType
+     */
+    try {
+      const deletedTicketType = await this.prisma.ticketType.delete({
+        where: {
+          id,
+        },
+      });
+      if (!deletedTicketType) return { message: 'delete failed', status: 400 };
+      return { message: 'success', status: 200 };
+    } catch (error) {
+      console.error(`Error deleting ticketType`);
+    }
   }
 }

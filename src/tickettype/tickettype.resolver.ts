@@ -13,13 +13,13 @@ export class TickettypeResolver {
     return this.tickettypeService.create(createTickettypeInput);
   }
 
-  @Query(() => [TicketType], { name: 'tickettype' })
+  @Query(() => [TicketType], { name: 'tickettypes' })
   findAll() {
     return this.tickettypeService.findAll();
   }
 
   @Query(() => TicketType, { name: 'tickettype' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id') id: string) {
     return this.tickettypeService.findOne(id);
   }
 
@@ -29,7 +29,7 @@ export class TickettypeResolver {
   }
 
   @Mutation(() => TicketType)
-  removeTickettype(@Args('id', { type: () => Int }) id: number) {
+  removeTickettype(@Args('id') id: string) {
     return this.tickettypeService.remove(id);
   }
 }

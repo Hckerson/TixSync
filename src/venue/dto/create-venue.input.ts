@@ -1,7 +1,30 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Int, Field, ID, } from '@nestjs/graphql';
+import { CreateEventInput } from 'src/event/dto/create-event.input';
+import { CreateOrganizerInput } from 'src/organizer/dto/create-organizer.input';
 
 @InputType()
 export class CreateVenueInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field()
+  name: string;
+
+  @Field()
+  address: string;
+
+  @Field()
+  city: string;
+
+  @Field()
+  state: string;
+
+  @Field()
+  country: string;
+
+  @Field((type) => [CreateOrganizerInput])
+  organizer: CreateOrganizerInput[];
+
+  @Field((type) => [CreateEventInput])
+  event: CreateEventInput[];
+
+  @Field((type) => Int)
+  capacity: number;
 }

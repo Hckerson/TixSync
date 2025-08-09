@@ -41,6 +41,32 @@ export class OrganizerService {
     }
   }
 
+  async findManyByVenueId(venueId: string) {
+    /**
+     * Find all organizer whose venue id matches the venue id provided
+     * @param organizerId -ID of the organizer
+     * @return JSON object containning all  the venues found
+     */
+
+    try {
+      const allVenues = await this.prisma.organizer.findMany({
+        where: {
+          venues: {
+            some: {
+              venueId,
+            },
+          },
+        },
+      });
+      if (!allVenues) return [];
+      return allVenues;
+    } catch (error) {
+      console.error(
+        `Error finding venues with organizer id ${venueId}: ${error}`,
+      );
+    }
+  }
+
   async findOne(id: string) {
     /**
      * Finds and returns an organizer identified by an id

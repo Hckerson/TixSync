@@ -1,8 +1,17 @@
 import { Module } from '@nestjs/common';
 import { VenueService } from './venue.service';
 import { VenueResolver } from './venue.resolver';
+import { EventService } from 'src/event/event.service';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { OrganizerService } from 'src/organizer/organizer.service';
 
 @Module({
-  providers: [VenueResolver, VenueService],
+  providers: [
+    VenueResolver,
+    VenueService,
+    PrismaService,
+    EventService,
+    OrganizerService,
+  ],
 })
 export class VenueModule {}

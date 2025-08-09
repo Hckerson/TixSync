@@ -25,7 +25,8 @@ export class VenueService {
   }
 
 
-  update(id: number, updateVenueInput: UpdateVenueInput) {
+
+  update(id: string, updateVenueInput: UpdateVenueInput) {
     return `This action updates a #${id} venue`;
   }
 
