@@ -51,7 +51,7 @@ export class OrganizerService {
     try {
       const allVenues = await this.prisma.organizer.findMany({
         where: {
-          venues: {
+          venue: {
             some: {
               venueId,
             },

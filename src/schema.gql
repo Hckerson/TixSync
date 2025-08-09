@@ -216,14 +216,14 @@ enum OrderCategory {
 }
 
 type Organizer {
-  events: [Event!]!
+  event: [Event!]!
   fullname: String
   id: String!
   role: Role!
   user: [User!]!
   userId: ID!
   username: String!
-  venues: [Venue!]!
+  venue: [Venue!]!
 }
 
 type Payment {
@@ -254,6 +254,7 @@ type Query {
   payments: [Payment!]!
   session(id: Int!): Session!
   ticket(id: String!): Ticket!
+  tickets: [Ticket!]!
   tickettype(id: String!): TicketType!
   tickettypes: [TicketType!]!
   user(id: String!): User!

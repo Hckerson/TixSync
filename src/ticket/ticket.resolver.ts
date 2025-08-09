@@ -28,7 +28,7 @@ export class TicketResolver {
     return this.ticketService.create(createTicketInput);
   }
 
-  @Query(() => [Ticket], { name: 'ticket' })
+  @Query(() => [Ticket], { name: 'tickets' })
   findAll() {
     return this.ticketService.findAll();
   }

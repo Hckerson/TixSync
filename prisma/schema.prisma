@@ -97,8 +97,8 @@ model Organizer {
   id       String             @id @default(uuid())
   username String
   fullname String?
-  venues    OrganizerOnVenue[]
-  events    Event[]
+  venue    OrganizerOnVenue[]
+  event    Event[]
   role     Role               @default(ORGANIZER)
   user     User               @relation(fields: [userId], references: [id])
   userId   String             @unique
