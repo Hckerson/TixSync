@@ -5,7 +5,7 @@ import { UpdateVenueInput } from './dto/update-venue.input';
 
 @Injectable()
 export class VenueService {
-  constructor(private readonly prisma: PrismaService){}
+  constructor(private readonly prisma: PrismaService) {}
   create(createVenueInput: CreateVenueInput) {
     /**
      * Creates a new venue
@@ -13,7 +13,7 @@ export class VenueService {
      * @returns -JSON object containing success/failure status
      */
     try {
-      const{organizer, event, ...rest} = createVenueInput
+      const { organizer, event, ...rest } = createVenueInput;
       const newVenue = this.prisma.venue.create({
         data: rest,
       });
@@ -32,54 +32,77 @@ export class VenueService {
     try {
       const allVenue = await this.prisma.venue.findMany();
       if (!allVenue) return [];
-      return allVenue
+      return allVenue;
     } catch (error) {
       console.error(`Error fetching all venue: ${error}`);
     }
   }
 
-  async findManyByOrgId(organizerId:string){
-        /**
+  async findManyByOrgId(organizerId: string) {
+    /**
      * Finds all the venues whose organizer id is matches the one provided
      * @param organizerId -ID of the organizer
      * @returns JSON object containning all the events
      */
-        try {
-          const allEvents = await this.prisma.venue.findMany({
-            where: {
-              organizer: {
-                some: {
-                  organizerId,
-                },
-              },
+    try {
+      const allEvents = await this.prisma.venue.findMany({
+        where: {
+          organizer: {
+            some: {
+              organizerId,
             },
-          });
-          if (!allEvents) return [];
-          return allEvents;
-        } catch (error) {
-          console.error(
-            `Error fetching event with organizer id : ${organizerId}: ${error}`,
-          );
-        }
+          },
+        },
+      });
+      if (!allEvents) return [];
+      return allEvents;
+    } catch (error) {
+      console.error(
+        `Error fetching event with organizer id : ${organizerId}: ${error}`,
+      );
+    }
+  }
+
+  async findOneByEventId(eventId: string) {
+    /**
+     * Finds a single user
+     * @param eventId -Id of the user
+     * @returns JSON object containing found user
+     */
+    try {
+      const user = await this.prisma.venue.findFirst({
+        where: {
+          event: {
+            some:{
+              id : eventId
+            }
+          },
+        },
+      });
+      if (!user) return { message: 'fetch failed', data: null };
+      return user;
+    } catch (error) {
+      console.log(`Error fetching venue with event Id  ${eventId}: ${error}`);
+    }
   }
 
   async findOne(id: string) {
-   /**
+    /**
      * Finds and returns an venue identified by an id
      * @param id -ID of the venue
      */
 
-   try {
-    const venue = await this.prisma.venue.findUnique({
-      where: {
-        id,
-      },
-    });
-    if (!venue) return [];
-    return venue;
-  } catch (error) {
-    console.error(`Error fetching venue with id ${id}: ${error}`);
-  }
+    try {
+      const venue = await this.prisma.venue.findUnique({
+        where: {
+          id,
+        },
+      });
+      if (!venue) return [];
+      return venue;
+    } catch (error) {
+      console.error(`Error fetching venue with id ${id}: ${error}`);
+    }
   }
 
   async update(id: string, updateVenueInput: UpdateVenueInput) {

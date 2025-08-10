@@ -1,15 +1,32 @@
-import { Payment } from './entities/payment.entity';
-import { CreatePaymentInput } from './dto/create-payment.input';
 import { PaymentService } from './payment.service';
+import { Payment } from './entities/payment.entity';
+import { OrderService } from 'src/order/order.service';
+import { EventService } from 'src/event/event.service';
+import { Order } from 'src/order/entities/order.entity';
+import { Event } from 'src/event/entities/event.entity';
+import { CreatePaymentInput } from './dto/create-payment.input';
 import { UpdatePaymentInput } from './dto/update-payment.input';
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 
 @Resolver(() => Payment)
 export class PaymentResolver {
-  constructor(private readonly paymentService: PaymentService) {}
+  constructor(
+    private readonly orderService: OrderService,
+    private readonly eventService: EventService,
+    private readonly paymentService: PaymentService,
+  ) {}
 
   @Mutation(() => Payment)
-  createPayment(@Args('createPaymentInput') createPaymentInput: CreatePaymentInput) {
+  createPayment(
+    @Args('createPaymentInput') createPaymentInput: CreatePaymentInput,
+  ) {
     return this.paymentService.create(createPaymentInput);
   }
 
@@ -24,12 +41,29 @@ export class PaymentResolver {
   }
 
   @Mutation(() => Payment)
-  updatePayment(@Args('updatePaymentInput') updatePaymentInput: UpdatePaymentInput) {
-    return this.paymentService.update(updatePaymentInput.id, updatePaymentInput);
+  updatePayment(
+    @Args('updatePaymentInput') updatePaymentInput: UpdatePaymentInput,
+  ) {
+    return this.paymentService.update(
+      updatePaymentInput.id,
+      updatePaymentInput,
+    );
   }
 
   @Mutation(() => Payment)
   removePayment(@Args('id') id: string) {
     return this.paymentService.remove(id);
+  }
+
+  @ResolveField('order', () => Order)
+  async getOrder(@Parent() payment: Payment) {
+    const { id } = payment;
+    return this.orderService.findOneByPaymentId(id);
+  }
+
+  @ResolveField('event', () => Event)
+  async getEvent(@Parent() payment: Payment) {
+    const { id } = payment;
+    return this.eventService.findOneByPaymentId(id);
   }
 }

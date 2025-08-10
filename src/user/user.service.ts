@@ -64,17 +64,60 @@ export class UserService {
      * @returns JSON object containing found user
      */
     try {
-      const user = await this.prisma.user.findMany({
+      const user = await this.prisma.user.findFirst({
         where: {
           organizer: {
             id: orgId,
           },
         },
       });
-      if (!user) return { message: 'fetch failed', data: null };
+
+      if (!user) return [];
       return user;
     } catch (error) {
       console.log(`Error fetching user with orgId  ${orgId}: ${error}`);
+    }
+  }
+
+  async findOneByAdminId(adminId: string) {
+    /**
+     * Finds a single user
+     * @param orgId -Id of the user
+     * @returns JSON object containing found user
+     */
+    try {
+      const user = await this.prisma.user.findFirst({
+        where: {
+          admin: {
+            id: adminId,
+          },
+        },
+      });
+      if (!user) return { message: 'fetch failed', data: null };
+      return user;
+    } catch (error) {
+      console.log(`Error fetching user with admin Id  ${adminId}: ${error}`);
+    }
+  }
+
+  async findOneByAudienceId(audienceId: string) {
+    /**
+     * Finds a single user
+     * @param audienceId -Id of the user
+     * @returns JSON object containing found user
+     */
+    try {
+      const user = await this.prisma.user.findFirst({
+        where: {
+          audience: {
+            id: audienceId,
+          },
+        },
+      });
+      if (!user) return { message: 'fetch failed', data: null };
+      return user;
+    } catch (error) {
+      console.log(`Error fetching user with audience Id  ${audienceId}: ${error}`);
     }
   }
 

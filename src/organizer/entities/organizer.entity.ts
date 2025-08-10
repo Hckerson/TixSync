@@ -24,6 +24,9 @@ export class Organizer {
   @Field((type) => Role)
   role: Role;
 
+  @Field(()=> User)
+  user: User;
+
   @Field((type) => ID)
   userId: string;
 }

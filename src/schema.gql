@@ -129,10 +129,10 @@ type Event {
   id: ID!
   organizer: Organizer!
   organizerId: ID!
-  payment: [Payment!]!
+  payment: Payment!
   startTime: DateTime!
-  ticket: [Ticket!]!
-  ticketType: [TicketType!]!
+  ticket: Ticket!
+  ticketType: TicketType!
   title: String!
   venue: Venue!
   venueId: ID!
@@ -220,7 +220,7 @@ type Organizer {
   fullname: String
   id: String!
   role: Role!
-  user: [User!]!
+  user: User!
   userId: ID!
   username: String!
   venue: [Venue!]!

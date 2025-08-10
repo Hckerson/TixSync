@@ -73,6 +73,7 @@ export class EventService {
           },
         },
       });
+
       if (!event) return [];
       return event;
     } catch (error) {
@@ -119,6 +120,31 @@ export class EventService {
     } catch (error) {
       console.error(
         `Error fetching event with organizer id : ${organizerId}: ${error}`,
+      );
+    }
+  }
+
+  async findOneByPaymentId(paymentId: string) {
+    /**
+     * Finds all the events whose payment id is matches the one provided
+     * @param paymentId -ID of the payment
+     * @returns JSON object containning all the events
+     */
+    try {
+      const allEvents = await this.prisma.event.findFirst({
+        where: {
+          payment:{
+            some:{
+              id: paymentId
+            }
+          },
+        },
+      });
+      if (!allEvents) return [];
+      return allEvents;
+    } catch (error) {
+      console.error(
+        `Error fetching event with payment id : ${paymentId}: ${error}`,
       );
     }
   }

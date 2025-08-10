@@ -116,8 +116,6 @@ model OrganizerOnVenue {
 }
 
 
-
-
 model Payment {
   id      String   @id @default(uuid())
   eventId String

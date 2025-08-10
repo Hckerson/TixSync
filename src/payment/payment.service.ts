@@ -58,15 +58,53 @@ export class PaymentService {
     }
   }
 
-  findOneById(id: string) {
-    return `This action returns a #${id} payment`;
+  async findOneByOrderId(orderId: string) {
+    /**
+     * Finds a single user
+     * @param orderId -Id of the user
+     * @returns JSON object containing found user
+     */
+    try {
+      const user = await this.prisma.payment.findFirst({
+        where: {
+          order: {
+            id: orderId,
+          },
+        },
+      });
+      if (!user) return { message: 'fetch failed', data: null };
+      return user;
+    } catch (error) {
+      console.log(`Error fetching payment with order Id  ${orderId}: ${error}`);
+    }
+  }
+
+  async findOneByEventId(eventId: string) {
+    /**
+     * Finds a single user
+     * @param eventId -Id of the user
+     * @returns JSON object containing found user
+     */
+    try {
+      const user = await this.prisma.payment.findFirst({
+        where: {
+          event: {
+            id: eventId,
+          },
+        },
+      });
+      if (!user) return { message: 'fetch failed', data: null };
+      return user;
+    } catch (error) {
+      console.log(`Error fetching payment with event Id  ${eventId}: ${error}`);
+    }
   }
 
   async update(id: string, updatePaymentInput: UpdatePaymentInput) {
     /**
-     * Update the existing data of an organizer
-     * @param id -ID of the organizer
-     * @param updateOrganizerInput -New data to be entered
+     * Update the existing data of an payment
+     * @param id -ID of the payment
+     * @param updatePaymentInput -New data to be entered
      */
     try {
       const { id: paymentId, orderId, eventId, ...rest } = updatePaymentInput;
@@ -79,25 +117,25 @@ export class PaymentService {
       if (!updatedData) return { message: 'delete failed', status: 400 };
       return { message: 'success', status: 200 };
     } catch (error) {
-      console.error(`Error updating orgaizer with id ${id}: ${error}`);
+      console.error(`Error updating payment with id ${id}: ${error}`);
     }
   }
 
   async remove(id: string) {
-        /**
+    /**
      * Deletes a payment
      * @param id -ID of the payment
      */
-        try {
-          const deletedPayment = await this.prisma.payment.delete({
-            where: {
-              id,
-            },
-          });
-          if (!deletedPayment) return { message: 'delete failed', status: 400 };
-          return { message: 'success', status: 200 };
-        } catch (error) {
-          console.error(`Error deleting payment`);
-        }
+    try {
+      const deletedPayment = await this.prisma.payment.delete({
+        where: {
+          id,
+        },
+      });
+      if (!deletedPayment) return { message: 'delete failed', status: 400 };
+      return { message: 'success', status: 200 };
+    } catch (error) {
+      console.error(`Error deleting payment`);
+    }
   }
 }

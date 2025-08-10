@@ -24,19 +24,19 @@ export class TicketService {
   }
 
   async findAll() {
-   /**
+    /**
      * Returns all tickets from the db
      * @returns - JSON object containning all tickets
      */
-   try {
-    const allTickets = await this.prisma.ticket.findMany();
-    if (!allTickets) return [];
-    return allTickets.map((ticket) => ({
-      ...ticket,
-    }));
-  } catch (error) {
-    console.error(`Error fetching all tickets: ${error}`);
-  }
+    try {
+      const allTickets = await this.prisma.ticket.findMany();
+      if (!allTickets) return [];
+      return allTickets.map((ticket) => ({
+        ...ticket,
+      }));
+    } catch (error) {
+      console.error(`Error fetching all tickets: ${error}`);
+    }
   }
 
   async findOne(id: string) {
@@ -55,6 +55,27 @@ export class TicketService {
       return ticket;
     } catch (error) {
       console.error(`Error fetching ticket with id ${id}: ${error}`);
+    }
+  }
+
+  async findOneByEventId(eventId: string) {
+    /**
+     * Finds a single user
+     * @param eventId -Id of the user
+     * @returns JSON object containing found user
+     */
+    try {
+      const user = await this.prisma.ticket.findFirst({
+        where: {
+          event: {
+            id: eventId,
+          },
+        },
+      });
+      if (!user) return { message: 'fetch failed', data: null };
+      return user;
+    } catch (error) {
+      console.log(`Error fetching ticket with event Id  ${eventId}: ${error}`);
     }
   }
 

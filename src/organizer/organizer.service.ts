@@ -41,6 +41,29 @@ export class OrganizerService {
     }
   }
 
+  async findOneByEventId(eventId: string) {
+    /**
+     * Finds a single user
+     * @param eventId -Id of the user
+     * @returns JSON object containing found user
+     */
+    try {
+      const user = await this.prisma.organizer.findFirst({
+        where: {
+          event: {
+            some:{
+              id : eventId
+            }
+          },
+        },
+      });
+      if (!user) return { message: 'fetch failed', data: null };
+      return user;
+    } catch (error) {
+      console.log(`Error fetching user with audience Id  ${eventId}: ${error}`);
+    }
+  }
+
   async findManyByVenueId(venueId: string) {
     /**
      * Find all organizer whose venue id matches the venue id provided

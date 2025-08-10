@@ -53,6 +53,6 @@ export class OrderResolver {
   @ResolveField('payment', () => Payment)
   async getPayment(@Parent() order: Order) {
     const {id} = order
-    return this.paymentService.findOneById(id);
+    return this.paymentService.findOneByOrderId(id);
   }
 }

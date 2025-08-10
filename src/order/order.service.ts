@@ -59,6 +59,29 @@ export class OrderService {
     }
   }
 
+  async findOneByPaymentId(paymentId: string) {
+    /**
+     * Finds all the orders whose payment id is matches the one provided
+     * @param paymentId -ID of the payment
+     * @returns JSON object containning all the events
+     */
+    try {
+      const allEvents = await this.prisma.order.findFirst({
+        where: {
+          payment:{
+            id: paymentId
+          },
+        },
+      });
+      if (!allEvents) return [];
+      return allEvents;
+    } catch (error) {
+      console.error(
+        `Error fetching order with paymnet id : ${paymentId}: ${error}`,
+      );
+    }
+  }
+
   async update(id: string, updateOrderInput: UpdateOrderInput) {
     /**
      * Update the existing data of an order

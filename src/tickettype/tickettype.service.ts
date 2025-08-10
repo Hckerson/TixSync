@@ -57,6 +57,51 @@ export class TickettypeService {
     }
   }
 
+  
+  async findOneByEventId(eventId: string) {
+    /**
+     * Finds a single user
+     * @param eventId -Id of the user
+     * @returns JSON object containing found user
+     */
+    try {
+      const user = await this.prisma.ticketType.findFirst({
+        where: {
+          event: {
+              id : eventId
+          },
+        },
+      });
+      if (!user) return { message: 'fetch failed', data: null };
+      return user;
+    } catch (error) {
+      console.log(`Error fetching ticketType with event Id  ${eventId}: ${error}`);
+    }
+  }
+
+  async findOneByTicketId(ticketId: string) {
+    /**
+     * Finds and returns a ticketType identified by a ticket id
+     * @param id -ID of the ticket
+     * @returns JSON object containg the event
+     */
+
+    try {
+      const event = await this.prisma.ticketType.findFirst({
+        where: {
+          ticket: {
+            some: { id: ticketId },
+          },
+        },
+      });
+
+      if (!event) return [];
+      return event;
+    } catch (error) {
+      console.error(`Error fetching event with id ${ticketId}: ${error}`);
+    }
+  }
+
   async update(id: string, updateTickettypeInput: UpdateTickettypeInput) {
     /**
      * Update the existing data of an ticketType

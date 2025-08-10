@@ -49,6 +49,6 @@ export class AdminResolver {
   @ResolveField('user', () => User)
   async getUser(@Parent() admin: Admin) {
     const { id } = admin;
-    return this.userService.findAll(id);
+    return this.userService.findOneByAdminId(id);
   }
 }

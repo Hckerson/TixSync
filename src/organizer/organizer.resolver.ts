@@ -9,13 +9,12 @@ import { Organizer } from './entities/organizer.entity';
 import { CreateOrganizerInput } from './dto/create-organizer.input';
 import { UpdateOrganizerInput } from './dto/update-organizer.input';
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
-  Int,
-  ResolveField,
+  Query,
   Parent,
+  Mutation,
+  Resolver,
+  ResolveField,
 } from '@nestjs/graphql';
 
 @Resolver(() => Organizer)
@@ -65,9 +64,9 @@ export class OrganizerResolver {
     return await this.venueService.findManyByOrgId(id)
   }
 
-  @ResolveField('user', () => [User])
+  @ResolveField('user', () => User)
   async getUser(@Parent() organizer: Organizer) {
-    const { id } = organizer;
+    const { id } = organizer
     return await this.userService.findOneByOrgId(id)
   }
 
