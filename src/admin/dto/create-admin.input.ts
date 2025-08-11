@@ -13,6 +13,6 @@ export class CreateAdminInput {
   @Field(() => Role)
   role: Role;
 
-  @Field()
+  @Field({nullable: true})
   userId: string;
 }

@@ -1,6 +1,6 @@
 import { Event } from 'src/event/entities/event.entity';
-import { Field, ObjectType, Int , ID} from '@nestjs/graphql';
 import { Organizer } from 'src/organizer/entities/organizer.entity';
+import { Field, ObjectType, Int , ID, GraphQLISODateTime} from '@nestjs/graphql';
 
 @ObjectType()
 export class Venue {
@@ -30,4 +30,10 @@ export class Venue {
 
   @Field((type) => Int)
   capacity: number;
+
+  @Field((type) => GraphQLISODateTime)
+  createdAt: Date;
+
+  @Field((type) => GraphQLISODateTime)
+  updatedAt: Date;
 }

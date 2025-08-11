@@ -48,7 +48,7 @@ export class VenueResolver {
     return this.venueService.remove(id);
   }
 
-  @ResolveField('organizer', () => Organizer)
+  @ResolveField('organizer', () => [Organizer])
   async getOrganizer(@Parent() venue: Venue) {
     const { id } = venue;
     return this.organizerService.findManyByVenueId(id);

@@ -103,6 +103,29 @@ export class EventService {
     }
   }
 
+  async findOneByTicketTypeId(typeId: string) {
+    /**
+     * Finds a single user
+     * @param typeId -Id of the user
+     * @returns JSON object containing found user
+     */
+    try {
+      const user = await this.prisma.event.findFirst({
+        where: {
+          ticketType:{
+            some:{
+              id: typeId
+            }
+          }
+        },
+      });
+      if (!user) return { message: 'fetch failed', data: null };
+      return user;
+    } catch (error) {
+      console.log(`Error fetching event  with ticktType  Id  ${typeId}: ${error}`);
+    }
+  }
+
   async findManyByOrgId(organizerId: string) {
     /**
      * Finds all the events whose organizer id is matches the one provided

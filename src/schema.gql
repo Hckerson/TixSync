@@ -4,26 +4,26 @@
 
 type Admin {
   fullname: String
-  id: ID!
-  role: Role!
+  id: ID
+  role: Role
   user: User!
-  userId: String!
-  username: String!
+  userId: String
+  username: String
 }
 
 type Audience {
   fullname: String
-  id: ID!
-  role: Role!
+  id: ID
+  role: Role
   user: User!
-  userId: String!
-  username: String!
+  userId: String
+  username: String
 }
 
 input CreateAdminInput {
   fullname: String
   role: Role!
-  userId: String!
+  userId: String
   username: String!
 }
 
@@ -90,11 +90,10 @@ input CreateTicketInput {
 }
 
 input CreateTickettypeInput {
-  event: CreateEventInput!
   eventId: String!
   name: Name!
   price: Int!
-  ticket: [CreateTicketInput!]!
+  ticket: [CreateTicketInput!]
 }
 
 input CreateUserInput {
@@ -103,7 +102,6 @@ input CreateUserInput {
   email: String!
   organizer: CreateOrganizerInput
   password: String!
-  provider: String!
 }
 
 input CreateVenueInput {
@@ -111,9 +109,9 @@ input CreateVenueInput {
   capacity: Int!
   city: String!
   country: String!
-  event: [CreateEventInput!]!
+  event: [CreateEventInput!]
   name: String!
-  organizer: [CreateOrganizerInput!]!
+  organizer: [CreateOrganizerInput!]
   state: String!
 }
 
@@ -199,6 +197,7 @@ enum Name {
   REGULAR
   STUDENT
   VIP
+  VVIP
 }
 
 type Order {
@@ -218,11 +217,11 @@ enum OrderCategory {
 type Organizer {
   event: [Event!]!
   fullname: String
-  id: String!
-  role: Role!
+  id: String
+  role: Role
   user: User!
-  userId: ID!
-  username: String!
+  userId: ID
+  username: String
   venue: [Venue!]!
 }
 
@@ -384,7 +383,6 @@ input UpdateTicketInput {
 }
 
 input UpdateTickettypeInput {
-  event: CreateEventInput
   eventId: String
   id: ID!
   name: Name
@@ -399,7 +397,6 @@ input UpdateUserInput {
   id: ID!
   organizer: CreateOrganizerInput
   password: String
-  provider: String
 }
 
 input UpdateVenueInput {
@@ -415,8 +412,8 @@ input UpdateVenueInput {
 }
 
 type User {
-  admin: Admin
-  audience: Audience
+  admin: Admin!
+  audience: Audience!
   createdAt: DateTime!
   email: String!
   emailVerified: Boolean!
@@ -424,8 +421,7 @@ type User {
   id: ID!
   lastKnownDevice: String
   lastLoginIp: String
-  organizer: Organizer
-  password: String!
+  organizer: Organizer!
   provider: String!
   session: [Session!]!
   speakeasySecret: String
@@ -439,9 +435,11 @@ type Venue {
   capacity: Int!
   city: String!
   country: String!
+  createdAt: DateTime!
   event: [Event!]!
   id: ID!
   name: String!
-  organizer: Organizer!
+  organizer: [Organizer!]!
   state: String!
+  updatedAt: DateTime!
 }

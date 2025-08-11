@@ -13,12 +13,12 @@ export class TickettypeService {
      * @returns -JSON object containing success/failure status
      */
     try {
-      const { ticket, event, ...rest } = createTicketTypeInput;
+      const { ticket,  ...rest } = createTicketTypeInput;
       const newticketType = this.prisma.ticketType.create({
         data: rest,
       });
-      if (!newticketType) return { message: 'create failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!newticketType) return [];
+      return newticketType;
     } catch (error) {
       console.error(`Error creating ticketType: ${error}`);
     }
@@ -72,7 +72,7 @@ export class TickettypeService {
           },
         },
       });
-      if (!user) return { message: 'fetch failed', data: null };
+      if (!user) return [];
       return user;
     } catch (error) {
       console.log(`Error fetching ticketType with event Id  ${eventId}: ${error}`);
@@ -109,15 +109,15 @@ export class TickettypeService {
      * @param updateTickettypeInput -New data to be entered
      */
     try {
-      const { id: orgId, event, ticket, ...rest } = updateTickettypeInput;
+      const { id: orgId, ticket, ...rest } = updateTickettypeInput;
       const updatedData = await this.prisma.ticketType.update({
         where: {
           id,
         },
         data: rest,
       });
-      if (!updatedData) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!updatedData) return [];
+      return updatedData;
     } catch (error) {
       console.error(`Error updating orgaizer with id ${id}: ${error}`);
     }

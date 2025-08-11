@@ -51,9 +51,9 @@ export class OrganizerService {
       const user = await this.prisma.organizer.findFirst({
         where: {
           event: {
-            some:{
-              id : eventId
-            }
+            some: {
+              id: eventId,
+            },
           },
         },
       });
@@ -61,6 +61,27 @@ export class OrganizerService {
       return user;
     } catch (error) {
       console.log(`Error fetching user with audience Id  ${eventId}: ${error}`);
+    }
+  }
+
+  async findOneByUserId(userId: string) {
+    /**
+     * Finds a single user
+     * @param userId -Id of the user
+     * @returns JSON object containing found user
+     */
+    try {
+      const user = await this.prisma.organizer.findFirst({
+        where: {
+          user: {
+            id: userId,
+          },
+        },
+      });
+      if (!user) return { message: 'fetch failed', data: null };
+      return user;
+    } catch (error) {
+      console.log(`Error fetching organizer with user Id  ${userId}: ${error}`);
     }
   }
 

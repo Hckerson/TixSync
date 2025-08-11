@@ -17,8 +17,8 @@ export class AdminService {
       const newAdmin = this.prisma.admin.create({
         data: createAdminInput,
       });
-      if (!newAdmin) return { message: 'create failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!newAdmin) return [];
+      return newAdmin ;
     } catch (error) {
       console.error(`Error creating admin: ${error}`);
     }
@@ -57,6 +57,27 @@ export class AdminService {
       return admin;
     } catch (error) {
       console.error(`Error fetching admin with id ${id}: ${error}`);
+    }
+  }
+
+  async findOneByUserId(userId: string) {
+    /**
+     * Finds a single user
+     * @param userId -Id of the user
+     * @returns JSON object containing found user
+     */
+    try {
+      const user = await this.prisma.admin.findFirst({
+        where: {
+          user: {
+            id: userId,
+          },
+        },
+      });
+      if (!user) return { message: 'fetch failed', data: null };
+      return user;
+    } catch (error) {
+      console.log(`Error fetching admin with user Id  ${userId}: ${error}`);
     }
   }
 

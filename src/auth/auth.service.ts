@@ -236,7 +236,7 @@ export class AuthService {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
       try {
-        return this.prisma.user.create({
+        const newUser = await this.prisma.user.create({
           data: {
             email: email.toLowerCase(),
             password: hashedPassword,
@@ -256,6 +256,7 @@ export class AuthService {
             geoData: true,
           },
         });
+        return newUser
       } catch (error) {
         console.error(`Error creating user in db: ${error}`);
       }

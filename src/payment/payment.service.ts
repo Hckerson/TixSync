@@ -16,8 +16,8 @@ export class PaymentService {
       const newPayment = this.prisma.payment.create({
         data: createPaymentInput,
       });
-      if (!newPayment) return { message: 'create failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!newPayment) return [];
+      return newPayment
     } catch (error) {
       console.error(`Error creating payment: ${error}`);
     }
@@ -60,20 +60,20 @@ export class PaymentService {
 
   async findOneByOrderId(orderId: string) {
     /**
-     * Finds a single user
-     * @param orderId -Id of the user
-     * @returns JSON object containing found user
+     * Finds a single payment
+     * @param orderId -Id of the payment
+     * @returns JSON object containing found payment
      */
     try {
-      const user = await this.prisma.payment.findFirst({
+      const payment = await this.prisma.payment.findFirst({
         where: {
           order: {
             id: orderId,
           },
         },
       });
-      if (!user) return { message: 'fetch failed', data: null };
-      return user;
+      if (!payment) return [];
+      return payment;
     } catch (error) {
       console.log(`Error fetching payment with order Id  ${orderId}: ${error}`);
     }
@@ -81,20 +81,20 @@ export class PaymentService {
 
   async findOneByEventId(eventId: string) {
     /**
-     * Finds a single user
-     * @param eventId -Id of the user
-     * @returns JSON object containing found user
+     * Finds a single payment
+     * @param eventId -Id of the payment
+     * @returns JSON object containing found payment
      */
     try {
-      const user = await this.prisma.payment.findFirst({
+      const payment = await this.prisma.payment.findFirst({
         where: {
           event: {
             id: eventId,
           },
         },
       });
-      if (!user) return { message: 'fetch failed', data: null };
-      return user;
+      if (!payment) return { message: 'fetch failed', data: null };
+      return payment;
     } catch (error) {
       console.log(`Error fetching payment with event Id  ${eventId}: ${error}`);
     }

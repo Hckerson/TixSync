@@ -1,15 +1,25 @@
+import { EventService } from 'src/event/event.service';
+import { Event } from 'src/event/entities/event.entity';
 import { TickettypeService } from './tickettype.service';
 import { TicketType } from './entities/tickettype.entity';
+import { TicketService } from 'src/ticket/ticket.service';
+import { Ticket } from 'src/ticket/entities/ticket.entity';
 import { CreateTickettypeInput } from './dto/create-tickettype.input';
 import { UpdateTickettypeInput } from './dto/update-tickettype.input';
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
 
 @Resolver(() => TicketType)
 export class TickettypeResolver {
-  constructor(private readonly tickettypeService: TickettypeService) {}
+  constructor(
+    private readonly eventService: EventService,
+    private readonly ticketService: TicketService,
+    private readonly  tickettypeService: TickettypeService,
+  ) {}
 
   @Mutation(() => TicketType)
-  createTickettype(@Args('createTickettypeInput') createTickettypeInput: CreateTickettypeInput) {
+  createTickettype(
+    @Args('createTickettypeInput') createTickettypeInput: CreateTickettypeInput,
+  ) {
     return this.tickettypeService.create(createTickettypeInput);
   }
 
@@ -24,12 +34,29 @@ export class TickettypeResolver {
   }
 
   @Mutation(() => TicketType)
-  updateTickettype(@Args('updateTickettypeInput') updateTickettypeInput: UpdateTickettypeInput) {
-    return this.tickettypeService.update(updateTickettypeInput.id, updateTickettypeInput);
+  updateTickettype(
+    @Args('updateTickettypeInput') updateTickettypeInput: UpdateTickettypeInput,
+  ) {
+    return this.tickettypeService.update(
+      updateTickettypeInput.id,
+      updateTickettypeInput,
+    );
   }
 
   @Mutation(() => TicketType)
   removeTickettype(@Args('id') id: string) {
     return this.tickettypeService.remove(id);
+  }
+
+  @ResolveField('event', () => Event)
+  getEvent(@Parent() tickettype: TicketType) {
+    const {id} = tickettype
+    return this.eventService.findOneByTicketTypeId(id);
+  }
+
+  @ResolveField('ticket', () => [Ticket])
+  getTickets(@Parent() tickettype: TicketType) {
+    const {id} = tickettype
+    return this.ticketService.findManyByTicketTypeId(id);
   }
 }

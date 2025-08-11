@@ -16,8 +16,8 @@ export class TicketService {
       const newTicket = this.prisma.ticket.create({
         data: createTicketInput,
       });
-      if (!newTicket) return { message: 'create failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!newTicket) return [];
+      return newTicket;
     } catch (error) {
       console.error(`Error creating ticket: ${error}`);
     }
@@ -72,10 +72,31 @@ export class TicketService {
           },
         },
       });
-      if (!user) return { message: 'fetch failed', data: null };
+      if (!user) return [ ];
       return user;
     } catch (error) {
       console.log(`Error fetching ticket with event Id  ${eventId}: ${error}`);
+    }
+  }
+
+  async findManyByTicketTypeId(typeId: string) {
+    /**
+     * Finds a single user
+     * @param typeId -Id of the user
+     * @returns JSON object containing found user
+     */
+    try {
+      const user = await this.prisma.ticket.findMany({
+        where: {
+          type:{
+            id: typeId
+          }
+        },
+      });
+      if (!user) return [];
+      return user;
+    } catch (error) {
+      console.log(`Error fetching ticket with event Id  ${typeId}: ${error}`);
     }
   }
 
@@ -93,8 +114,8 @@ export class TicketService {
         },
         data: rest,
       });
-      if (!updatedData) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!updatedData) return [];
+      return updatedData;
     } catch (error) {
       console.error(`Error updating ticket with id ${id}: ${error}`);
     }
@@ -111,8 +132,8 @@ export class TicketService {
           id,
         },
       });
-      if (!deletedTicket) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!deletedTicket) return  [];
+      return deletedTicket;
     } catch (error) {
       console.error(`Error deleting ticket`);
     }

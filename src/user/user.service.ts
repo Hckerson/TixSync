@@ -1,3 +1,5 @@
+import  axios from 'axios';
+import * as bcrypt from 'bcryptjs'
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserInput } from './dto/create-user.input';
@@ -6,7 +8,7 @@ import { UpdateUserInput } from './dto/update-user.input';
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createUserInput: CreateUserInput) {
+  async create(createUserInput: CreateUserInput) {
     /**
      * Creates a new user
      * @param createUserInput -Data to be entered
@@ -14,25 +16,84 @@ export class UserService {
      */
     try {
       const { organizer, admin, audience, ...rest } = createUserInput;
-      const newUser = this.prisma.user.create({
-        data: rest,
-      });
-      if (!newUser) return { message: 'create failed', status: 400 };
-      return { message: 'success', status: 200 };
+      try {
+        const response = await axios.post("http://localhost:3000/auth/signup", rest);
+        var newUser = response.data
+      } catch (error) {
+        console.error(`Error creating new user via axios: ${error}`);
+      }
+      // const newUser = await this.prisma.user.create({
+      //   data: {
+      //     ...rest,
+      //     password: await bcrypt.hash(rest.password, 10),
+      //   },
+      // });
+      if(newUser.createdAt){
+        newUser.createdAt = new Date(newUser.createdAt)
+      }
+      if(newUser.updatedAt){
+        newUser.updatedAt = new Date(newUser.updatedAt)
+      }
+
+      if (!newUser) return [];
+      const { id } = newUser;
+
+      if (organizer) {
+        try {
+          await this.prisma.organizer.create({
+            data: {
+              ...organizer,
+              userId: id,
+            },
+          });
+        } catch (error) {
+          console.error(`Error creating new organizer: ${error}`);
+        }
+      }
+
+      if (admin) {
+        try {
+          await this.prisma.admin.create({
+            data: {
+              ...admin,
+              userId: id,
+            },
+          });
+        } catch (error) {
+          console.error(`Error creating new admin: ${error}`);
+        }
+      }
+
+      if (audience) {
+        try {
+          await this.prisma.audience.create({
+            data: {
+              ...audience,
+              userId: id,
+            },
+          });
+        } catch (error) {
+          console.error(`Error creating new audience: ${error}`);
+        }
+      }
+      if (!newUser) return [];
+      return newUser;
     } catch (error) {
       console.error(`Error creating user: ${error}`);
     }
   }
 
-  async findAll(id: string) {
+  async findAll() {
     /**
      * Returns all user from the db
      * @returns - JSON object containning all user
      */
     try {
       const allUser = await this.prisma.user.findMany();
-      if (!allUser) return [];
-      return allUser;
+      return allUser.map((user) => {
+        const { password, ...rest } = user;
+        return rest;
+      });
     } catch (error) {
       console.error(`Error fetching all user: ${error}`);
     }
@@ -51,7 +112,8 @@ export class UserService {
         },
       });
       if (!user) return [];
-      return user;
+      const { password, ...rest } = user;
+      return rest;
     } catch (error) {
       console.error(`Error fetching user with id ${id}: ${error}`);
     }
@@ -71,9 +133,9 @@ export class UserService {
           },
         },
       });
-
       if (!user) return [];
-      return user;
+      const { password, ...rest } = user;
+      return rest;
     } catch (error) {
       console.log(`Error fetching user with orgId  ${orgId}: ${error}`);
     }
@@ -93,8 +155,9 @@ export class UserService {
           },
         },
       });
-      if (!user) return { message: 'fetch failed', data: null };
-      return user;
+      if (!user) return [];
+      const { password, ...rest } = user;
+      return rest;
     } catch (error) {
       console.log(`Error fetching user with admin Id  ${adminId}: ${error}`);
     }
@@ -114,10 +177,13 @@ export class UserService {
           },
         },
       });
-      if (!user) return { message: 'fetch failed', data: null };
-      return user;
+      if (!user) return [];
+      const { password, ...rest } = user;
+      return rest;
     } catch (error) {
-      console.log(`Error fetching user with audience Id  ${audienceId}: ${error}`);
+      console.log(
+        `Error fetching user with audience Id  ${audienceId}: ${error}`,
+      );
     }
   }
 
@@ -133,6 +199,7 @@ export class UserService {
         organizer,
         admin,
         audience,
+        password,
         ...rest
       } = updateUserInput;
       const updatedData = await this.prisma.user.update({
@@ -141,8 +208,8 @@ export class UserService {
         },
         data: rest,
       });
-      if (!updatedData) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!updatedData) return [];
+      return updatedData;
     } catch (error) {
       console.error(`Error updating orgaizer with id ${id}: ${error}`);
     }
@@ -159,8 +226,8 @@ export class UserService {
           id,
         },
       });
-      if (!deletedUser) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!deletedUser) return [];
+      return deletedUser;
     } catch (error) {
       console.error(`Error deleting user`);
     }

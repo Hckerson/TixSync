@@ -1,5 +1,6 @@
 import { join } from 'path';
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
@@ -17,6 +18,7 @@ import { GoedataModule } from './goedata/goedata.module';
 import { PaymentModule } from './payment/payment.module';
 import { AudienceModule } from './audience/audience.module';
 import { OrganizerModule } from './organizer/organizer.module';
+import { GqlThrottlerGuard } from './auth/throttler/gql-throttle';
 import { TickettypeModule } from './tickettype/tickettype.module';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
@@ -53,6 +55,9 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     PaymentModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,     {
+    provide: APP_GUARD,
+    useClass: GqlThrottlerGuard,
+  }],
 })
 export class AppModule {}

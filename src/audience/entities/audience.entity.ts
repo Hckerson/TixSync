@@ -4,21 +4,21 @@ import { ObjectType, Field, ID } from "@nestjs/graphql";
 
 @ObjectType()
 export  class Audience {
-  @Field((type) => ID)
+  @Field((type) => ID, { nullable: true })
   id: string;
 
-  @Field()
+  @Field({ nullable: true })
   username: string
   
   @Field({nullable: true})
   fullname: string
 
-  @Field(type => Role)
+  @Field(type => Role,{ nullable: true })
   role: Role
 
-  @Field(type => User)
+  @Field(type => User, { nullable: true })
   user: User
 
-  @Field()
+  @Field({ nullable: true })
   userId: string
 }

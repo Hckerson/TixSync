@@ -3,7 +3,8 @@ import { registerEnumType } from "@nestjs/graphql";
 export enum Name {
   VIP = "VIP",
   REGULAR = "REGULAR",
-  STUDENT = "STUDENT"
+  STUDENT = "STUDENT",
+  VVIP = "VVIP"
 }
 
 registerEnumType(Name, {

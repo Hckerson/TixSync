@@ -41,6 +41,7 @@ enum Name {
   VIP
   REGULAR
   STUDENT
+  VVIP
 }
 
 
@@ -49,7 +50,7 @@ model Admin {
   username String
   fullname String?
   role     Role    @default(ADMIN)
-  user     User    @relation(fields: [userId], references: [id])
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId   String  @unique
 }
 
@@ -58,7 +59,7 @@ model Audience {
   username String
   fullname String?
   role     Role    @default(AUDIENCE)
-  user     User    @relation(fields: [userId], references: [id])
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId   String  @unique
 }
 
@@ -95,12 +96,12 @@ model Order {
 }
 model Organizer {
   id       String             @id @default(uuid())
-  username String
+  username String?
   fullname String?
   venue    OrganizerOnVenue[]
   event    Event[]
-  role     Role               @default(ORGANIZER)
-  user     User               @relation(fields: [userId], references: [id])
+  role     Role?               @default(ORGANIZER)
+  user     User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId   String             @unique
 }
 

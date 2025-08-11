@@ -60,6 +60,27 @@ export class AudienceService {
     }
   }
 
+  async findOneByUserId(userId: string) {
+    /**
+     * Finds a single user
+     * @param userId -Id of the user
+     * @returns JSON object containing found user
+     */
+    try {
+      const user = await this.prisma.audience.findFirst({
+        where: {
+          user: {
+            id: userId,
+          },
+        },
+      });
+      if (!user) return { message: 'fetch failed', data: null };
+      return user;
+    } catch (error) {
+      console.log(`Error fetching audience with user Id  ${userId}: ${error}`);
+    }
+  }
+
   async update(id: string, updateAudienceInput: UpdateAudienceInput) {
     /**
      * Update the existing data of an audience

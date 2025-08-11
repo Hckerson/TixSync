@@ -17,8 +17,8 @@ export class VenueService {
       const newVenue = this.prisma.venue.create({
         data: rest,
       });
-      if (!newVenue) return { message: 'create failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!newVenue) return [];
+      return newVenue;
     } catch (error) {
       console.error(`Error creating venue: ${error}`);
     }
@@ -58,7 +58,7 @@ export class VenueService {
       return allEvents;
     } catch (error) {
       console.error(
-        `Error fetching event with organizer id : ${organizerId}: ${error}`,
+        `Error fetching venue with organizer id : ${organizerId}: ${error}`,
       );
     }
   }
@@ -73,13 +73,13 @@ export class VenueService {
       const user = await this.prisma.venue.findFirst({
         where: {
           event: {
-            some:{
-              id : eventId
-            }
+            some: {
+              id: eventId,
+            },
           },
         },
       });
-      if (!user) return { message: 'fetch failed', data: null };
+      if (!user) return [];
       return user;
     } catch (error) {
       console.log(`Error fetching venue with event Id  ${eventId}: ${error}`);
@@ -119,8 +119,8 @@ export class VenueService {
         },
         data: rest,
       });
-      if (!updatedData) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!updatedData) return [];
+      return updatedData;
     } catch (error) {
       console.error(`Error updating venue with id ${id}: ${error}`);
     }
@@ -137,8 +137,8 @@ export class VenueService {
           id,
         },
       });
-      if (!deletedVenue) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!deletedVenue) return [];
+      return deletedVenue;
     } catch (error) {
       console.error(`Error deleting venue`);
     }

@@ -14,9 +14,6 @@ export class User {
   email: string;
 
   @Field()
-  password: string;
-
-  @Field()
   provider: string;
 
   @Field((type) => Boolean)
@@ -50,11 +47,11 @@ export class User {
   geoData: GeoData[];
 
   @Field((type) => Organizer, { nullable: true })
-  organizer: Organizer[];
+  organizer: Organizer;
 
   @Field((type) => Admin, { nullable: true })
-  admin: Admin[];
+  admin: Admin;
 
   @Field((type) => Audience, { nullable: true })
-  audience: Audience[];
+  audience: Audience;
 }

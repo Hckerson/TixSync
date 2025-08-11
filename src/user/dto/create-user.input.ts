@@ -11,15 +11,12 @@ export class CreateUserInput {
   @Field()
   password: string;
 
-  @Field()
-  provider: string;
-
   @Field((type) => CreateOrganizerInput, { nullable: true })
-  organizer: CreateOrganizerInput[];
+  organizer: CreateOrganizerInput;
 
   @Field((type) => CreateAdminInput, { nullable: true })
-  admin: CreateAdminInput[];
+  admin: CreateAdminInput;
 
   @Field((type) => CreateAudienceInput, { nullable: true })
-  audience: CreateAudienceInput[];
+  audience: CreateAudienceInput;
 }
