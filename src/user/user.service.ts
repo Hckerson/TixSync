@@ -121,7 +121,7 @@ export class UserService {
 
   async findOneByOrgId(orgId: string) {
     /**
-     * Finds a single user
+     * Finds a single user by organization Id
      * @param orgId -Id of the user
      * @returns JSON object containing found user
      */
@@ -211,7 +211,7 @@ export class UserService {
       if (!updatedData) return [];
       return updatedData;
     } catch (error) {
-      console.error(`Error updating orgaizer with id ${id}: ${error}`);
+      console.error(`Error updating user with id ${id}: ${error}`);
     }
   }
 

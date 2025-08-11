@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 async function main() {
   // --- User creation ---
   const users = await Promise.all(
-    Array.from({ length: 3 }).map(async (_, i) =>
+    Array.from({ length: 3 }).map(async () =>
       prisma.user.create({
         data: {
           id: uuidv4(),
@@ -16,21 +16,17 @@ async function main() {
           provider: '',
           emailVerified: faker.datatype.boolean(),
           twofaVerified: faker.datatype.boolean(),
-          verificationToken: faker.datatype.boolean()
-            ? faker.string.uuid()
-            : null,
-          speakeasySecret: faker.datatype.boolean()
-            ? faker.string.uuid()
-            : null,
+          verificationToken: faker.datatype.boolean() ? faker.string.uuid() : null,
+          speakeasySecret: faker.datatype.boolean() ? faker.string.uuid() : null,
           lastLoginIp: faker.internet.ip(),
           lastKnownDevice: faker.commerce.productName(),
           geoData: {
             create: {
               id: uuidv4(),
-              country: faker.address.country(),
-              region: faker.address.state(),
-              timezone: faker.address.timeZone(),
-              city: faker.address.city(),
+              country: faker.location.country(),
+              region: faker.location.state(),
+              timezone: faker.location.timeZone(),
+              city: faker.location.city(),
             },
           },
         },
@@ -75,6 +71,7 @@ async function main() {
           username: faker.internet.userName(),
           fullname: faker.person.fullName(),
           userId: user.id,
+          // role is nullable, so we can omit or set to null
         },
       }),
     ),
@@ -92,6 +89,8 @@ async function main() {
           state: faker.location.state(),
           country: faker.location.country(),
           capacity: faker.number.int({ min: 100, max: 10000 }),
+          createdAt: faker.date.past(),
+          updatedAt: faker.date.recent(),
         },
       }),
     ),
@@ -134,7 +133,7 @@ async function main() {
         data: {
           id: uuidv4(),
           eventId: event.id,
-          name: ['VIP', 'REGULAR', 'STUDENT'][i % 3] as any,
+          name: ['VIP', 'REGULAR', 'STUDENT', 'VVIP'][i % 4] as any,
           price: faker.number.int({ min: 10, max: 200 }),
         },
       }),
@@ -150,6 +149,8 @@ async function main() {
           eventId: event.id,
           typeId: ticketTypes[i].id,
           qrcode: faker.string.uuid(),
+          isUsed: faker.datatype.boolean(),
+          audienceId: audiences[0]?.id ?? "", // Link to an audience, or empty string if none
         },
       }),
     ),
@@ -192,6 +193,8 @@ async function main() {
           id: uuidv4(),
           userId: user.id,
           rememberToken: faker.string.uuid(),
+          createdAt: faker.date.past(),
+          updatedAt: faker.date.recent(),
         },
       }),
     ),

@@ -44,7 +44,6 @@ enum Name {
   VVIP
 }
 
-
 model Admin {
   id       String  @id @default(uuid())
   username String
@@ -55,12 +54,13 @@ model Admin {
 }
 
 model Audience {
-  id       String  @id @default(uuid())
+  id       String   @id @default(uuid())
   username String
   fullname String?
-  role     Role    @default(AUDIENCE)
-  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId   String  @unique
+  ticket   Ticket[]
+  role     Role     @default(AUDIENCE)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId   String   @unique
 }
 
 model Event {
@@ -76,8 +76,9 @@ model Event {
   payment     Payment[]
   endTime     DateTime
   venueId     String
-  venue         Venue         @relation(fields: [venueId], references: [id])
+  venue       Venue         @relation(fields: [venueId], references: [id])
 }
+
 model GeoData {
   id       String @id @default(uuid())
   userId   String @unique
@@ -87,6 +88,7 @@ model GeoData {
   city     String
   user     User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
+
 model Order {
   id      String        @id @default(uuid())
   item    OrderCategory
@@ -94,38 +96,37 @@ model Order {
   itemId  String[]
   payment Payment?
 }
+
 model Organizer {
   id       String             @id @default(uuid())
   username String?
   fullname String?
   venue    OrganizerOnVenue[]
   event    Event[]
-  role     Role?               @default(ORGANIZER)
+  role     Role?              @default(ORGANIZER)
   user     User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId   String             @unique
 }
 
-
 model OrganizerOnVenue {
   venueId     String
-  venue       Venue     @relation(fields: [venueId], references: [id])
+  venue       Venue     @relation(fields: [venueId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   organizerId String
-  organizer   Organizer @relation(fields: [organizerId], references: [id])
+  organizer   Organizer @relation(fields: [organizerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   assignedAt  DateTime  @default(now())
 
   @@id([venueId, organizerId])
 }
-
 
 model Payment {
   id      String   @id @default(uuid())
   eventId String
   amount  Int
   orderId String   @unique
-  order   Order    @relation(fields: [orderId], references: [id])
+  order   Order    @relation(fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   status  Status   @default(PENDING)
   paidAt  DateTime @default(now())
-  event   Event    @relation(fields: [eventId], references: [id])
+  event   Event    @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Session {
@@ -138,17 +139,20 @@ model Session {
 }
 
 model Ticket {
-  id      String     @id @default(uuid())
-  eventId String
-  type    TicketType @relation(fields: [typeId], references: [id])
-  qrcode  String
-  isUsed  Boolean    @default(false)
-  typeId  String
-  event   Event      @relation(fields: [eventId], references: [id])
+  id         String     @id @default(uuid())
+  eventId    String
+  type       TicketType @relation(fields: [typeId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  qrcode     String
+  isUsed     Boolean    @default(false)
+  typeId     String
+  event      Event      @relation(fields: [eventId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  audienceId String     @default("")
+  audience   Audience   @relation(fields: [audienceId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
+
 model TicketType {
   id      String   @id @default(uuid())
-  event   Event    @relation(fields: [eventId], references: [id])
+  event   Event    @relation(fields: [eventId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   name    Name
   price   Int
   ticket  Ticket[]

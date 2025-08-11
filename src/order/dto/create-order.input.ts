@@ -11,8 +11,8 @@ export class CreateOrderInput {
   total: number;
 
   @Field(() => [String])
-  iteId: string[];
+  itemId: string[];
 
-  @Field(() => CreatePaymentInput)
+  @Field(() => CreatePaymentInput, {nullable: true})
   payment: CreatePaymentInput;
 }

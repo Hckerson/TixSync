@@ -16,6 +16,6 @@ export class Order {
   @Field(type => [String])
   itemId: string[];
 
-  @Field((type) => Payment)
+  @Field((type) => Payment, {nullable: true})
   payment: Payment;
 }

@@ -17,8 +17,8 @@ export class OrderService {
       const neworder = this.prisma.order.create({
         data: rest,
       });
-      if (!neworder) return { message: 'create failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!neworder) return [];
+      return neworder;
     } catch (error) {
       console.error(`Error creating order: ${error}`);
     }
@@ -98,8 +98,8 @@ export class OrderService {
           ...rest,
         },
       });
-      if (!updatedData) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!updatedData) return [];
+      return updatedData;
     } catch (error) {
       console.error(`Error updating orgaizer with id ${id}: ${error}`);
     }
@@ -116,8 +116,8 @@ export class OrderService {
           id,
         },
       });
-      if (!deletedOrder) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!deletedOrder) return [];
+      return deletedOrder;
     } catch (error) {
       console.error(`Error deleting order`);
     }

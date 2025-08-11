@@ -60,20 +60,20 @@ export class TickettypeService {
   
   async findOneByEventId(eventId: string) {
     /**
-     * Finds a single user
-     * @param eventId -Id of the user
-     * @returns JSON object containing found user
+     * Finds a single ticketType
+     * @param eventId -Id of the ticketType
+     * @returns JSON object containing found ticketType
      */
     try {
-      const user = await this.prisma.ticketType.findFirst({
+      const ticketType = await this.prisma.ticketType.findFirst({
         where: {
           event: {
               id : eventId
           },
         },
       });
-      if (!user) return [];
-      return user;
+      if (!ticketType) return [];
+      return ticketType;
     } catch (error) {
       console.log(`Error fetching ticketType with event Id  ${eventId}: ${error}`);
     }
@@ -83,11 +83,11 @@ export class TickettypeService {
     /**
      * Finds and returns a ticketType identified by a ticket id
      * @param id -ID of the ticket
-     * @returns JSON object containg the event
+     * @returns JSON object containg the ticketType
      */
 
     try {
-      const event = await this.prisma.ticketType.findFirst({
+      const ticketType = await this.prisma.ticketType.findFirst({
         where: {
           ticket: {
             some: { id: ticketId },
@@ -95,10 +95,10 @@ export class TickettypeService {
         },
       });
 
-      if (!event) return [];
-      return event;
+      if (!ticketType) return [];
+      return ticketType;
     } catch (error) {
-      console.error(`Error fetching event with id ${ticketId}: ${error}`);
+      console.error(`Error fetching ticketType with id ${ticketId}: ${error}`);
     }
   }
 
@@ -119,7 +119,7 @@ export class TickettypeService {
       if (!updatedData) return [];
       return updatedData;
     } catch (error) {
-      console.error(`Error updating orgaizer with id ${id}: ${error}`);
+      console.error(`Error updating ticketType with id ${id}: ${error}`);
     }
   }
 
@@ -134,8 +134,8 @@ export class TickettypeService {
           id,
         },
       });
-      if (!deletedTicketType) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!deletedTicketType) return [];
+      return deletedTicketType;
     } catch (error) {
       console.error(`Error deleting ticketType`);
     }

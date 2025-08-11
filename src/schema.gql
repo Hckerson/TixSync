@@ -15,6 +15,7 @@ type Audience {
   fullname: String
   id: ID
   role: Role
+  ticket: [Ticket!]!
   user: User!
   userId: String
   username: String
@@ -54,9 +55,9 @@ input CreateGoedatumInput {
 }
 
 input CreateOrderInput {
-  iteId: [String!]!
   item: OrderCategory!
-  payment: CreatePaymentInput!
+  itemId: [String!]!
+  payment: CreatePaymentInput
   total: Int!
 }
 
@@ -286,6 +287,8 @@ enum Status {
 }
 
 type Ticket {
+  audience: Audience!
+  audienceId: String!
   event: Event!
   eventId: String!
   id: ID!
@@ -343,8 +346,8 @@ input UpdateGoedatumInput {
 
 input UpdateOrderInput {
   id: String!
-  iteId: [String!]
   item: OrderCategory
+  itemId: [String!]
   payment: CreatePaymentInput
   total: Int
 }

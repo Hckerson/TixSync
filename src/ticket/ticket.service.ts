@@ -60,20 +60,20 @@ export class TicketService {
 
   async findOneByEventId(eventId: string) {
     /**
-     * Finds a single user
-     * @param eventId -Id of the user
-     * @returns JSON object containing found user
+     * Finds a single ticket
+     * @param eventId -Id of the ticket
+     * @returns JSON object containing found ticket
      */
     try {
-      const user = await this.prisma.ticket.findFirst({
+      const ticket = await this.prisma.ticket.findFirst({
         where: {
           event: {
             id: eventId,
           },
         },
       });
-      if (!user) return [ ];
-      return user;
+      if (!ticket) return [];
+      return ticket;
     } catch (error) {
       console.log(`Error fetching ticket with event Id  ${eventId}: ${error}`);
     }
@@ -81,22 +81,43 @@ export class TicketService {
 
   async findManyByTicketTypeId(typeId: string) {
     /**
-     * Finds a single user
-     * @param typeId -Id of the user
-     * @returns JSON object containing found user
+     * Finds a single ticket
+     * @param typeId -Id of the ticket
+     * @returns JSON object containing found ticket
      */
     try {
-      const user = await this.prisma.ticket.findMany({
+      const ticket = await this.prisma.ticket.findMany({
         where: {
-          type:{
-            id: typeId
-          }
+          type: {
+            id: typeId,
+          },
         },
       });
-      if (!user) return [];
-      return user;
+      if (!ticket) return [];
+      return ticket;
     } catch (error) {
       console.log(`Error fetching ticket with event Id  ${typeId}: ${error}`);
+    }
+  }
+
+  async findManyByAudienceId(audienceId: string) {
+    /**
+     * Finds a single ticket
+     * @param audienceId -Id of the ticket
+     * @returns JSON object containing found ticket
+     */
+    try {
+      const ticket = await this.prisma.ticket.findMany({
+        where: {
+          audienceId: audienceId,
+        },
+      });
+      if (!ticket) return [];
+      return ticket;
+    } catch (error) {
+      console.log(
+        `Error fetching ticket with event Id  ${audienceId}: ${error}`,
+      );
     }
   }
 
@@ -132,7 +153,7 @@ export class TicketService {
           id,
         },
       });
-      if (!deletedTicket) return  [];
+      if (!deletedTicket) return [];
       return deletedTicket;
     } catch (error) {
       console.error(`Error deleting ticket`);
