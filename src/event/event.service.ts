@@ -147,30 +147,30 @@ export class EventService {
     }
   }
 
-  async findOneByPaymentId(paymentId: string) {
-    /**
-     * Finds all the events whose payment id is matches the one provided
-     * @param paymentId -ID of the payment
-     * @returns JSON object containning all the events
-     */
-    try {
-      const allEvents = await this.prisma.event.findFirst({
-        where: {
-          payment:{
-            some:{
-              id: paymentId
-            }
-          },
-        },
-      });
-      if (!allEvents) return [];
-      return allEvents;
-    } catch (error) {
-      console.error(
-        `Error fetching event with payment id : ${paymentId}: ${error}`,
-      );
-    }
-  }
+  // async findOneByPaymentId(paymentId: string) {
+  //   /**
+  //    * Finds all the events whose payment id is matches the one provided
+  //    * @param paymentId -ID of the payment
+  //    * @returns JSON object containning all the events
+  //    */
+  //   try {
+  //     const allEvents = await this.prisma.event.findFirst({
+  //       where: {
+  //         payment:{
+  //           some:{
+  //             id: paymentId
+  //           }
+  //         },
+  //       },
+  //     });
+  //     if (!allEvents) return [];
+  //     return allEvents;
+  //   } catch (error) {
+  //     console.error(
+  //       `Error fetching event with payment id : ${paymentId}: ${error}`,
+  //     );
+  //   }
+  // }
 
   async update(id: string, updateEventInput: UpdateEventInput) {
     /**

@@ -73,7 +73,6 @@ model Event {
   startTime   DateTime
   ticketType  TicketType[]
   ticket      Ticket[]
-  payment     Payment[]
   endTime     DateTime
   venueId     String
   venue       Venue         @relation(fields: [venueId], references: [id])
@@ -120,13 +119,11 @@ model OrganizerOnVenue {
 
 model Payment {
   id      String   @id @default(uuid())
-  eventId String
   amount  Int
   orderId String   @unique
   order   Order    @relation(fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   status  Status   @default(PENDING)
   paidAt  DateTime @default(now())
-  event   Event    @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Session {
@@ -155,6 +152,7 @@ model TicketType {
   event   Event    @relation(fields: [eventId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   name    Name
   price   Int
+  qty     Int    @default(0)   
   ticket  Ticket[]
   eventId String
 

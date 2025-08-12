@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateOrganizerInput } from './dto/create-organizer.input';
@@ -14,11 +15,12 @@ export class OrganizerService {
      * @returns -JSON object containing success/failure status
      */
     try {
+      const {venue, event, ...rest} = createOrganizerInput
       const newOrganizer = this.prisma.organizer.create({
-        data: createOrganizerInput,
+        data: rest,
       });
-      if (!newOrganizer) return { message: 'create failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!newOrganizer) return [];
+      return newOrganizer;
     } catch (error) {
       console.error(`Error creating organizer: ${error}`);
     }
@@ -57,7 +59,7 @@ export class OrganizerService {
           },
         },
       });
-      if (!user) return { message: 'fetch failed', data: null };
+      if (!user) return [];
       return user;
     } catch (error) {
       console.log(`Error fetching user with audience Id  ${eventId}: ${error}`);
@@ -78,7 +80,7 @@ export class OrganizerService {
           },
         },
       });
-      if (!user) return { message: 'fetch failed', data: null };
+      if (!user) return [];
       return user;
     } catch (error) {
       console.log(`Error fetching organizer with user Id  ${userId}: ${error}`);
@@ -137,15 +139,15 @@ export class OrganizerService {
      * @param updateOrganizerInput -New data to be entered
      */
     try {
-      const { id: orgId, userId, ...rest } = updateOrganizerInput;
+      const { id: orgId, userId,event, venue, ...rest } = updateOrganizerInput;
       const updatedData = await this.prisma.organizer.update({
         where: {
           id,
         },
         data: rest,
       });
-      if (!updatedData) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!updatedData) return [];
+      return updatedData;
     } catch (error) {
       console.error(`Error updating orgaizer with id ${id}: ${error}`);
     }
@@ -162,8 +164,8 @@ export class OrganizerService {
           id,
         },
       });
-      if (!deletedOrganizer) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!deletedOrganizer) return [];
+      return deletedOrganizer;
     } catch (error) {
       console.error(`Error deleting organizer`);
     }

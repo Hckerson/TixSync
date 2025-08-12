@@ -68,11 +68,11 @@ export class EventResolver {
     return this.ticketService.findOneByEventId(id);
   }
 
-  @ResolveField('payment', () => Payment)
-  async getPayment(@Parent() event: Event) {
-    const { id } = event;
-    return this.paymentService.findOneByEventId(id);
-  }
+  // @ResolveField('payment', () => Payment)
+  // async getPayment(@Parent() event: Event) {
+  //   const { id } = event;
+  //   return this.paymentService.findOneByEventId(id);
+  // }
 
   @ResolveField('venue', () => Venue)
   async getVenue(@Parent() event: Event) {

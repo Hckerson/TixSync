@@ -22,7 +22,9 @@ type Audience {
 }
 
 input CreateAdminInput {
+  email: String
   fullname: String
+  password: String
   role: Role!
   userId: String
   username: String!
@@ -62,19 +64,17 @@ input CreateOrderInput {
 }
 
 input CreateOrganizerInput {
-  eventId: String!
+  event: [CreateEventInput!]
   fullname: String
   role: Role!
   userId: String!
   username: String!
-  venueId: String!
+  venue: [CreateVenueInput!]
 }
 
 input CreatePaymentInput {
   amount: Int!
-  eventId: String!
   orderId: String!
-  paidAt: DateTime!
   status: Status!
 }
 
@@ -128,7 +128,7 @@ type Event {
   id: ID!
   organizer: Organizer!
   organizerId: ID!
-  payment: Payment!
+  payment: [Payment!]!
   startTime: DateTime!
   ticket: Ticket!
   ticketType: TicketType!
@@ -228,8 +228,6 @@ type Organizer {
 
 type Payment {
   amount: Int!
-  event: Event!
-  eventId: String!
   id: ID!
   order: Order!
   orderId: String!
@@ -308,8 +306,10 @@ type TicketType {
 }
 
 input UpdateAdminInput {
+  email: String
   fullname: String
   id: ID!
+  password: String
   role: Role
   userId: String
   username: String
@@ -353,21 +353,19 @@ input UpdateOrderInput {
 }
 
 input UpdateOrganizerInput {
-  eventId: String
+  event: [CreateEventInput!]
   fullname: String
   id: ID!
   role: Role
   userId: String
   username: String
-  venueId: String
+  venue: [CreateVenueInput!]
 }
 
 input UpdatePaymentInput {
   amount: Int
-  eventId: String
   id: ID!
   orderId: String
-  paidAt: DateTime
   status: Status
 }
 

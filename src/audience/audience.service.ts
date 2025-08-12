@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Role } from 'src/enums/role.enum';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -7,21 +8,31 @@ import { UpdateAudienceInput } from './dto/update-audience.input';
 @Injectable()
 export class AudienceService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createAudienceInput: CreateAudienceInput) {
-       /**
+  async create(createAudienceInput: CreateAudienceInput) {
+    /**
      * Creates a new audience
-     * @param createaudienceInput -Data to be entered
+     * @param createAudienceInput -Data to be entered
      * @returns -JSON object containing success/failure status
      */
-       try {
-        const newAudience = this.prisma.audience.create({
-          data: createAudienceInput,
-        });
-        if (!newAudience) return { message: 'create failed', status: 400 };
-        return { message: 'success', status: 200 };
-      } catch (error) {
-        console.error(`Error creating audience: ${error}`);
-      }
+    try {
+      const { email, password, ...rest } = createAudienceInput;
+      const response = await axios.post('http://localhost:3000/auth/signup', {
+        email,
+        password,
+      });
+      const { id } = response.data;
+
+      const newAudience = this.prisma.audience.create({
+        data: {
+          ...rest,
+          userId: id,
+        },
+      });
+      if (!newAudience) return { message: 'create failed', status: 400 };
+      return { message: 'success', status: 200 };
+    } catch (error) {
+      console.error(`Error creating audience: ${error}`);
+    }
   }
 
   async findAll() {
@@ -90,17 +101,19 @@ export class AudienceService {
     try {
       const audience = await this.prisma.audience.findFirst({
         where: {
-          ticket:{
-            some:{
-              id: ticketId
-            }
-          }
+          ticket: {
+            some: {
+              id: ticketId,
+            },
+          },
         },
       });
       if (!audience) return [];
       return audience;
     } catch (error) {
-      console.log(`Error fetching audience with ticket Id  ${ticketId}: ${error}`);
+      console.log(
+        `Error fetching audience with ticket Id  ${ticketId}: ${error}`,
+      );
     }
   }
 

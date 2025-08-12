@@ -10,6 +10,13 @@ export class CreateAdminInput {
   @Field({ nullable: true })
   fullname: string;
 
+  @Field({ nullable: true })
+  email: string;
+
+  @Field({ nullable: true })
+  password: string;
+
+
   @Field(() => Role)
   role: Role;
 

@@ -61,9 +61,9 @@ export class PaymentResolver {
     return this.orderService.findOneByPaymentId(id);
   }
 
-  @ResolveField('event', () => Event)
-  async getEvent(@Parent() payment: Payment) {
-    const { id } = payment;
-    return this.eventService.findOneByPaymentId(id);
-  }
+  // @ResolveField('event', () => Event)
+  // async getEvent(@Parent() payment: Payment) {
+  //   const { id } = payment;
+  //   return this.eventService.findOneByPaymentId(id);
+  // }
 }

@@ -8,8 +8,6 @@ export class Payment {
   @Field((type) => ID)
   id: string;
 
-  @Field()
-  eventId: string;
 
   @Field((type) => Int)
   amount: number;
@@ -26,6 +24,4 @@ export class Payment {
   @Field((type) => GraphQLISODateTime)
   paidAt: Date;
 
-  @Field((type) => Event)
-  event: Event;
 }

@@ -6,18 +6,18 @@ import { UpdatePaymentInput } from './dto/update-payment.input';
 @Injectable()
 export class PaymentService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createPaymentInput: CreatePaymentInput) {
+  async create(createPaymentInput: CreatePaymentInput) {
     /**
      * Creates a new payment
      * @param createPaymentInput -Data to be entered
      * @returns -JSON object containing success/failure status
      */
     try {
-      const newPayment = this.prisma.payment.create({
+      const newPayment = await  this.prisma.payment.create({
         data: createPaymentInput,
       });
       if (!newPayment) return [];
-      return newPayment
+      return newPayment;
     } catch (error) {
       console.error(`Error creating payment: ${error}`);
     }
@@ -79,26 +79,26 @@ export class PaymentService {
     }
   }
 
-  async findOneByEventId(eventId: string) {
-    /**
-     * Finds a single payment
-     * @param eventId -Id of the payment
-     * @returns JSON object containing found payment
-     */
-    try {
-      const payment = await this.prisma.payment.findFirst({
-        where: {
-          event: {
-            id: eventId,
-          },
-        },
-      });
-      if (!payment) return { message: 'fetch failed', data: null };
-      return payment;
-    } catch (error) {
-      console.log(`Error fetching payment with event Id  ${eventId}: ${error}`);
-    }
-  }
+  // async findOneByEventId(eventId: string) {
+  //   /**
+  //    * Finds a single payment
+  //    * @param eventId -Id of the payment
+  //    * @returns JSON object containing found payment
+  //    */
+  //   try {
+  //     const payment = await this.prisma.payment.findFirst({
+  //       where: {
+  //         event: {
+  //           id: eventId,
+  //         },
+  //       },
+  //     });
+  //     if (!payment) return [];
+  //     return payment;
+  //   } catch (error) {
+  //     console.log(`Error fetching payment with event Id  ${eventId}: ${error}`);
+  //   }
+  // }
 
   async update(id: string, updatePaymentInput: UpdatePaymentInput) {
     /**
@@ -107,15 +107,15 @@ export class PaymentService {
      * @param updatePaymentInput -New data to be entered
      */
     try {
-      const { id: paymentId, orderId, eventId, ...rest } = updatePaymentInput;
+      const { id: paymentId, orderId, ...rest } = updatePaymentInput;
       const updatedData = await this.prisma.payment.update({
         where: {
           id,
         },
         data: rest,
       });
-      if (!updatedData) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!updatedData) return [];
+      return updatedData;
     } catch (error) {
       console.error(`Error updating payment with id ${id}: ${error}`);
     }
@@ -132,8 +132,8 @@ export class PaymentService {
           id,
         },
       });
-      if (!deletedPayment) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!deletedPayment) return [];
+      return deletedPayment;
     } catch (error) {
       console.error(`Error deleting payment`);
     }

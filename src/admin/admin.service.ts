@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import axios from 'axios';
 import { Role } from 'src/enums/role.enum';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateAdminInput } from './dto/create-admin.input';
 import { UpdateAdminInput } from './dto/update-admin.input';
@@ -7,15 +8,24 @@ import { UpdateAdminInput } from './dto/update-admin.input';
 @Injectable()
 export class AdminService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createAdminInput: CreateAdminInput) {
+  async create(createAdminInput: CreateAdminInput) {
     /**
      * Creates a new admin
      * @param createAdminInput -Data to be entered
      * @returns -JSON object containing success/failure status
      */
+
+
     try {
-      const newAdmin = this.prisma.admin.create({
-        data: createAdminInput,
+        const {email, password, ...rest} = createAdminInput
+        const response = await axios.post('http://localhost:3000/auth/signup',{email, password} )
+        const {id} = response.data
+  
+      const newAdmin = await this.prisma.admin.create({
+        data: {
+          ...rest,
+          userId: id
+        },
       });
       if (!newAdmin) return [];
       return newAdmin ;

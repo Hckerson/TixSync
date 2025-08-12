@@ -9,9 +9,15 @@ export class CreateAudienceInput {
   @Field()
   username: string;
 
-  @Field({nullable: true})
+  @Field()
+  email: string;
+
+  @Field()
+  password: string;
+
+  @Field({ nullable: true })
   fullname: string;
 
-  @Field(()=> Role)
+  @Field(() => Role)
   role: Role;
 }

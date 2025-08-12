@@ -40,9 +40,10 @@ export class UserService {
 
       if (organizer) {
         try {
+          const {event, venue, ...rest} = organizer
           await this.prisma.organizer.create({
             data: {
-              ...organizer,
+              ...rest,
               userId: id,
             },
           });

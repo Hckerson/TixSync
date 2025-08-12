@@ -176,7 +176,7 @@ async function main() {
       prisma.payment.create({
         data: {
           id: uuidv4(),
-          eventId: event.id,
+          // eventId: event.id,
           amount: faker.number.int({ min: 20, max: 500 }),
           orderId: orders[i].id,
           status: ['PENDING', 'SUCCESSFUL', 'FAILED'][i % 3] as any,
