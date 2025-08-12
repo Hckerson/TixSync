@@ -16,7 +16,7 @@ export class TicketService {
       const newTicket = this.prisma.ticket.create({
         data: createTicketInput,
       });
-      if (!newTicket) return [];
+      if (!newTicket) return null;
       return newTicket;
     } catch (error) {
       console.error(`Error creating ticket: ${error}`);
@@ -51,21 +51,21 @@ export class TicketService {
           id,
         },
       });
-      if (!ticket) return [];
+      if (!ticket) return null;
       return ticket;
     } catch (error) {
       console.error(`Error fetching ticket with id ${id}: ${error}`);
     }
   }
 
-  async findOneByEventId(eventId: string) {
+  async findManyByEventId(eventId: string) {
     /**
      * Finds a single ticket
      * @param eventId -Id of the ticket
      * @returns JSON object containing found ticket
      */
     try {
-      const ticket = await this.prisma.ticket.findFirst({
+      const ticket = await this.prisma.ticket.findMany({
         where: {
           event: {
             id: eventId,
@@ -96,7 +96,7 @@ export class TicketService {
       if (!ticket) return [];
       return ticket;
     } catch (error) {
-      console.log(`Error fetching ticket with event Id  ${typeId}: ${error}`);
+      console.log(`Error fetching ticket with type Id  ${typeId}: ${error}`);
     }
   }
 
@@ -116,7 +116,7 @@ export class TicketService {
       return ticket;
     } catch (error) {
       console.log(
-        `Error fetching ticket with event Id  ${audienceId}: ${error}`,
+        `Error fetching ticket with audience Id  ${audienceId}: ${error}`,
       );
     }
   }
@@ -135,7 +135,7 @@ export class TicketService {
         },
         data: rest,
       });
-      if (!updatedData) return [];
+      if (!updatedData) return null;
       return updatedData;
     } catch (error) {
       console.error(`Error updating ticket with id ${id}: ${error}`);
@@ -153,7 +153,7 @@ export class TicketService {
           id,
         },
       });
-      if (!deletedTicket) return [];
+      if (!deletedTicket) return null;
       return deletedTicket;
     } catch (error) {
       console.error(`Error deleting ticket`);

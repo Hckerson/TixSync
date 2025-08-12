@@ -8,10 +8,10 @@ export class Ticket {
   @Field((type) => ID)
   id: string;
 
-  @Field()
+  @Field({nullable: true})
   eventId: string;
 
-  @Field((type) => TicketType)
+  @Field((type) => TicketType, { nullable: true })
   type: TicketType;
 
   @Field()
@@ -23,12 +23,12 @@ export class Ticket {
   @Field()
   typeId: string;
 
-  @Field((type) => Event)
+  @Field((type) => Event, { nullable: true })
   event: Event;
 
-  @Field()
+  @Field({nullable: true})
   audienceId: string;
 
-  @Field(()=> Audience)
-  audience: Audience
+  @Field(() => Audience, { nullable: true })
+  audience: Audience;
 }

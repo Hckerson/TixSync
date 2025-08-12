@@ -23,20 +23,18 @@ export class Event {
   @Field((type) => ID)
   organizerId: string;
 
-  @Field((type) => Organizer)
+  @Field((type) => Organizer, {nullable: true})
   organizer: Organizer;
 
   @Field((type) => GraphQLISODateTime)
   startTime: Date;
 
-  @Field((type) => [TicketType])
+  @Field((type) => [TicketType], {nullable: true})
   ticketType: TicketType[];
 
-  @Field((type) => [Ticket])
+  @Field((type) => [Ticket], {nullable: true})
   ticket: Ticket[];
 
-  @Field((type) => [Payment])
-  payment: Payment[];
 
   @Field((type) => Date)
   endTime: Date;
@@ -44,6 +42,6 @@ export class Event {
   @Field((type) => ID)
   venueId: string;
 
-  @Field((type) => Venue)
+  @Field((type) => Venue, {nullable: true})
   venue: Venue;
 }

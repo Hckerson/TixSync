@@ -32,6 +32,7 @@ export class TickettypeService {
     try {
       const allTicketType = await this.prisma.ticketType.findMany();
       if (!allTicketType) return [];
+      console.log(allTicketType)
       return allTicketType;
     } catch (error) {
       console.error(`Error fetching all ticketType: ${error}`);
@@ -58,20 +59,21 @@ export class TickettypeService {
   }
 
   
-  async findOneByEventId(eventId: string) {
+  async findManyByEventId(eventId: string) {
     /**
      * Finds a single ticketType
      * @param eventId -Id of the ticketType
      * @returns JSON object containing found ticketType
      */
     try {
-      const ticketType = await this.prisma.ticketType.findFirst({
+      const ticketType = await this.prisma.ticketType.findMany({
         where: {
           event: {
               id : eventId
           },
         },
       });
+
       if (!ticketType) return [];
       return ticketType;
     } catch (error) {

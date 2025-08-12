@@ -56,16 +56,16 @@ export class EventResolver {
     return this.organizerService.findOneByEventId(id);
   }
 
-  @ResolveField('ticketType', () => TicketType)
+  @ResolveField('ticketType', () => [TicketType])
   async getTicketType(@Parent() event: Event) {
     const { id } = event;
-    return this.ticketTypeService.findOneByEventId(id);
+    return this.ticketTypeService.findManyByEventId(id);
   }
 
-  @ResolveField('ticket', () => Ticket)
+  @ResolveField('ticket', () => [Ticket])
   async getTicket(@Parent() event: Event) {
     const { id } = event;
-    return this.ticketService.findOneByEventId(id);
+    return this.ticketService.findManyByEventId(id);
   }
 
   // @ResolveField('payment', () => Payment)

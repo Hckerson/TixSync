@@ -3,7 +3,7 @@ import { InputType, Int, Field, ID } from '@nestjs/graphql';
 
 @InputType()
 export class CreateAudienceInput {
-  @Field(() => ID)
+  @Field(() => ID, {nullable: true})
   userId: string;
 
   @Field()

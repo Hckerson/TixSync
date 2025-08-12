@@ -27,7 +27,7 @@ export class AdminService {
           userId: id
         },
       });
-      if (!newAdmin) return [];
+      if (!newAdmin) return null;
       return newAdmin ;
     } catch (error) {
       console.error(`Error creating admin: ${error}`);
@@ -63,7 +63,7 @@ export class AdminService {
           id,
         },
       });
-      if (!admin) return [];
+      if (!admin) return null;
       return admin;
     } catch (error) {
       console.error(`Error fetching admin with id ${id}: ${error}`);
@@ -84,7 +84,7 @@ export class AdminService {
           },
         },
       });
-      if (!user) return { message: 'fetch failed', data: null };
+      if (!user) return null;
       return user;
     } catch (error) {
       console.log(`Error fetching admin with user Id  ${userId}: ${error}`);
@@ -108,8 +108,8 @@ export class AdminService {
           role: role,
         },
       });
-      if (!updatedData) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!updatedData) return null;
+      return updatedData;
     } catch (error) {
       console.error(`Error updating admin with id ${id}: ${error}`);
     }
@@ -126,8 +126,8 @@ export class AdminService {
           id,
         },
       });
-      if (!deletedAdmin) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!deletedAdmin) return null;
+      return deletedAdmin;
     } catch (error) {
       console.error(`Error deleting admin`);
     }

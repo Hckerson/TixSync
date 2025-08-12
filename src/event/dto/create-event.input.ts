@@ -21,20 +21,18 @@ export class CreateEventInput {
   @Field()
   organizerId: string;
 
-  @Field(()=> CreateOrganizerInput)
+  @Field(()=> CreateOrganizerInput, {nullable: true})
   organizer: CreateOrganizerInput
 
   @Field(() => GraphQLISODateTime)
   startTime: Date;
 
-  @Field(() => [CreateTickettypeInput])
+  @Field(() => [CreateTickettypeInput], {nullable: true})
   ticketType: CreateTickettypeInput[];
 
-  @Field(() => [CreateTicketInput])
+  @Field(() => [CreateTicketInput], {nullable: true})
   ticket: CreateTicketInput[];
 
-  @Field(() => [CreatePaymentInput])
-  payment: CreatePaymentInput[];
 
   @Field(() => GraphQLISODateTime)
   endTime: Date;

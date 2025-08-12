@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateOrganizerInput } from './dto/create-organizer.input';
@@ -8,16 +8,24 @@ import { Role } from 'src/enums/role.enum';
 @Injectable()
 export class OrganizerService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createOrganizerInput: CreateOrganizerInput) {
+  async create(createOrganizerInput: CreateOrganizerInput) {
     /**
      * Creates a new organizer
      * @param createOrganizerInput -Data to be entered
      * @returns -JSON object containing success/failure status
      */
     try {
-      const {venue, event, ...rest} = createOrganizerInput
+      const { email, password, venue, event, ...rest } = createOrganizerInput;
+      const response = await axios.post('http://localhost:3000/auth/signup', {
+        email,
+        password,
+      });
+      const { id } = response.data;
       const newOrganizer = this.prisma.organizer.create({
-        data: rest,
+        data: {
+          ...rest,
+          userId: id,
+        },
       });
       if (!newOrganizer) return [];
       return newOrganizer;
@@ -139,7 +147,7 @@ export class OrganizerService {
      * @param updateOrganizerInput -New data to be entered
      */
     try {
-      const { id: orgId, userId,event, venue, ...rest } = updateOrganizerInput;
+      const { id: orgId, userId, event, venue, ...rest } = updateOrganizerInput;
       const updatedData = await this.prisma.organizer.update({
         where: {
           id,

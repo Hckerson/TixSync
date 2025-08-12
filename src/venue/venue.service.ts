@@ -79,7 +79,7 @@ export class VenueService {
           },
         },
       });
-      if (!user) return [];
+      if (!user) return null;
       return user;
     } catch (error) {
       console.log(`Error fetching venue with event Id  ${eventId}: ${error}`);

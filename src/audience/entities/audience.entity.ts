@@ -14,10 +14,10 @@ export class Audience {
   @Field({ nullable: true })
   fullname: string;
 
-  @Field((type) => Role, { nullable: true })
+  @Field((type) => Role, { nullable: true })                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
   role: Role;
 
-  @Field((type) => User, { nullable: true })
+  @Field((type) => User, { nullable: true })                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
   user: User;
 
   @Field({ nullable: true })

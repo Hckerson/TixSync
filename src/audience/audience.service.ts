@@ -28,8 +28,8 @@ export class AudienceService {
           userId: id,
         },
       });
-      if (!newAudience) return { message: 'create failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!newAudience) return null;
+      return newAudience;
     } catch (error) {
       console.error(`Error creating audience: ${error}`);
     }
@@ -64,7 +64,7 @@ export class AudienceService {
           id,
         },
       });
-      if (!audience) return [];
+      if (!audience) return null;
       return audience;
     } catch (error) {
       console.error(`Error fetching audience with id ${id}: ${error}`);
@@ -85,7 +85,7 @@ export class AudienceService {
           },
         },
       });
-      if (!user) return { message: 'fetch failed', data: null };
+      if (!user) return null;
       return user;
     } catch (error) {
       console.log(`Error fetching audience with user Id  ${userId}: ${error}`);
@@ -108,7 +108,7 @@ export class AudienceService {
           },
         },
       });
-      if (!audience) return [];
+      if (!audience) return null;
       return audience;
     } catch (error) {
       console.log(
@@ -134,8 +134,8 @@ export class AudienceService {
           role: role,
         },
       });
-      if (!updatedData) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!updatedData) return null ;
+      return updatedData;
     } catch (error) {
       console.error(`Error updating audience with id ${id}: ${error}`);
     }
@@ -152,8 +152,8 @@ export class AudienceService {
           id,
         },
       });
-      if (!deletedAudience) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!deletedAudience) return null;
+      return deletedAudience;
     } catch (error) {
       console.error(`Error deleting audience`);
     }

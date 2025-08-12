@@ -6,18 +6,19 @@ import { UpdateEventInput } from './dto/update-event.input';
 @Injectable()
 export class EventService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createEventInput: CreateEventInput) {
+  async create(createEventInput: CreateEventInput) {
     /**
      * Creates a new event
      * @param createeventInput -Data to be entered
      * @returns -JSON object containing success/failure status
      */
     try {
-      const newEvent = this.prisma.event.createMany({
-        data: createEventInput,
+      const {organizer, ticketType, ticket, ...rest} = createEventInput
+      const newEvent = await this.prisma.event.create({
+        data: rest,
       });
-      if (!newEvent) return { message: 'create failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!newEvent) return null;
+      return newEvent;
     } catch (error) {
       console.error(`Error creating event: ${error}`);
     }
@@ -30,10 +31,9 @@ export class EventService {
      */
     try {
       const allEvent = await this.prisma.event.findMany();
+
       if (!allEvent) return [];
-      return allEvent.map((event) => ({
-        ...event,
-      }));
+      return allEvent;
     } catch (error) {
       console.error(`Error fetching all event: ${error}`);
     }
@@ -51,7 +51,7 @@ export class EventService {
           id,
         },
       });
-      if (!event) return [];
+      if (!event) return null;
       return event;
     } catch (error) {
       console.error(`Error fetching event with id ${id}: ${error}`);
@@ -74,7 +74,7 @@ export class EventService {
         },
       });
 
-      if (!event) return [];
+      if (!event) return null;
       return event;
     } catch (error) {
       console.error(`Error fetching event with id ${ticketId}: ${error}`);
@@ -91,15 +91,13 @@ export class EventService {
     try {
       const allVenues = await this.prisma.event.findMany({
         where: {
-          venueId
+          venueId,
         },
       });
       if (!allVenues) return [];
       return allVenues;
     } catch (error) {
-      console.error(
-        `Error finding venues with venue id ${venueId}: ${error}`,
-      );
+      console.error(`Error finding venues with venue id ${venueId}: ${error}`);
     }
   }
 
@@ -112,17 +110,19 @@ export class EventService {
     try {
       const user = await this.prisma.event.findFirst({
         where: {
-          ticketType:{
-            some:{
-              id: typeId
-            }
-          }
+          ticketType: {
+            some: {
+              id: typeId,
+            },
+          },
         },
       });
-      if (!user) return { message: 'fetch failed', data: null };
+      if (!user) return null;
       return user;
     } catch (error) {
-      console.log(`Error fetching event  with ticktType  Id  ${typeId}: ${error}`);
+      console.log(
+        `Error fetching event  with ticktType  Id  ${typeId}: ${error}`,
+      );
     }
   }
 
@@ -185,7 +185,6 @@ export class EventService {
         organizer,
         ticketType,
         ticket,
-        payment,
         venueId,
         ...rest
       } = updateEventInput;
@@ -197,8 +196,8 @@ export class EventService {
           ...rest,
         },
       });
-      if (!updatedData) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!updatedData) return null;
+      return updatedData;
     } catch (error) {
       console.error(`Error updating event with id ${id}: ${error}`);
     }
@@ -215,8 +214,8 @@ export class EventService {
           id,
         },
       });
-      if (!deletedEvent) return { message: 'delete failed', status: 400 };
-      return { message: 'success', status: 200 };
+      if (!deletedEvent) return null;
+      return deletedEvent;
     } catch (error) {
       console.error(`Error deleting event`);
     }

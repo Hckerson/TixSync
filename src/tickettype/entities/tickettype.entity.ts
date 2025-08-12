@@ -1,14 +1,14 @@
 import { Name } from 'src/enums/name.enum';
 import { Event } from 'src/event/entities/event.entity';
 import { Ticket } from 'src/ticket/entities/ticket.entity';
-import { ObjectType, Field, Int ,ID, InputType, } from '@nestjs/graphql';
+import { ObjectType, Field, Int, ID, InputType } from '@nestjs/graphql';
 
 @ObjectType()
 export class TicketType {
   @Field((type) => ID)
   id: string;
 
-  @Field((type) => Event)
+  @Field((type) => Event, { nullable: true })
   event: Event;
 
   @Field((type) => Name)
@@ -17,10 +17,9 @@ export class TicketType {
   @Field((type) => Int)
   price: number;
 
-  @Field((type) => [Ticket])
+  @Field((type) => [Ticket], { nullable: true })
   ticket: Ticket[];
 
-  @Field()
+  @Field({ nullable: true })
   eventId: string;
 }
-

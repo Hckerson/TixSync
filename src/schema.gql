@@ -31,9 +31,11 @@ input CreateAdminInput {
 }
 
 input CreateAudienceInput {
+  email: String!
   fullname: String
+  password: String!
   role: Role!
-  userId: ID!
+  userId: ID
   username: String!
 }
 
@@ -41,12 +43,11 @@ input CreateEventInput {
   category: EventCategory!
   description: String!
   endTime: DateTime!
-  organizer: CreateOrganizerInput!
+  organizer: CreateOrganizerInput
   organizerId: String!
-  payment: [CreatePaymentInput!]!
   startTime: DateTime!
-  ticket: [CreateTicketInput!]!
-  ticketType: [CreateTickettypeInput!]!
+  ticket: [CreateTicketInput!]
+  ticketType: [CreateTickettypeInput!]
   title: String!
   venueId: ID!
 }
@@ -64,8 +65,10 @@ input CreateOrderInput {
 }
 
 input CreateOrganizerInput {
+  email: String!
   event: [CreateEventInput!]
   fullname: String
+  password: String!
   role: Role!
   userId: String!
   username: String!
@@ -128,10 +131,9 @@ type Event {
   id: ID!
   organizer: Organizer!
   organizerId: ID!
-  payment: [Payment!]!
   startTime: DateTime!
-  ticket: Ticket!
-  ticketType: TicketType!
+  ticket: [Ticket!]!
+  ticketType: [TicketType!]!
   title: String!
   venue: Venue!
   venueId: ID!
@@ -286,9 +288,9 @@ enum Status {
 
 type Ticket {
   audience: Audience!
-  audienceId: String!
+  audienceId: String
   event: Event!
-  eventId: String!
+  eventId: String
   id: ID!
   isUsed: Boolean!
   qrcode: String!
@@ -298,7 +300,7 @@ type Ticket {
 
 type TicketType {
   event: Event!
-  eventId: String!
+  eventId: String
   id: ID!
   name: Name!
   price: Int!
@@ -316,8 +318,10 @@ input UpdateAdminInput {
 }
 
 input UpdateAudienceInput {
+  email: String
   fullname: String
   id: ID!
+  password: String
   role: Role
   userId: ID
   username: String
@@ -330,7 +334,6 @@ input UpdateEventInput {
   id: String!
   organizer: CreateOrganizerInput
   organizerId: String
-  payment: [CreatePaymentInput!]
   startTime: DateTime
   ticket: [CreateTicketInput!]
   ticketType: [CreateTickettypeInput!]
@@ -353,9 +356,11 @@ input UpdateOrderInput {
 }
 
 input UpdateOrganizerInput {
+  email: String
   event: [CreateEventInput!]
   fullname: String
   id: ID!
+  password: String
   role: Role
   userId: String
   username: String
