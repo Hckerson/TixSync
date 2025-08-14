@@ -20,7 +20,7 @@ export class Event {
   @Field((type) => EventCategory)
   category: EventCategory;
 
-  @Field((type) => ID)
+  @Field((type) => ID, {nullable: true})
   organizerId: string;
 
   @Field((type) => Organizer, { nullable: true })
@@ -38,7 +38,7 @@ export class Event {
   @Field((type) => Date)
   endTime: Date;
 
-  @Field((type) => ID)
+  @Field((type) => ID, {nullable: true})
   venueId: string;
 
   @Field((type) => Venue, { nullable: true })

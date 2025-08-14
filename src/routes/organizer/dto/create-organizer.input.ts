@@ -26,6 +26,6 @@ export class CreateOrganizerInput {
   @Field((type) => Role)
   role: Role;
 
-  @Field()
+  @Field({nullable: true})
   userId: string;
 }

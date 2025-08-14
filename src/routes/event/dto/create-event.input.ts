@@ -18,7 +18,7 @@ export class CreateEventInput {
   @Field(() => EventCategory)
   category: EventCategory;
 
-  @Field()
+  @Field({nullable: true})
   organizerId: string;
 
   @Field(() => CreateOrganizerInput, { nullable: true })
@@ -36,6 +36,6 @@ export class CreateEventInput {
   @Field(() => GraphQLISODateTime)
   endTime: Date;
 
-  @Field(() => ID)
+  @Field(() => ID, {nullable: true})
   venueId: string;
 }

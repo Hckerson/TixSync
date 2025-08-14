@@ -28,10 +28,10 @@ export class Venue {
   @Field()
   country: string;
 
-  @Field((type) => [Organizer])
+  @Field((type) => [Organizer], {nullable: true})
   organizer: Organizer[];
 
-  @Field((type) => [Event])
+  @Field((type) => [Event], {nullable: true})
   event: Event[];
 
   @Field((type) => Int)

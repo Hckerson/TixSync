@@ -44,12 +44,12 @@ input CreateEventInput {
   description: String!
   endTime: DateTime!
   organizer: CreateOrganizerInput
-  organizerId: String!
+  organizerId: String
   startTime: DateTime!
   ticket: [CreateTicketInput!]
   ticketType: [CreateTickettypeInput!]
   title: String!
-  venueId: ID!
+  venueId: ID
 }
 
 input CreateGoedatumInput {

@@ -14,6 +14,6 @@ export class CreateTickettypeInput {
   @Field((type) => [CreateTicketInput], { nullable: true })
   ticket: CreateTicketInput[];
 
-  @Field()
+  @Field({nullable: true})
   eventId: string;
 }
