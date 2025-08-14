@@ -3,7 +3,7 @@ import { createHash } from 'crypto';
 import * as geoip from 'geoip-lite';
 import { Lookup } from 'geoip-lite';
 import { Injectable } from '@nestjs/common';
-import { LoginDto } from 'src/auth/dto/login-dto';
+import { LoginDto } from 'src/routes/auth/dto/login-dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class RiskAssesmentService {
@@ -101,7 +101,7 @@ export class RiskAssesmentService {
       if (!user) return;
 
       const { lastKnownDevice, lastLoginIp } = user;
-  
+
       if (lastKnownDevice !== hash) this.threatLevel += 15;
       if (lastLoginIp !== ipAddress) this.threatLevel += 15;
       console.log(`Ending fingerprint accessment for ${email}`);
@@ -119,11 +119,8 @@ export class RiskAssesmentService {
       } catch (error) {
         console.error(`Error updating login deets: ${error}`);
       }
-
     } catch (error) {
       console.error(`Error fetching user login deets: ${error}`);
     }
-
-
   }
 }

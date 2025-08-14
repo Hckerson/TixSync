@@ -3,24 +3,24 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AppController } from './app.controller';
-import { AdminModule } from './admin/admin.module';
-import { EventModule } from './event/event.module';
-import { OrderModule } from './order/order.module';
-import { VenueModule } from './venue/venue.module';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { TicketModule } from './ticket/ticket.module';
+import { UserModule } from './routes/user/user.module';
+import { AuthModule } from './routes/auth/auth.module';
 import { SessionModule } from './session/session.module';
 import { GoedataModule } from './goedata/goedata.module';
-import { PaymentModule } from './payment/payment.module';
-import { AudienceModule } from './audience/audience.module';
-import { OrganizerModule } from './organizer/organizer.module';
-import { GqlThrottlerGuard } from './auth/throttler/gql-throttle';
-import { TickettypeModule } from './tickettype/tickettype.module';
+import { OrderModule } from './routes/order/order.module';
+import { VenueModule } from './routes/venue/venue.module';
+import { AdminModule } from './routes/admin/admin.module';
+import { EventModule } from './routes/event/event.module';
+import { TicketModule } from './routes/ticket/ticket.module';
+import { PaymentModule } from './routes/payment/payment.module';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { AudienceModule } from './routes/audience/audience.module';
+import { OrganizerModule } from './routes/organizer/organizer.module';
+import { GqlThrottlerGuard } from './routes/auth/throttler/gql-throttle';
+import { TickettypeModule } from './routes/tickettype/tickettype.module';
 
 @Module({
   imports: [

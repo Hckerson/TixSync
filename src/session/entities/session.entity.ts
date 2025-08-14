@@ -1,5 +1,5 @@
-import { User } from 'src/user/entities/user.entity';
-import { ObjectType, Field , ID, GraphQLISODateTime} from '@nestjs/graphql';
+import { User } from 'src/routes/user/entities/user.entity';
+import { ObjectType, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
 
 @ObjectType()
 export class Session {
