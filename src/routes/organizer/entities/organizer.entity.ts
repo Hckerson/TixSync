@@ -1,7 +1,7 @@
 import { Role } from 'src/enums/role.enum';
 import { User } from 'src/routes/user/entities/user.entity';
-import { Event } from 'src/event/entities/event.entity';
-import { Venue } from 'src/venue/entities/venue.entity';
+import { Event } from 'src/routes/event/entities/event.entity';
+import { Venue } from 'src/routes/venue/entities/venue.entity';
 import { Field, ObjectType, Int, ID } from '@nestjs/graphql';
 
 @ObjectType()

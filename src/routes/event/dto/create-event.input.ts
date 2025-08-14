@@ -1,11 +1,11 @@
-import { Venue } from 'src/venue/entities/venue.entity';
+import { Venue } from 'src/routes/venue/entities/venue.entity';
 import { EventCategory } from 'src/enums/eventCategory.enum';
-import { Payment } from 'src/payment/entities/payment.entity';
+import { Payment } from 'src/routes/payment/entities/payment.entity';
 import { CreateOrganizerInput } from 'src/routes/organizer/dto/create-organizer.input';
-import { CreateTicketInput } from 'src/ticket/dto/create-ticket.input';
-import { CreatePaymentInput } from 'src/payment/dto/create-payment.input';
+import { CreateTicketInput } from 'src/routes/ticket/dto/create-ticket.input';
+import { CreatePaymentInput } from 'src/routes/payment/dto/create-payment.input';
 import { InputType, Int, Field, ID, GraphQLISODateTime } from '@nestjs/graphql';
-import { CreateTickettypeInput } from 'src/tickettype/dto/create-tickettype.input';
+import { CreateTickettypeInput } from 'src/routes/tickettype/dto/create-tickettype.input';
 
 @InputType()
 export class CreateEventInput {

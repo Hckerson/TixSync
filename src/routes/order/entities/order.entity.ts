@@ -1,6 +1,6 @@
-import { ObjectType, Field, Int , ID} from '@nestjs/graphql';
+import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
 import { OrderCategory } from 'src/enums/orderCategory.enum';
-import { Payment } from 'src/payment/entities/payment.entity';
+import { Payment } from 'src/routes/payment/entities/payment.entity';
 
 @ObjectType()
 export class Order {
@@ -13,9 +13,9 @@ export class Order {
   @Field((type) => Int)
   total: number;
 
-  @Field(type => [String])
+  @Field((type) => [String])
   itemId: string[];
 
-  @Field((type) => Payment, {nullable: true})
+  @Field((type) => Payment, { nullable: true })
   payment: Payment;
 }

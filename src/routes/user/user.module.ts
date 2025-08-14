@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserResolver } from './user.resolver';
-import { AdminService } from 'src/admin/admin.service';
+import { AdminService } from 'src/routes/admin/admin.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { AudienceService } from 'src/audience/audience.service';
+import { AudienceService } from 'src/routes/audience/audience.service';
 import { OrganizerService } from 'src/routes/organizer/organizer.service';
 
 @Module({

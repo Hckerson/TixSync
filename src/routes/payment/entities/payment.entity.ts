@@ -1,6 +1,6 @@
 import { Status } from 'src/enums/status.enum';
 import { Order } from 'src/routes/order/entities/order.entity';
-import { Event } from 'src/event/entities/event.entity';
+import { Event } from 'src/routes/event/entities/event.entity';
 import {
   ObjectType,
   Field,

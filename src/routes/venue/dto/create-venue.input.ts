@@ -1,5 +1,5 @@
 import { InputType, Int, Field, ID } from '@nestjs/graphql';
-import { CreateEventInput } from 'src/event/dto/create-event.input';
+import { CreateEventInput } from 'src/routes/event/dto/create-event.input';
 import { CreateOrganizerInput } from 'src/routes/organizer/dto/create-organizer.input';
 
 @InputType()

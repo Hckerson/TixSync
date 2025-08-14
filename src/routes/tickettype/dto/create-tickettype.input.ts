@@ -1,7 +1,7 @@
 import { Name } from 'src/enums/name.enum';
-import { CreateEventInput } from 'src/event/dto/create-event.input';
-import { CreateTicketInput } from 'src/ticket/dto/create-ticket.input';
-import { Field, Int ,ID, InputType, } from '@nestjs/graphql';
+import { CreateEventInput } from 'src/routes/event/dto/create-event.input';
+import { CreateTicketInput } from 'src/routes/ticket/dto/create-ticket.input';
+import { Field, Int, ID, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class CreateTickettypeInput {
@@ -11,7 +11,7 @@ export class CreateTickettypeInput {
   @Field((type) => Int)
   price: number;
 
-  @Field((type) => [CreateTicketInput],{nullable: true})
+  @Field((type) => [CreateTicketInput], { nullable: true })
   ticket: CreateTicketInput[];
 
   @Field()

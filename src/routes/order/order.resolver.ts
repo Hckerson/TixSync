@@ -1,9 +1,9 @@
 import { OrderService } from './order.service';
 import { Order } from './entities/order.entity';
-import { PaymentService } from 'src/payment/payment.service';
+import { PaymentService } from 'src/routes/payment/payment.service';
 import { CreateOrderInput } from './dto/create-order.input';
 import { UpdateOrderInput } from './dto/update-order.input';
-import { Payment } from 'src/payment/entities/payment.entity';
+import { Payment } from 'src/routes/payment/entities/payment.entity';
 import {
   Resolver,
   Query,
@@ -52,7 +52,7 @@ export class OrderResolver {
 
   @ResolveField('payment', () => Payment)
   async getPayment(@Parent() order: Order) {
-    const {id} = order
+    const { id } = order;
     return this.paymentService.findOneByOrderId(id);
   }
 }

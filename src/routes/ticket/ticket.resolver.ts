@@ -1,12 +1,12 @@
 import { TicketService } from './ticket.service';
 import { Ticket } from './entities/ticket.entity';
-import { EventService } from 'src/event/event.service';
-import { Event } from 'src/event/entities/event.entity';
+import { EventService } from 'src/routes/event/event.service';
+import { Event } from 'src/routes/event/entities/event.entity';
 import { CreateTicketInput } from './dto/create-ticket.input';
 import { UpdateTicketInput } from './dto/update-ticket.input';
-import { AudienceService } from 'src/audience/audience.service';
-import { TickettypeService } from 'src/tickettype/tickettype.service';
-import { TicketType } from 'src/tickettype/entities/tickettype.entity';
+import { AudienceService } from 'src/routes/audience/audience.service';
+import { TickettypeService } from 'src/routes/tickettype/tickettype.service';
+import { TicketType } from 'src/routes/tickettype/entities/tickettype.entity';
 import {
   Resolver,
   Query,
@@ -15,7 +15,7 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-import { Audience } from 'src/audience/entities/audience.entity';
+import { Audience } from 'src/routes/audience/entities/audience.entity';
 
 @Resolver(() => Ticket)
 export class TicketResolver {
@@ -65,9 +65,9 @@ export class TicketResolver {
   async getTicketType(@Parent() ticket: Ticket) {
     const { id } = ticket;
     return this.ticketTypeService.findOneByTicketId(id);
-  } 
+  }
 
-  @ResolveField('audience', ()=> Audience)
+  @ResolveField('audience', () => Audience)
   async getAudience(@Parent() ticket: Ticket) {
     const { id } = ticket;
     return this.audienceService.findOneByTicketId(id);

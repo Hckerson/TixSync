@@ -1,6 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { CreateAdminInput } from 'src/admin/dto/create-admin.input';
-import { CreateAudienceInput } from 'src/audience/dto/create-audience.input';
+import { CreateAdminInput } from 'src/routes/admin/dto/create-admin.input';
+import { CreateAudienceInput } from 'src/routes/audience/dto/create-audience.input';
 import { CreateOrganizerInput } from 'src/routes/organizer/dto/create-organizer.input';
 
 @InputType()

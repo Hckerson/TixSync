@@ -1,10 +1,10 @@
 import { UserService } from 'src/routes/user/user.service';
 import { User } from 'src/routes/user/entities/user.entity';
-import { EventService } from 'src/event/event.service';
-import { VenueService } from 'src/venue/venue.service';
+import { EventService } from 'src/routes/event/event.service';
+import { VenueService } from 'src/routes/venue/venue.service';
 import { OrganizerService } from './organizer.service';
-import { Venue } from 'src/venue/entities/venue.entity';
-import { Event } from 'src/event/entities/event.entity';
+import { Venue } from 'src/routes/venue/entities/venue.entity';
+import { Event } from 'src/routes/event/entities/event.entity';
 import { Organizer } from './entities/organizer.entity';
 import { CreateOrganizerInput } from './dto/create-organizer.input';
 import { UpdateOrganizerInput } from './dto/update-organizer.input';

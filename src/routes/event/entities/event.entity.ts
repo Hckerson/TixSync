@@ -1,10 +1,10 @@
-import { Venue } from 'src/venue/entities/venue.entity';
-import { Ticket } from 'src/ticket/entities/ticket.entity';
+import { Venue } from 'src/routes/venue/entities/venue.entity';
+import { Ticket } from 'src/routes/ticket/entities/ticket.entity';
 import { Field, ObjectType, ID, GraphQLISODateTime } from '@nestjs/graphql';
 import { EventCategory } from 'src/enums/eventCategory.enum';
-import { Payment } from 'src/payment/entities/payment.entity';
+import { Payment } from 'src/routes/payment/entities/payment.entity';
 import { Organizer } from 'src/routes/organizer/entities/organizer.entity';
-import { TicketType } from 'src/tickettype/entities/tickettype.entity';
+import { TicketType } from 'src/routes/tickettype/entities/tickettype.entity';
 
 @ObjectType()
 export class Event {

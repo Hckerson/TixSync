@@ -1,7 +1,7 @@
 import { VenueService } from './venue.service';
 import { Venue } from './entities/venue.entity';
-import { EventService } from 'src/event/event.service';
-import { Event } from 'src/event/entities/event.entity';
+import { EventService } from 'src/routes/event/event.service';
+import { Event } from 'src/routes/event/entities/event.entity';
 import { CreateVenueInput } from './dto/create-venue.input';
 import { UpdateVenueInput } from './dto/update-venue.input';
 import { OrganizerService } from 'src/routes/organizer/organizer.service';

@@ -1,7 +1,7 @@
 import { Role } from 'src/enums/role.enum';
 import { InputType, Int, Field, ID } from '@nestjs/graphql';
-import { CreateEventInput } from 'src/event/dto/create-event.input';
-import { CreateVenueInput } from 'src/venue/dto/create-venue.input';
+import { CreateEventInput } from 'src/routes/event/dto/create-event.input';
+import { CreateVenueInput } from 'src/routes/venue/dto/create-venue.input';
 
 @InputType()
 export class CreateOrganizerInput {

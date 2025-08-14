@@ -2,8 +2,8 @@ import { UserService } from 'src/routes/user/user.service';
 import { User } from 'src/routes/user/entities/user.entity';
 import { AudienceService } from './audience.service';
 import { Audience } from './entities/audience.entity';
-import { TicketService } from 'src/ticket/ticket.service';
-import { Ticket } from 'src/ticket/entities/ticket.entity';
+import { TicketService } from 'src/routes/ticket/ticket.service';
+import { Ticket } from 'src/routes/ticket/entities/ticket.entity';
 import { CreateAudienceInput } from './dto/create-audience.input';
 import { UpdateAudienceInput } from './dto/update-audience.input';
 import {

@@ -1,6 +1,6 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
 import { OrderCategory } from 'src/enums/orderCategory.enum';
-import { CreatePaymentInput } from 'src/payment/dto/create-payment.input';
+import { CreatePaymentInput } from 'src/routes/payment/dto/create-payment.input';
 
 @InputType()
 export class CreateOrderInput {
@@ -13,6 +13,6 @@ export class CreateOrderInput {
   @Field(() => [String])
   itemId: string[];
 
-  @Field(() => CreatePaymentInput, {nullable: true})
+  @Field(() => CreatePaymentInput, { nullable: true })
   payment: CreatePaymentInput;
 }

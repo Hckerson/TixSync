@@ -1,9 +1,9 @@
 import { PaymentService } from './payment.service';
 import { Payment } from './entities/payment.entity';
 import { OrderService } from 'src/routes/order/order.service';
-import { EventService } from 'src/event/event.service';
+import { EventService } from 'src/routes/event/event.service';
 import { Order } from 'src/routes/order/entities/order.entity';
-import { Event } from 'src/event/entities/event.entity';
+import { Event } from 'src/routes/event/entities/event.entity';
 import { CreatePaymentInput } from './dto/create-payment.input';
 import { UpdatePaymentInput } from './dto/update-payment.input';
 import {

@@ -1,11 +1,11 @@
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
-import { AdminService } from 'src/admin/admin.service';
-import { Admin } from 'src/admin/entities/admin.entity';
+import { AdminService } from '../admin/admin.service';
+import { Admin } from 'src/routes/admin/entities/admin.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { AudienceService } from 'src/audience/audience.service';
-import { Audience } from 'src/audience/entities/audience.entity';
+import { AudienceService } from 'src/routes/audience/audience.service';
+import { Audience } from 'src/routes/audience/entities/audience.entity';
 import { OrganizerService } from 'src/routes/organizer/organizer.service';
 import {
   Resolver,

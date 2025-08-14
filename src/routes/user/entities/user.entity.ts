@@ -1,7 +1,7 @@
-import { Admin } from 'src/admin/entities/admin.entity';
+import { Admin } from 'src/routes/admin/entities/admin.entity';
 import { Session } from 'src/session/entities/session.entity';
 import { GeoData } from 'src/goedata/entities/goedatum.entity';
-import { Audience } from 'src/audience/entities/audience.entity';
+import { Audience } from 'src/routes/audience/entities/audience.entity';
 import { Organizer } from 'src/routes/organizer/entities/organizer.entity';
 import { Field, ObjectType, ID, GraphQLISODateTime } from '@nestjs/graphql';
 

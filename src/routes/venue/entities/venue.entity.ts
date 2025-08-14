@@ -1,4 +1,4 @@
-import { Event } from 'src/event/entities/event.entity';
+import { Event } from 'src/routes/event/entities/event.entity';
 import { Organizer } from 'src/routes/organizer/entities/organizer.entity';
 import {
   Field,

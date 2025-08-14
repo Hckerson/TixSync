@@ -1,17 +1,17 @@
 import { EventService } from './event.service';
 import { Event } from './entities/event.entity';
-import { VenueService } from 'src/venue/venue.service';
-import { Venue } from 'src/venue/entities/venue.entity';
-import { TicketService } from 'src/ticket/ticket.service';
-import { Ticket } from 'src/ticket/entities/ticket.entity';
+import { VenueService } from 'src/routes/venue/venue.service';
+import { Venue } from 'src/routes/venue/entities/venue.entity';
+import { TicketService } from 'src/routes/ticket/ticket.service';
+import { Ticket } from 'src/routes/ticket/entities/ticket.entity';
 import { CreateEventInput } from './dto/create-event.input';
 import { UpdateEventInput } from './dto/update-event.input';
-import { PaymentService } from 'src/payment/payment.service';
-import { Payment } from 'src/payment/entities/payment.entity';
+import { PaymentService } from 'src/routes/payment/payment.service';
+import { Payment } from 'src/routes/payment/entities/payment.entity';
 import { OrganizerService } from 'src/routes/organizer/organizer.service';
-import { TickettypeService } from 'src/tickettype/tickettype.service';
+import { TickettypeService } from 'src/routes/tickettype/tickettype.service';
 import { Organizer } from 'src/routes/organizer/entities/organizer.entity';
-import { TicketType } from 'src/tickettype/entities/tickettype.entity';
+import { TicketType } from 'src/routes/tickettype/entities/tickettype.entity';
 import {
   Resolver,
   Query,
