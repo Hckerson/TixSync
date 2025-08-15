@@ -28,7 +28,7 @@ export class RiskAssesmentService {
         where: {
           email: email,
         },
-        select: {
+        include: {
           geoData: true,
         },
       });

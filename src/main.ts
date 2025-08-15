@@ -9,10 +9,17 @@ declare const module: any;
 async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
+  const isProd = process.env.NODE_ENV === 'production'
+  app.enableCors({
+    origin: process.env.FRONTEND_ORIGIN || 'http://localhost:3000',
+    credentials: true,
+    secure: isProd
+    
+  })
   app.use(cookieParser(process.env.COOKIE_SECRET))
     const config = new DocumentBuilder()
     .setTitle('TixSync API')
-    .setDescription('The authentication endpoints')
+    .setDescription('The authentication endpoints')                                                               
     .setVersion('1.0')
     .addCookieAuth('sessionId') // optional
     .build();

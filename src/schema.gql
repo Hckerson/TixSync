@@ -44,12 +44,12 @@ input CreateEventInput {
   description: String!
   endTime: DateTime!
   organizer: CreateOrganizerInput
-  organizerId: String
+  organizerId: String!
   startTime: DateTime!
   ticket: [CreateTicketInput!]
   ticketType: [CreateTickettypeInput!]
   title: String!
-  venueId: ID
+  venueId: ID!
 }
 
 input CreateGoedatumInput {
@@ -70,7 +70,7 @@ input CreateOrganizerInput {
   fullname: String
   password: String!
   role: Role!
-  userId: String!
+  userId: String
   username: String!
   venue: [CreateVenueInput!]
 }
@@ -94,7 +94,7 @@ input CreateTicketInput {
 }
 
 input CreateTickettypeInput {
-  eventId: String!
+  eventId: String
   name: Name!
   price: Int!
   ticket: [CreateTicketInput!]
@@ -130,13 +130,13 @@ type Event {
   endTime: DateTime!
   id: ID!
   organizer: Organizer!
-  organizerId: ID!
+  organizerId: ID
   startTime: DateTime!
   ticket: [Ticket!]!
   ticketType: [TicketType!]!
   title: String!
   venue: Venue!
-  venueId: ID!
+  venueId: ID
 }
 
 """All categoryies of the event"""
@@ -144,6 +144,14 @@ enum EventCategory {
   MUSIC
   SPORT
   TECH
+}
+
+input EventFilter {
+  category: EventCategory
+  endTime: DateTime
+  location: String
+  startTime: DateTime
+  title: String
 }
 
 type GeoData {
@@ -244,6 +252,7 @@ type Query {
   audiences: [Audience!]!
   event(id: String!): Event!
   events: [Event!]!
+  filterEvent(filterEventInput: EventFilter!): [Event!]
   goedata: [GeoData!]!
   goedatum(id: Int!): GeoData!
   order(id: String!): Order!

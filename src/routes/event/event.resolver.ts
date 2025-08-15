@@ -1,11 +1,15 @@
+import { UseGuards } from '@nestjs/common';
 import { EventService } from './event.service';
 import { Event } from './entities/event.entity';
+import { EventFilter } from './dto/event-filter.input';
+import { UpdateEventInput } from './dto/update-event.input';
+import { CreateEventInput } from './dto/create-event.input';
 import { VenueService } from 'src/routes/venue/venue.service';
 import { Venue } from 'src/routes/venue/entities/venue.entity';
+import { FilteredEvent } from './entities/filtered-event.entity';
 import { TicketService } from 'src/routes/ticket/ticket.service';
+import { OrganizerGuard } from 'src/guards/roles/organizer.guard';
 import { Ticket } from 'src/routes/ticket/entities/ticket.entity';
-import { CreateEventInput } from './dto/create-event.input';
-import { UpdateEventInput } from './dto/update-event.input';
 import { PaymentService } from 'src/routes/payment/payment.service';
 import { Payment } from 'src/routes/payment/entities/payment.entity';
 import { OrganizerService } from 'src/routes/organizer/organizer.service';
@@ -17,10 +21,11 @@ import {
   Query,
   Mutation,
   Args,
-  Int,
   ResolveField,
   Parent,
+  Context,
 } from '@nestjs/graphql';
+import { Response, Request } from 'express';
 
 @Resolver(() => Event)
 export class EventResolver {
@@ -28,14 +33,18 @@ export class EventResolver {
     private readonly eventService: EventService,
     private readonly venueService: VenueService,
     private readonly ticketService: TicketService,
-    private readonly paymentService: PaymentService,
     private readonly organizerService: OrganizerService,
     private readonly ticketTypeService: TickettypeService,
   ) {}
 
   @Mutation(() => Event)
-  createEvent(@Args('createEventInput') createEventInput: CreateEventInput) {
-    return this.eventService.create(createEventInput);
+  @UseGuards(OrganizerGuard)
+  createEvent(
+    @Args('createEventInput') createEventInput: CreateEventInput,
+    @Context() ctx: { req: Request; res: Response },
+  ) {
+    const { req, res } = ctx;
+    return this.eventService.create(createEventInput, req);
   }
 
   @Query(() => [Event], { name: 'events' })
@@ -48,11 +57,18 @@ export class EventResolver {
     return this.eventService.findOne(id);
   }
 
+  @Query(() => [Event], { name: 'filterEvent', nullable: true })
+  filterEvent(@Args('filterEventInput') filterEventInput: EventFilter) {
+    return this.eventService.filterEvent(filterEventInput);
+  }
+
+  @UseGuards(OrganizerGuard)
   @Mutation(() => Event)
   updateEvent(@Args('updateEventInput') updateEventInput: UpdateEventInput) {
     return this.eventService.update(updateEventInput.id, updateEventInput);
   }
 
+  @UseGuards(OrganizerGuard)
   @Mutation(() => Event)
   removeEvent(@Args('id') id: string) {
     return this.eventService.remove(id);

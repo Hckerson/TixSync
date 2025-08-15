@@ -1,7 +1,9 @@
-import { UserService } from 'src/routes/user/user.service';
-import { User } from 'src/routes/user/entities/user.entity';
+import { UseGuards } from '@nestjs/common';
 import { AudienceService } from './audience.service';
 import { Audience } from './entities/audience.entity';
+import { AdminGuard } from 'src/guards/roles/admin.guard';
+import { UserService } from 'src/routes/user/user.service';
+import { User } from 'src/routes/user/entities/user.entity';
 import { TicketService } from 'src/routes/ticket/ticket.service';
 import { Ticket } from 'src/routes/ticket/entities/ticket.entity';
 import { CreateAudienceInput } from './dto/create-audience.input';
@@ -31,6 +33,7 @@ export class AudienceResolver {
     return this.audienceService.create(createAudienceInput);
   }
 
+  @UseGuards(AdminGuard)
   @Query(() => [Audience], { name: 'audiences' })
   findAll() {
     return this.audienceService.findAll();
@@ -51,6 +54,7 @@ export class AudienceResolver {
     );
   }
 
+  @UseGuards(AdminGuard)
   @Mutation(() => Audience)
   removeAudience(@Args('id') id: string) {
     return this.audienceService.remove(id);

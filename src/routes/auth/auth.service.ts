@@ -77,6 +77,7 @@ export class AuthService {
     response: Response,
     threatLevel: number,
   ): Promise<{ message: string; status: number }> {
+    console.log(`Started login process`);
     if (!loginDto.password)
       return { message: `Incomplete credentials`, status: 400 };
     const { email = '', password, rememberMe, twoFactorCode } = loginDto;

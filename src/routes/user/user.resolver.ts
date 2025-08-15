@@ -1,12 +1,15 @@
+import { UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { AdminService } from '../admin/admin.service';
-import { Admin } from 'src/routes/admin/entities/admin.entity';
 import { CreateUserInput } from './dto/create-user.input';
+import { AdminGuard } from 'src/guards/roles/admin.guard';
 import { UpdateUserInput } from './dto/update-user.input';
+import { Admin } from 'src/routes/admin/entities/admin.entity';
 import { AudienceService } from 'src/routes/audience/audience.service';
 import { Audience } from 'src/routes/audience/entities/audience.entity';
 import { OrganizerService } from 'src/routes/organizer/organizer.service';
+import { Organizer } from 'src/routes/organizer/entities/organizer.entity';
 import {
   Resolver,
   Query,
@@ -15,7 +18,6 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-import { Organizer } from 'src/routes/organizer/entities/organizer.entity';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -30,7 +32,7 @@ export class UserResolver {
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     return this.userService.create(createUserInput);
   }
-
+  @UseGuards(AdminGuard)
   @Query(() => [User], { name: 'users' })
   findAll() {
     return this.userService.findAll();
@@ -46,13 +48,14 @@ export class UserResolver {
     return this.userService.update(updateUserInput.id, updateUserInput);
   }
 
+  @UseGuards(AdminGuard)
   @Mutation(() => User)
   removeUser(@Args('id') id: string) {
     return this.userService.remove(id);
   }
 
   @ResolveField('organizer', () => Organizer)
-  async getOrganizer(@Parent() user: User) {
+  async getOrganizer(@Parent() user: User) {  
     const { id } = user;
     return this.organizerService.findOneByUserId(id);
   }

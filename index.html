@@ -1,15 +1,222 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <img
-      src="data:image/png;base64,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"
-      alt=""
-      srcset=""
-    />
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Creation Test - Corrected</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .cookie-info {
+            background-color: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Event Creation Test - Corrected</h1>
+        
+        <div class="cookie-info">
+            <h3>Cookie Information</h3>
+            <p><strong>Current sessionToken:</strong> <span id="cookieValue">Loading...</span></p>
+            <p><strong>Cookie exists:</strong> <span id="cookieExists">Checking...</span></p>
+        </div>
+
+        <form id="eventForm">
+            <div class="form-group">
+                <label for="eventTitle">Event Title:</label>
+                <input type="text" id="eventTitle" value="Test Event" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="eventDescription">Description:</label>
+                <textarea id="eventDescription" rows="3" required>This is a test event for testing the API</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="eventCategory">Event Category:</label>
+                <select id="eventCategory" required>
+                    <option value="MUSIC">Music</option>
+                    <option value="TECH">Tech</option>
+                    <option value="SPORT">Sport</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="startTime">Start Time:</label>
+                <input type="datetime-local" id="startTime" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="endTime">End Time:</label>
+                <input type="datetime-local" id="endTime" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="venueId">Venue ID (optional):</label>
+                <input type="text" id="venueId" placeholder="Leave empty if no venue">
+            </div>
+            
+            <button type="submit">Create Event</button>
+        </form>
+        
+        <div id="result" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Set default times
+        const now = new Date();
+        const startTime = new Date(now.getTime() + 24 * 60 * 60 * 1000); // Tomorrow
+        const endTime = new Date(startTime.getTime() + 2 * 60 * 60 * 1000); // 2 hours later
+        
+        document.getElementById('startTime').value = startTime.toISOString().slice(0, 16);
+        document.getElementById('endTime').value = endTime.toISOString().slice(0, 16);
+
+        // Check cookies on page load
+        function checkCookies() {
+            const cookies = document.cookie.split(';');
+            const sessionToken = cookies.find(cookie => 
+                cookie.trim().startsWith('sessionToken=')
+            );
+            
+            if (sessionToken) {
+                const token = sessionToken.split('=')[1];
+                document.getElementById('cookieValue').textContent = token.substring(0, 50) + '...';
+                document.getElementById('cookieExists').textContent = 'Yes';
+                document.getElementById('cookieExists').style.color = 'green';
+            } else {
+                document.getElementById('cookieValue').textContent = 'No cookie found';
+                document.getElementById('cookieExists').textContent = 'No';
+                document.getElementById('cookieExists').style.color = 'red';
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('eventForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.textContent = 'Creating event...';
+            
+            const venueId = document.getElementById('venueId').value.trim();
+            
+            const eventData = {
+                title: document.getElementById('eventTitle').value,
+                description: document.getElementById('eventDescription').value,
+                category: document.getElementById('eventCategory').value,
+                startTime: new Date(document.getElementById('startTime').value).toISOString(),
+                endTime: new Date(document.getElementById('endTime').value).toISOString(),
+                ...(venueId && { venueId: venueId }) // Only include if not empty
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/graphql', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include', // This is crucial for cookies!
+                    body: JSON.stringify({
+                        query: `
+                            mutation CreateEvent($createEventInput: CreateEventInput!) {
+                                createEvent(createEventInput: $createEventInput) {
+                                    id
+                                    title
+                                    description
+                                    category
+                                    startTime
+                                    endTime
+                                    organizerId
+                                    venueId
+                                }
+                            }
+                        `,
+                        variables: {
+                            createEventInput: eventData
+                        }
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.errors) {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = 'Error: ' + JSON.stringify(data.errors, null, 2);
+                } else {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = 'Success! Event created:\n' + JSON.stringify(data.data.createEvent, null, 2);
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = 'Network Error: ' + error.message;
+            }
+        });
+
+        // Check cookies when page loads
+        checkCookies();
+        
+        // Also check cookies every 5 seconds to see if they change
+        setInterval(checkCookies, 5000);
+    </script>
+</body>
 </html>

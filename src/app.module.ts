@@ -48,11 +48,11 @@ import { TickettypeModule } from './routes/tickettype/tickettype.module';
     GoedataModule,
     OrderModule,
     SessionModule,
-    TickettypeModule,
-    TicketModule,
     UserModule,
     VenueModule,
     PaymentModule,
+    TickettypeModule,
+    TicketModule,
   ],
   controllers: [AppController],
   providers: [AppService,     {

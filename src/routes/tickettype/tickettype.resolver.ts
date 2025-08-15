@@ -1,7 +1,7 @@
-import { EventService } from 'src/routes/event/event.service';
-import { Event } from 'src/routes/event/entities/event.entity';
 import { TickettypeService } from './tickettype.service';
 import { TicketType } from './entities/tickettype.entity';
+import { EventService } from 'src/routes/event/event.service';
+import { Event } from 'src/routes/event/entities/event.entity';
 import { TicketService } from 'src/routes/ticket/ticket.service';
 import { Ticket } from 'src/routes/ticket/entities/ticket.entity';
 import { CreateTickettypeInput } from './dto/create-tickettype.input';

@@ -1,5 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { Admin } from './entities/admin.entity';
+import { AdminGuard } from 'src/guards/roles/admin.guard';
 import { UserService } from 'src/routes/user/user.service';
 import { User } from 'src/routes/user/entities/user.entity';
 import { CreateAdminInput } from './dto/create-admin.input';
@@ -26,6 +28,7 @@ export class AdminResolver {
     return this.adminService.create(createAdminInput);
   }
 
+  @UseGuards(AdminGuard)
   @Query(() => [Admin], { name: 'admins' })
   findAll() {
     return this.adminService.findAll();
@@ -41,6 +44,7 @@ export class AdminResolver {
     return this.adminService.update(updateAdminInput.id, updateAdminInput);
   }
 
+  @UseGuards(AdminGuard)
   @Mutation(() => Admin)
   removeAdmin(@Args('id') id: string) {
     return this.adminService.remove(id);

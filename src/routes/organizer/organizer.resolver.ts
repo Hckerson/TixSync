@@ -1,11 +1,13 @@
+import { UseGuards } from '@nestjs/common';
+import { OrganizerService } from './organizer.service';
+import { Organizer } from './entities/organizer.entity';
+import { AdminGuard } from 'src/guards/roles/admin.guard';
 import { UserService } from 'src/routes/user/user.service';
 import { User } from 'src/routes/user/entities/user.entity';
 import { EventService } from 'src/routes/event/event.service';
 import { VenueService } from 'src/routes/venue/venue.service';
-import { OrganizerService } from './organizer.service';
 import { Venue } from 'src/routes/venue/entities/venue.entity';
 import { Event } from 'src/routes/event/entities/event.entity';
-import { Organizer } from './entities/organizer.entity';
 import { CreateOrganizerInput } from './dto/create-organizer.input';
 import { UpdateOrganizerInput } from './dto/update-organizer.input';
 import {
@@ -33,14 +35,16 @@ export class OrganizerResolver {
     return this.organizerService.create(createOrganizerInput);
   }
 
+  @UseGuards(AdminGuard)
   @Query(() => [Organizer], { name: 'organizers' })
   findAllOrganizer() {
     return this.organizerService.findAll();
   }
 
   @Query(() => Organizer, { name: 'organizer' })
-  findOneOrganizer(@Args('id') id: string) {
+  findOneOrganizer(@Args('id') id: string) {  /**Create orgnaizer latest task */
     return this.organizerService.findOne(id);
+
   }
 
   @Mutation(() => Organizer)
@@ -53,6 +57,7 @@ export class OrganizerResolver {
     );
   }
 
+    @UseGuards(AdminGuard)
   @Mutation(() => Organizer)
   removeOrganizer(@Args('id') id: string) {
     return this.organizerService.remove(id);

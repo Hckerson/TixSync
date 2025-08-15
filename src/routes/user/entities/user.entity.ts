@@ -15,6 +15,7 @@ export class User {
 
   @Field()
   provider: string;
+  
 
   @Field((type) => Boolean)
   emailVerified: Boolean;
