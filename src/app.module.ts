@@ -21,6 +21,7 @@ import { GqlThrottlerGuard } from './routes/auth/throttler/gql-throttle';
 import { TickettypeModule } from './routes/tickettype/tickettype.module';
 import { SeatModule } from './routes/seat/seat.module';
 import { PaystackModule } from './routes/paystack/paystack.module';
+import { ActivateModule } from './routes/activate/activate.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { PaystackModule } from './routes/paystack/paystack.module';
     TicketModule,
     SeatModule,
     PaystackModule,
+    ActivateModule,
   ],
   controllers: [AppController],
   providers: [AppService,     {

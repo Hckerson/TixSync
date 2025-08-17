@@ -2,7 +2,6 @@ import * as bcrypt from 'bcryptjs';
 import { createHash } from 'crypto';
 import * as geoip from 'geoip-lite';
 import { Lookup } from 'geoip-lite';
-import { mockSeats } from 'scripts/test';
 import { randomBytes } from 'node:crypto';
 import { LoginDto } from './dto/login-dto';
 import { Request, Response } from 'express';
@@ -13,6 +12,7 @@ import { Mailtrap } from './service/mailtrap.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ResetPasswordDto } from './dto/reset-password-dto';
 import { RiskAssesmentService } from 'src/lib/risk-assesment.service';
+import { QrcodeService } from 'src/lib/qr-code.service';
 
 type ValidateUserSuccess = {
   success: true;
@@ -56,6 +56,7 @@ export class AuthService {
    */
   constructor(
     private mailtrap: Mailtrap,
+    private readonly qrcode: QrcodeService,
     private prisma: PrismaService,
     private risk: RiskAssesmentService,
   ) {
@@ -439,10 +440,6 @@ export class AuthService {
     return { message: 'Password reset successful', status: 200 };
   }
   async uploadTestData(){
-    for(const data of mockSeats){
-      await this.prisma.seat.create({
-        data
-      })
-    }
+    return await this.qrcode.generateQrCode('I am a boss')
   }
 }

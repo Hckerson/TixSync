@@ -178,6 +178,8 @@ export class AuthController {
   ) {
     return await this.authService.verifyEmail(email, token);
   }
+
+
   @SkipThrottle({'normal': false})
   @Get('logout')
   logout(@Res({ passthrough: true }) response: Response) {

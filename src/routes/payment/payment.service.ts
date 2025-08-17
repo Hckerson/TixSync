@@ -222,6 +222,23 @@ export class PaymentService {
 
           if (!tickets) throw new Error('Could not create tickets');
 
+          await Promise.all(
+            tickets.map((ticket) => {
+              const qrCode = this.qrcode.generateQrCode(
+                `http://localhost:3000/activate/ticket/${ticket.id}`,
+              );
+              return tx.ticket.update({
+                where: {
+                  id: ticket.id,
+                },
+                data: {
+                  qrcode: String(qrCode),
+                },
+              });
+            }),
+          );
+
+
           //update seat
           await tx.seat.updateMany({
             where: {
