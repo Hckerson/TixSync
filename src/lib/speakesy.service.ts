@@ -39,7 +39,7 @@ export class SpeakeasyService {
     }
     const otpauthUrl = speakeasy.otpauthURL({
       secret: user.speakeasySecret,
-      label: `MyApp (${userId})`,
+      label: `Tixsync`,
       encoding: 'base32',
     });
     return this.qrcodeService.generateQrCode(otpauthUrl);

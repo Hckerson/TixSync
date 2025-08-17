@@ -150,8 +150,8 @@ async function main() {
           typeId: ticketTypes[i].id,
           qrcode: faker.string.uuid(),
           isUsed: faker.datatype.boolean(),
-          audienceId: audiences[0]?.id ?? "", 
-          seatNo: String(faker.number.int({ min: 1, max: 100 })),// Link to an audience, or empty string if none
+          userId: users[0]?.id ?? "",
+          seatNo: faker.number.int({ min: 1, max: 100 }),// Link to an audience, or empty string if no
           seatId: uuidv4(),
         },
       }),

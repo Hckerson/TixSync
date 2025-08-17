@@ -10,8 +10,6 @@ import { FilteredEvent } from './entities/filtered-event.entity';
 import { TicketService } from 'src/routes/ticket/ticket.service';
 import { OrganizerGuard } from 'src/guards/roles/organizer.guard';
 import { Ticket } from 'src/routes/ticket/entities/ticket.entity';
-import { PaymentService } from 'src/routes/payment/payment.service';
-import { Payment } from 'src/routes/payment/entities/payment.entity';
 import { OrganizerService } from 'src/routes/organizer/organizer.service';
 import { TickettypeService } from 'src/routes/tickettype/tickettype.service';
 import { Organizer } from 'src/routes/organizer/entities/organizer.entity';
@@ -57,7 +55,7 @@ export class EventResolver {
     return this.eventService.findOne(id);
   }
 
-  @Query(() => [Event], { name: 'filterEvent', nullable: true })
+  @Query(() => [FilteredEvent], { name: 'filterEvent', nullable: true })
   filterEvent(@Args('filterEventInput') filterEventInput: EventFilter) {
     return this.eventService.filterEvent(filterEventInput);
   }

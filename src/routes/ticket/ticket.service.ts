@@ -100,26 +100,6 @@ export class TicketService {
     }
   }
 
-  async findManyByAudienceId(audienceId: string) {
-    /**
-     * Finds a single ticket
-     * @param audienceId -Id of the ticket
-     * @returns JSON object containing found ticket
-     */
-    try {
-      const ticket = await this.prisma.ticket.findMany({
-        where: {
-          audienceId: audienceId,
-        },
-      });
-      if (!ticket) return [];
-      return ticket;
-    } catch (error) {
-      console.log(
-        `Error fetching ticket with audience Id  ${audienceId}: ${error}`,
-      );
-    }
-  }
 
   async update(id: string, updateTicketInput: UpdateTicketInput) {
     /**

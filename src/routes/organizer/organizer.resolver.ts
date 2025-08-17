@@ -1,4 +1,3 @@
-import { UseGuards } from '@nestjs/common';
 import { OrganizerService } from './organizer.service';
 import { Organizer } from './entities/organizer.entity';
 import { AdminGuard } from 'src/guards/roles/admin.guard';
@@ -7,6 +6,7 @@ import { User } from 'src/routes/user/entities/user.entity';
 import { EventService } from 'src/routes/event/event.service';
 import { VenueService } from 'src/routes/venue/venue.service';
 import { Venue } from 'src/routes/venue/entities/venue.entity';
+import { forwardRef, Inject, UseGuards } from '@nestjs/common';
 import { Event } from 'src/routes/event/entities/event.entity';
 import { CreateOrganizerInput } from './dto/create-organizer.input';
 import { UpdateOrganizerInput } from './dto/update-organizer.input';
@@ -22,6 +22,7 @@ import {
 @Resolver(() => Organizer)
 export class OrganizerResolver {
   constructor(
+    @Inject(forwardRef(() => OrganizerService))
     private readonly userService: UserService,
     private readonly venueService: VenueService,
     private readonly eventService: EventService,

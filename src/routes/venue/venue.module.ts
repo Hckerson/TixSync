@@ -1,19 +1,18 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { VenueService } from './venue.service';
 import { VenueResolver } from './venue.resolver';
 import { AuthModule } from '../auth/auth.module';
 import { EventModule } from '../event/event.module';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { OrganizerService } from 'src/routes/organizer/organizer.service';
+import { OrganizerModule } from '../organizer/organizer.module';
 
 @Module({
-  imports:[EventModule, AuthModule],
-  providers: [
-    VenueResolver,
-    VenueService,
-    PrismaService,
-    OrganizerService,
+  imports: [
+    forwardRef(() => EventModule),
+    forwardRef(() => OrganizerModule),
+    AuthModule,
   ],
-  exports:[VenueService]
+  providers: [VenueResolver, VenueService, PrismaService],
+  exports: [VenueService],
 })
 export class VenueModule {}

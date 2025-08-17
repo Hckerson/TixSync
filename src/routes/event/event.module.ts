@@ -1,32 +1,32 @@
-import { Module } from '@nestjs/common';
+import { Module , forwardRef} from '@nestjs/common';
 import { EventService } from './event.service';
+import { AuthModule } from '../auth/auth.module';
 import { EventResolver } from './event.resolver';
-import { AuthService } from '../auth/auth.service';
+import { VenueModule } from '../venue/venue.module';
+import { TicketModule } from '../ticket/ticket.module';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Mailtrap } from '../auth/service/mailtrap.service';
-import { VenueService } from 'src/routes/venue/venue.service';
-import { TicketService } from 'src/routes/ticket/ticket.service';
+import { OrganizerModule } from '../organizer/organizer.module';
 import { OrganizerGuard } from 'src/guards/roles/organizer.guard';
-import { PaymentService } from 'src/routes/payment/payment.service';
+import { TickettypeModule } from '../tickettype/tickettype.module';
 import { RiskAssesmentService } from 'src/lib/risk-assesment.service';
-import { OrganizerService } from 'src/routes/organizer/organizer.service';
-import { TickettypeService } from 'src/routes/tickettype/tickettype.service';
 
 @Module({
+  imports: [
+    AuthModule,
+    VenueModule,
+    forwardRef(() => TicketModule),
+    forwardRef(() => TickettypeModule),
+    forwardRef(() => OrganizerModule),
+  ],
   providers: [
-    Mailtrap,
-    AuthService,
     EventService,
-    VenueService,
-    TicketService,
     EventResolver,
+    Mailtrap,
     PrismaService,
     OrganizerGuard,
-    PaymentService,
-    OrganizerService,
-    TickettypeService,
     RiskAssesmentService,
   ],
-  exports:[EventService]
+  exports: [EventService],
 })
 export class EventModule {}

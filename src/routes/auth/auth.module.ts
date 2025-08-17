@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { ThrottlerGuard } from '@nestjs/throttler';
 import { AuthModuleOptions } from '@nestjs/passport';
 import { Mailtrap } from './service/mailtrap.service';
 import { QrcodeService } from 'src/lib/qr-code.service';

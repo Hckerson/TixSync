@@ -1,21 +1,22 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserResolver } from './user.resolver';
 import { AuthModule } from '../auth/auth.module';
+import { AdminModule } from '../admin/admin.module';
+import { TicketModule } from '../ticket/ticket.module';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { AdminService } from 'src/routes/admin/admin.service';
-import { AudienceService } from 'src/routes/audience/audience.service';
-import { OrganizerService } from 'src/routes/organizer/organizer.service';
+import { AudienceModule } from '../audience/audience.module';
+import { OrganizerModule } from '../organizer/organizer.module';
 
 @Module({
-  imports: [AuthModule],
-  providers: [
-    UserResolver,
-    UserService,
-    PrismaService,
-    AudienceService,
-    AdminService,
-    OrganizerService,
+  imports: [
+    AuthModule,
+    AdminModule,
+    AudienceModule,
+    OrganizerModule,
+    forwardRef(() => TicketModule),
   ],
+  providers: [UserResolver, UserService, PrismaService],
+  exports: [UserService],
 })
 export class UserModule {}

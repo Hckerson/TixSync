@@ -15,7 +15,7 @@ type Audience {
   fullname: String
   id: ID
   role: Role
-  ticket: [Ticket!]!
+  ticket: [Ticket!]
   user: User!
   userId: String
   username: String
@@ -94,7 +94,7 @@ input CreateTicketInput {
   isUsed: Boolean!
   qrcode: String!
   seatId: String!
-  seatNo: String!
+  seatNo: Int!
   typeId: String!
   userId: String!
 }
@@ -160,6 +160,21 @@ input EventFilter {
   location: String
   startTime: DateTime
   title: String
+}
+
+type FilteredEvent {
+  category: EventCategory
+  description: String
+  endTime: DateTime
+  id: ID
+  organizer: Organizer
+  organizerId: ID
+  startTime: DateTime
+  ticket: [Ticket!]
+  ticketType: [TicketType!]
+  title: String
+  venue: Venue
+  venueId: ID
 }
 
 type HoldingInfo {
@@ -253,7 +268,7 @@ type Query {
   audiences: [Audience!]!
   event(id: String!): Event!
   events: [Event!]!
-  filterEvent(filterEventInput: EventFilter!): [Event!]
+  filterEvent(filterEventInput: EventFilter!): [FilteredEvent!]
   order(id: String!): Order!
   orders: [Order!]!
   organizer(id: String!): Organizer!
@@ -312,7 +327,7 @@ enum Status {
 }
 
 type Ticket {
-  audience: Audience!
+  audience: Audience
   audienceId: String
   event: Event!
   eventId: String
@@ -321,6 +336,7 @@ type Ticket {
   qrcode: String!
   type: TicketType!
   typeId: String!
+  user: User!
 }
 
 type TicketType {
@@ -414,7 +430,7 @@ input UpdateTicketInput {
   isUsed: Boolean
   qrcode: String
   seatId: String
-  seatNo: String
+  seatNo: Int
   typeId: String
   userId: String
 }

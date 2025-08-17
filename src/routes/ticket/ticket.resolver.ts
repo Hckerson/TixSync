@@ -1,5 +1,7 @@
 import { TicketService } from './ticket.service';
 import { Ticket } from './entities/ticket.entity';
+import { UserService } from '../user/user.service';
+import { User } from '../user/entities/user.entity';
 import { EventService } from 'src/routes/event/event.service';
 import { Event } from 'src/routes/event/entities/event.entity';
 import { CreateTicketInput } from './dto/create-ticket.input';
@@ -20,6 +22,7 @@ import { Audience } from 'src/routes/audience/entities/audience.entity';
 @Resolver(() => Ticket)
 export class TicketResolver {
   constructor(
+    private readonly userService: UserService,
     private readonly eventService: EventService,
     private readonly ticketService: TicketService,
     private readonly audienceService: AudienceService,
@@ -67,9 +70,9 @@ export class TicketResolver {
     return this.ticketTypeService.findOneByTicketId(id);
   }
 
-  @ResolveField('audience', () => Audience)
+  @ResolveField('user', () => User)
   async getAudience(@Parent() ticket: Ticket) {
     const { id } = ticket;
-    return this.audienceService.findOneByTicketId(id);
+    return this.userService.findOneByTicketId(id);
   }
 }

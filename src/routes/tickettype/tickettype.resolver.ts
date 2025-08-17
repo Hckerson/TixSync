@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { forwardRef, Inject, UseGuards } from '@nestjs/common';
 import { TickettypeService } from './tickettype.service';
 import { TicketType } from './entities/tickettype.entity';
 import { EventService } from 'src/routes/event/event.service';
@@ -8,14 +8,22 @@ import { Ticket } from 'src/routes/ticket/entities/ticket.entity';
 import { OrganizerGuard } from 'src/guards/roles/organizer.guard';
 import { CreateTickettypeInput } from './dto/create-tickettype.input';
 import { UpdateTickettypeInput } from './dto/update-tickettype.input';
-import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 
 @Resolver(() => TicketType)
 export class TickettypeResolver {
   constructor(
+    @Inject(forwardRef(() => EventService))
     private readonly eventService: EventService,
     private readonly ticketService: TicketService,
-    private readonly  tickettypeService: TickettypeService,
+    private readonly tickettypeService: TickettypeService,
   ) {}
 
   @UseGuards(OrganizerGuard)
@@ -55,13 +63,13 @@ export class TickettypeResolver {
 
   @ResolveField('event', () => Event)
   getEvent(@Parent() tickettype: TicketType) {
-    const {id} = tickettype
+    const { id } = tickettype;
     return this.eventService.findOneByTicketTypeId(id);
   }
 
   @ResolveField('ticket', () => [Ticket])
   getTickets(@Parent() tickettype: TicketType) {
-    const {id} = tickettype
+    const { id } = tickettype;
     return this.ticketService.findManyByTicketTypeId(id);
   }
 }

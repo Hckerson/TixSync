@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Status } from 'src/enums/status.enum';
 import { SeatStatus } from 'src/enums/seat-status.enum';
 import { HoldStatus } from 'src/enums/hold-status.enum';
+import { QrcodeService } from 'src/lib/qr-code.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { OrderCategory } from 'src/enums/orderCategory.enum';
 import { CreatePaymentInput } from './dto/create-payment.input';
@@ -9,7 +10,10 @@ import { UpdatePaymentInput } from './dto/update-payment.input';
 
 @Injectable()
 export class PaymentService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly qrcode: QrcodeService,
+  ) {}
   async create(createPaymentInput: CreatePaymentInput) {
     /**
      * Creates a new payment
@@ -212,11 +216,11 @@ export class PaymentService {
               typeId: seat.typeId,
               seatId: seat.id,
               seatNo: seat.seatNo,
-              userId: userId
+              userId: userId,
             })),
           });
 
-          if(!tickets) throw new Error('Could not create tickets');
+          if (!tickets) throw new Error('Could not create tickets');
 
           //update seat
           await tx.seat.updateMany({
@@ -238,7 +242,7 @@ export class PaymentService {
             },
           });
 
-          return tickets
+          return tickets;
         } else if (category == 'MERCH') {
         }
       });
