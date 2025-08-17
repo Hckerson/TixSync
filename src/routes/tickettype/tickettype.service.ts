@@ -1,3 +1,4 @@
+import { Prisma } from 'generated/prisma';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTickettypeInput } from './dto/create-tickettype.input';
@@ -6,20 +7,31 @@ import { UpdateTickettypeInput } from './dto/update-tickettype.input';
 @Injectable()
 export class TickettypeService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createTicketTypeInput: CreateTickettypeInput) {
+  async create(createTicketTypeInput: CreateTickettypeInput) {
     /**
      * Creates a new ticketType
      * @param createTicketTypetypeInput -Data to be entered
      * @returns -JSON object containing success/failure status
      */
     try {
-      const { ticket,  ...rest } = createTicketTypeInput;
-      const newticketType = this.prisma.ticketType.create({
+      // const exists = await this.prisma.ticketType.findFirst({
+      //   where:{
+      //     name: createTicketTypeInput.name,
+      //     eventId: createTicketTypeInput.eventId
+      //   }
+      // })
+      // if(exists) return
+      const { ticket, event, ...rest } = createTicketTypeInput;
+      const newticketType =await  this.prisma.ticketType.create({
         data: rest,
       });
       if (!newticketType) return [];
       return newticketType;
     } catch (error) {
+      if(error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+        console.log('TicketType already exists');
+        return []
+      }
       console.error(`Error creating ticketType: ${error}`);
     }
   }
@@ -32,7 +44,7 @@ export class TickettypeService {
     try {
       const allTicketType = await this.prisma.ticketType.findMany();
       if (!allTicketType) return [];
-      console.log(allTicketType)
+      console.log(allTicketType);
       return allTicketType;
     } catch (error) {
       console.error(`Error fetching all ticketType: ${error}`);
@@ -58,7 +70,6 @@ export class TickettypeService {
     }
   }
 
-  
   async findManyByEventId(eventId: string) {
     /**
      * Finds a single ticketType
@@ -69,7 +80,7 @@ export class TickettypeService {
       const ticketType = await this.prisma.ticketType.findMany({
         where: {
           event: {
-              id : eventId
+            id: eventId,
           },
         },
       });
@@ -77,7 +88,9 @@ export class TickettypeService {
       if (!ticketType) return [];
       return ticketType;
     } catch (error) {
-      console.log(`Error fetching ticketType with event Id  ${eventId}: ${error}`);
+      console.log(
+        `Error fetching ticketType with event Id  ${eventId}: ${error}`,
+      );
     }
   }
 
@@ -111,7 +124,7 @@ export class TickettypeService {
      * @param updateTickettypeInput -New data to be entered
      */
     try {
-      const { id: orgId, ticket, ...rest } = updateTickettypeInput;
+      const { id: orgId, ticket, event, ...rest } = updateTickettypeInput;
       const updatedData = await this.prisma.ticketType.update({
         where: {
           id,

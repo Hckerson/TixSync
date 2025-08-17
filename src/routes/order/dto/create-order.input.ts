@@ -13,6 +13,9 @@ export class CreateOrderInput {
   @Field(() => [String])
   itemId: string[];
 
+  @Field()
+  paymentId: string;
+
   @Field(() => CreatePaymentInput, { nullable: true })
   payment: CreatePaymentInput;
 }

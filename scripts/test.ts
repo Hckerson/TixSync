@@ -1,0 +1,151 @@
+import { SeatDto } from 'src/routes/seat/seat.service';
+import { SeatStatus } from 'src/enums/seat-status.enum';
+
+const mockSeats: SeatDto[] = [
+  {
+    seatNo: 1,
+    eventId: '66e43d9c-81c8-4a75-9a05-af5aab67e126',
+    status: SeatStatus.AVAILABLE,
+    typeId: 'aa21a26b-5328-478b-8b9d-d264f4f67d11',
+    row: 'A',
+    column: '1',
+  },
+  {
+    seatNo: 2,
+    eventId: '66e43d9c-81c8-4a75-9a05-af5aab67e126',
+    status: SeatStatus.AVAILABLE,
+    typeId: 'aa21a26b-5328-478b-8b9d-d264f4f67d11',
+    row: 'A',
+    column: '2',
+  },
+  {
+    seatNo: 3,
+    eventId: '66e43d9c-81c8-4a75-9a05-af5aab67e126',
+    status: SeatStatus.AVAILABLE,
+    typeId: 'aa21a26b-5328-478b-8b9d-d264f4f67d11',
+    row: 'A',
+    column: '3',
+  },
+  {
+    seatNo: 4,
+    eventId: '66e43d9c-81c8-4a75-9a05-af5aab67e126',
+    status: SeatStatus.AVAILABLE,
+    typeId: 'aa21a26b-5328-478b-8b9d-d264f4f67d11',
+    row: 'A',
+    column: '4',
+  },
+  {
+    seatNo: 5,
+    eventId: '66e43d9c-81c8-4a75-9a05-af5aab67e126',
+    status: SeatStatus.AVAILABLE,
+    typeId: 'b4283435-e058-46cd-8074-112fd05c2c44',
+    row: 'B',
+    column: '1',
+  },
+  {
+    seatNo: 6,
+    eventId: '66e43d9c-81c8-4a75-9a05-af5aab67e126',
+    status: SeatStatus.AVAILABLE,
+    typeId: 'b4283435-e058-46cd-8074-112fd05c2c44',
+    row: 'B',
+    column: '2',
+  },
+  {
+    seatNo: 7,
+    eventId: '66e43d9c-81c8-4a75-9a05-af5aab67e126',
+    status: SeatStatus.AVAILABLE,
+    typeId: 'aa21a26b-5328-478b-8b9d-d264f4f67d11',
+    row: 'C',
+    column: '1',
+  },
+  {
+    seatNo: 8,
+    eventId: '66e43d9c-81c8-4a75-9a05-af5aab67e126',
+    status: SeatStatus.AVAILABLE,
+    typeId: 'aa21a26b-5328-478b-8b9d-d264f4f67d11',
+    row: 'C',
+    column: '2',
+  },
+  {
+    seatNo: 9,
+    eventId: '66e43d9c-81c8-4a75-9a05-af5aab67e126',
+    status: SeatStatus.AVAILABLE,
+    typeId: 'aa21a26b-5328-478b-8b9d-d264f4f67d11',
+    row: 'D',
+    column: '1',
+  },
+  {
+    seatNo: 10,
+    eventId: '66e43d9c-81c8-4a75-9a05-af5aab67e126',
+    status: SeatStatus.AVAILABLE,
+    typeId: 'b4283435-e058-46cd-8074-112fd05c2c44',
+    row: 'D',
+    column: '2',
+  },
+];
+
+const data = {
+  event: 'charge.success',
+  data: {
+    id: 5247195946,
+    domain: 'test',
+    status: 'success',
+    reference: '3wwioyx0m1',
+    amount: 5000000,
+    message: null,
+    gateway_response: 'Successful',
+    paid_at: '2025-08-17T09:36:51.000Z',
+    created_at: '2025-08-17T09:36:38.000Z',
+    channel: 'card',
+    currency: 'NGN',
+    ip_address: '146.70.99.215',
+    metadata: { holdId: '968276fb-ff98-4ed6-9e17-75396e786c22' },
+    fees_breakdown: null,
+    log: null,
+    fees: 85000,
+    fees_split: null,
+    authorization: {
+      authorization_code: 'AUTH_v4qs3lsxvo',
+      bin: '408408',
+      last4: '4081',
+      exp_month: '12',
+      exp_year: '2030',
+      channel: 'card',
+      card_type: 'visa ',
+      bank: 'TEST BANK',
+      country_code: 'NG',
+      brand: 'visa',
+      reusable: true,
+      signature: 'SIG_WLFO4JONXlvY4DViQNyp',
+      account_name: null,
+      receiver_bank_account_number: null,
+      receiver_bank: null
+    },
+    customer: {
+      id: 299889308,
+      first_name: null,
+      last_name: null,
+      email: 'kers.jnr@gmail.com',
+      customer_code: 'CUS_5vora859uot1qod',
+      phone: null,
+      metadata: null,
+      risk_action: 'default',
+      international_format_phone: null
+    },
+    plan: {},
+    subaccount: {},
+    split: {},
+    order_id: null,
+    paidAt: '2025-08-17T09:36:51.000Z',
+    requested_amount: 5000000,
+    pos_transaction_data: null,
+    source: {
+      type: 'api',
+      source: 'merchant_api',
+      entry_point: 'transaction_initialize',
+      identifier: null
+    }
+  }
+}
+
+export { mockSeats, data };

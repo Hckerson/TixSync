@@ -52,15 +52,11 @@ input CreateEventInput {
   venueId: ID!
 }
 
-input CreateGoedatumInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 input CreateOrderInput {
   item: OrderCategory!
   itemId: [String!]!
   payment: CreatePaymentInput
+  paymentId: String!
   total: Int!
 }
 
@@ -77,26 +73,38 @@ input CreateOrganizerInput {
 
 input CreatePaymentInput {
   amount: Int!
-  orderId: String!
+  orderId: String
   status: Status!
+  userId: String!
 }
 
-input CreateSessionInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+input CreateSeatInput {
+  column: String
+  eventId: String!
+  holdExpiresAt: String
+  holdId: String
+  row: String
+  seatNo: Int!
+  status: SeatStatus!
+  typeId: String!
 }
 
 input CreateTicketInput {
   eventId: String!
   isUsed: Boolean!
   qrcode: String!
+  seatId: String!
+  seatNo: String!
   typeId: String!
+  userId: String!
 }
 
 input CreateTickettypeInput {
+  event: CreateVenueInput
   eventId: String
   name: Name!
   price: Int!
+  qty: Int!
   ticket: [CreateTicketInput!]
 }
 
@@ -154,25 +162,18 @@ input EventFilter {
   title: String
 }
 
-type GeoData {
-  city: String!
-  country: String!
-  id: ID!
-  region: String!
-  timezone: String!
-  user: User!
-  userId: String!
+type HoldingInfo {
+  holdId: String!
 }
 
 type Mutation {
   createAdmin(createAdminInput: CreateAdminInput!): Admin!
   createAudience(createAudienceInput: CreateAudienceInput!): Audience!
   createEvent(createEventInput: CreateEventInput!): Event!
-  createGoedatum(createGoedatumInput: CreateGoedatumInput!): GeoData!
   createOrder(createOrderInput: CreateOrderInput!): Order!
   createOrganizer(createOrganizerInput: CreateOrganizerInput!): Organizer!
   createPayment(createPaymentInput: CreatePaymentInput!): Payment!
-  createSession(createSessionInput: CreateSessionInput!): Session!
+  createSeats(createSeatInput: [CreateSeatInput!]!): [Seat!]!
   createTicket(createTicketInput: CreateTicketInput!): Ticket!
   createTickettype(createTickettypeInput: CreateTickettypeInput!): TicketType!
   createUser(createUserInput: CreateUserInput!): User!
@@ -180,23 +181,22 @@ type Mutation {
   removeAdmin(id: String!): Admin!
   removeAudience(id: String!): Audience!
   removeEvent(id: String!): Event!
-  removeGoedatum(id: Int!): GeoData!
   removeOrder(id: String!): Order!
   removeOrganizer(id: String!): Organizer!
   removePayment(id: String!): Payment!
-  removeSession(id: Int!): Session!
+  removeSeat(id: Int!): Seat!
   removeTicket(id: String!): Ticket!
   removeTickettype(id: String!): TicketType!
   removeUser(id: String!): User!
   removeVenue(id: String!): Venue!
+  reserveSeats(reserveSeatinput: ReserveSeatInput!): HoldingInfo!
   updateAdmin(updateAdminInput: UpdateAdminInput!): Admin!
   updateAudience(updateAudienceInput: UpdateAudienceInput!): Audience!
   updateEvent(updateEventInput: UpdateEventInput!): Event!
-  updateGoedatum(updateGoedatumInput: UpdateGoedatumInput!): GeoData!
   updateOrder(updateOrderInput: UpdateOrderInput!): Order!
   updateOrganizer(updateOrganizerInput: UpdateOrganizerInput!): Organizer!
   updatePayment(updatePaymentInput: UpdatePaymentInput!): Payment!
-  updateSession(updateSessionInput: UpdateSessionInput!): Session!
+  updateSeat(updateSeatInput: UpdateSeatInput!): Seat!
   updateTicket(updateTicketInput: UpdateTicketInput!): Ticket!
   updateTickettype(updateTickettypeInput: UpdateTickettypeInput!): TicketType!
   updateUser(updateUserInput: UpdateUserInput!): User!
@@ -238,6 +238,7 @@ type Organizer {
 
 type Payment {
   amount: Int!
+  holdId: String!
   id: ID!
   order: Order!
   orderId: String!
@@ -253,15 +254,14 @@ type Query {
   event(id: String!): Event!
   events: [Event!]!
   filterEvent(filterEventInput: EventFilter!): [Event!]
-  goedata: [GeoData!]!
-  goedatum(id: Int!): GeoData!
   order(id: String!): Order!
   orders: [Order!]!
   organizer(id: String!): Organizer!
   organizers: [Organizer!]!
   payment(id: String!): Payment!
   payments: [Payment!]!
-  session(id: Int!): Session!
+  seat(id: String!): Seat!
+  seats: [Seat!]!
   ticket(id: String!): Ticket!
   tickets: [Ticket!]!
   tickettype(id: String!): TicketType!
@@ -272,6 +272,12 @@ type Query {
   venues: [Venue!]!
 }
 
+input ReserveSeatInput {
+  eventId: String!
+  seatIds: [String!]!
+  userId: String!
+}
+
 """Role assigned to the user"""
 enum Role {
   ADMIN
@@ -279,13 +285,23 @@ enum Role {
   ORGANIZER
 }
 
-type Session {
-  createdAt: DateTime!
+type Seat {
+  column: String
+  eventId: String!
+  holdExpiresAt: DateTime
+  holdId: String
   id: ID!
-  rememberToken: String
-  updatedAt: DateTime!
-  user: User!
-  userId: String!
+  row: String
+  seatNo: Int!
+  status: SeatStatus!
+  typeId: String!
+}
+
+"""Status of the seat"""
+enum SeatStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
 }
 
 """Status of the order"""
@@ -313,6 +329,7 @@ type TicketType {
   id: ID!
   name: Name!
   price: Int!
+  qty: Int!
   ticket: [Ticket!]!
 }
 
@@ -350,17 +367,12 @@ input UpdateEventInput {
   venueId: ID
 }
 
-input UpdateGoedatumInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
 input UpdateOrderInput {
   id: String!
   item: OrderCategory
   itemId: [String!]
   payment: CreatePaymentInput
+  paymentId: String
   total: Int
 }
 
@@ -381,12 +393,19 @@ input UpdatePaymentInput {
   id: ID!
   orderId: String
   status: Status
+  userId: String
 }
 
-input UpdateSessionInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+input UpdateSeatInput {
+  column: String
+  eventId: String
+  holdExpiresAt: String
+  holdId: String
   id: Int!
+  row: String
+  seatNo: Int
+  status: SeatStatus
+  typeId: String
 }
 
 input UpdateTicketInput {
@@ -394,14 +413,19 @@ input UpdateTicketInput {
   id: ID!
   isUsed: Boolean
   qrcode: String
+  seatId: String
+  seatNo: String
   typeId: String
+  userId: String
 }
 
 input UpdateTickettypeInput {
+  event: CreateVenueInput
   eventId: String
   id: ID!
   name: Name
   price: Int
+  qty: Int
   ticket: [CreateTicketInput!]
 }
 
@@ -432,13 +456,11 @@ type User {
   createdAt: DateTime!
   email: String!
   emailVerified: Boolean!
-  geoData: GeoData
   id: ID!
   lastKnownDevice: String
   lastLoginIp: String
   organizer: Organizer!
   provider: String!
-  session: [Session!]!
   speakeasySecret: String
   twofaVerified: Boolean!
   updatedAt: DateTime!

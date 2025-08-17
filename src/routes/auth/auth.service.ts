@@ -2,6 +2,7 @@ import * as bcrypt from 'bcryptjs';
 import { createHash } from 'crypto';
 import * as geoip from 'geoip-lite';
 import { Lookup } from 'geoip-lite';
+import { mockSeats } from 'scripts/test';
 import { randomBytes } from 'node:crypto';
 import { LoginDto } from './dto/login-dto';
 import { Request, Response } from 'express';
@@ -436,5 +437,12 @@ export class AuthService {
       },
     });
     return { message: 'Password reset successful', status: 200 };
+  }
+  async uploadTestData(){
+    for(const data of mockSeats){
+      await this.prisma.seat.create({
+        data
+      })
+    }
   }
 }

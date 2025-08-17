@@ -1,9 +1,11 @@
+import { UseGuards } from '@nestjs/common';
 import { TickettypeService } from './tickettype.service';
 import { TicketType } from './entities/tickettype.entity';
 import { EventService } from 'src/routes/event/event.service';
 import { Event } from 'src/routes/event/entities/event.entity';
 import { TicketService } from 'src/routes/ticket/ticket.service';
 import { Ticket } from 'src/routes/ticket/entities/ticket.entity';
+import { OrganizerGuard } from 'src/guards/roles/organizer.guard';
 import { CreateTickettypeInput } from './dto/create-tickettype.input';
 import { UpdateTickettypeInput } from './dto/update-tickettype.input';
 import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
@@ -16,6 +18,7 @@ export class TickettypeResolver {
     private readonly  tickettypeService: TickettypeService,
   ) {}
 
+  @UseGuards(OrganizerGuard)
   @Mutation(() => TicketType)
   createTickettype(
     @Args('createTickettypeInput') createTickettypeInput: CreateTickettypeInput,
@@ -33,6 +36,7 @@ export class TickettypeResolver {
     return this.tickettypeService.findOne(id);
   }
 
+  @UseGuards(OrganizerGuard)
   @Mutation(() => TicketType)
   updateTickettype(
     @Args('updateTickettypeInput') updateTickettypeInput: UpdateTickettypeInput,
@@ -43,6 +47,7 @@ export class TickettypeResolver {
     );
   }
 
+  @UseGuards(OrganizerGuard)
   @Mutation(() => TicketType)
   removeTickettype(@Args('id') id: string) {
     return this.tickettypeService.remove(id);

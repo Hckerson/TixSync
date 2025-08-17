@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { Status } from 'src/enums/status.enum';
+import { SeatStatus } from 'src/enums/seat-status.enum';
+import { HoldStatus } from 'src/enums/hold-status.enum';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { OrderCategory } from 'src/enums/orderCategory.enum';
 import { CreatePaymentInput } from './dto/create-payment.input';
 import { UpdatePaymentInput } from './dto/update-payment.input';
 
@@ -13,8 +17,13 @@ export class PaymentService {
      * @returns -JSON object containing success/failure status
      */
     try {
-      const newPayment = await  this.prisma.payment.create({
-        data: createPaymentInput,
+      const { amount, orderId, userId, status } = createPaymentInput;
+      const newPayment = await this.prisma.payment.create({
+        data: {
+          amount,
+          userId,
+          status,
+        },
       });
       if (!newPayment) return [];
       return newPayment;
@@ -136,6 +145,105 @@ export class PaymentService {
       return deletedPayment;
     } catch (error) {
       console.error(`Error deleting payment`);
+    }
+  }
+
+  async processPaystackWebhook(data: Record<string, any>) {
+    /**
+     * Processes a paystack webhook
+     * @param data -The request body
+     */
+    const now = new Date();
+    try {
+      return this.prisma.$transaction(async (tx) => {
+        const { metadata, amount } = data;
+        const { holdId, itemIds, item, eventId } = metadata;
+
+        const category =
+          item.lower() == 'merch' ? OrderCategory.MERCH : OrderCategory.TICKET;
+
+        if (category == 'TICKET') {
+          // Get  hold of the seat hold
+          const hold = await tx.hold.findUnique({
+            where: {
+              id: holdId,
+            },
+          });
+
+          if (!hold) throw new Error('Could find hold for this payment');
+
+          const { expiresAt, userId } = hold;
+
+          //check expiry
+          if (expiresAt < now) throw new Error('Hold has expired');
+
+          // Get hold of seats reserved
+          const seats = await tx.seat.findMany({
+            where: {
+              holdId,
+            },
+          });
+
+          //create order and payment
+
+          // convert amount back to naira
+          const nairaEquivalent = amount / 100;
+          const order = await tx.order.create({
+            data: {
+              item: category,
+              total: nairaEquivalent,
+              itemId: itemIds,
+              payment: {
+                create: {
+                  amount: nairaEquivalent,
+                  userId,
+                  status: Status.SUCCESSFUL,
+                },
+              },
+            },
+          });
+
+          if (!order) throw new Error('Could not create order');
+
+          //create ticket
+          const tickets = await tx.ticket.createManyAndReturn({
+            data: seats.map((seat) => ({
+              eventId: seat.eventId,
+              typeId: seat.typeId,
+              seatId: seat.id,
+              seatNo: seat.seatNo,
+              userId: userId
+            })),
+          });
+
+          if(!tickets) throw new Error('Could not create tickets');
+
+          //update seat
+          await tx.seat.updateMany({
+            where: {
+              holdId,
+            },
+            data: {
+              status: SeatStatus.SOLD,
+            },
+          });
+
+          //update hold
+          await tx.hold.update({
+            where: {
+              id: holdId,
+            },
+            data: {
+              status: HoldStatus.CONVERTED,
+            },
+          });
+
+          return tickets
+        } else if (category == 'MERCH') {
+        }
+      });
+    } catch (error) {
+      console.error(`Error processing paystack webhook: ${error}`);
     }
   }
 }

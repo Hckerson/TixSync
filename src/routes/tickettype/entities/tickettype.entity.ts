@@ -17,6 +17,9 @@ export class TicketType {
   @Field((type) => Int)
   price: number;
 
+  @Field(() => Int)
+  qty: number;
+  
   @Field((type) => [Ticket], { nullable: true })
   ticket: Ticket[];
 

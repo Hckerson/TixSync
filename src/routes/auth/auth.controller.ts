@@ -166,6 +166,11 @@ export class AuthController {
     return this.authService.sendVerificationEmail(email, verificationLink);
   }
 
+  @Get('upload/testdata')
+  async uploadTestData() {
+    return this.authService.uploadTestData();
+  }
+
   @Post('verify-email')
   async verifyEmail(
     @Body('email') email: string,

@@ -20,6 +20,9 @@ export class Payment {
   @Field()
   orderId: string;
 
+  @Field()
+  holdId: string;
+
   @Field((type) => Order)
   order: Order;
 

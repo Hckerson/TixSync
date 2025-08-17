@@ -150,7 +150,9 @@ async function main() {
           typeId: ticketTypes[i].id,
           qrcode: faker.string.uuid(),
           isUsed: faker.datatype.boolean(),
-          audienceId: audiences[0]?.id ?? "", // Link to an audience, or empty string if none
+          audienceId: audiences[0]?.id ?? "", 
+          seatNo: String(faker.number.int({ min: 1, max: 100 })),// Link to an audience, or empty string if none
+          seatId: uuidv4(),
         },
       }),
     ),
@@ -165,6 +167,7 @@ async function main() {
           item: ['TICKET', 'MERCH'][i % 2] as any,
           total: faker.number.int({ min: 20, max: 500 }),
           itemId: [uuidv4()],
+          paymentId: uuidv4(),
         },
       }),
     ),
@@ -177,8 +180,8 @@ async function main() {
         data: {
           id: uuidv4(),
           // eventId: event.id,
+          userId: users[0]?.id ?? "",
           amount: faker.number.int({ min: 20, max: 500 }),
-          orderId: orders[i].id,
           status: ['PENDING', 'SUCCESSFUL', 'FAILED'][i % 3] as any,
         },
       }),

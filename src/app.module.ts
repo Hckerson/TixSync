@@ -8,8 +8,6 @@ import { AppController } from './app.controller';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { UserModule } from './routes/user/user.module';
 import { AuthModule } from './routes/auth/auth.module';
-import { SessionModule } from './session/session.module';
-import { GoedataModule } from './goedata/goedata.module';
 import { OrderModule } from './routes/order/order.module';
 import { VenueModule } from './routes/venue/venue.module';
 import { AdminModule } from './routes/admin/admin.module';
@@ -21,6 +19,8 @@ import { AudienceModule } from './routes/audience/audience.module';
 import { OrganizerModule } from './routes/organizer/organizer.module';
 import { GqlThrottlerGuard } from './routes/auth/throttler/gql-throttle';
 import { TickettypeModule } from './routes/tickettype/tickettype.module';
+import { SeatModule } from './routes/seat/seat.module';
+import { PaystackModule } from './routes/paystack/paystack.module';
 
 @Module({
   imports: [
@@ -44,15 +44,14 @@ import { TickettypeModule } from './routes/tickettype/tickettype.module';
     }),
     AdminModule,
     AudienceModule,
-    EventModule,
-    GoedataModule,
     OrderModule,
-    SessionModule,
     UserModule,
     VenueModule,
     PaymentModule,
     TickettypeModule,
     TicketModule,
+    SeatModule,
+    PaystackModule,
   ],
   controllers: [AppController],
   providers: [AppService,     {

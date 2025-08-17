@@ -1,6 +1,4 @@
 import { Admin } from 'src/routes/admin/entities/admin.entity';
-import { Session } from 'src/session/entities/session.entity';
-import { GeoData } from 'src/goedata/entities/goedatum.entity';
 import { Audience } from 'src/routes/audience/entities/audience.entity';
 import { Organizer } from 'src/routes/organizer/entities/organizer.entity';
 import { Field, ObjectType, ID, GraphQLISODateTime } from '@nestjs/graphql';
@@ -40,12 +38,6 @@ export class User {
 
   @Field({ nullable: true })
   lastKnownDevice: string;
-
-  @Field((type) => [Session])
-  session: Session[];
-
-  @Field((type) => GeoData, { nullable: true })
-  geoData: GeoData[];
 
   @Field((type) => Organizer, { nullable: true })
   organizer: Organizer;

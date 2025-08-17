@@ -8,6 +8,15 @@ export class CreateTicketInput {
   @Field()
   qrcode: string
 
+  @Field()
+  seatId: string
+
+  @Field()
+  userId: string
+
+  @Field(()=> Int)
+  seatNo: number
+  
   @Field(type => Boolean)
   isUsed: boolean
 

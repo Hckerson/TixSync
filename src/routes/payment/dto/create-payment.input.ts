@@ -1,13 +1,16 @@
 import { Status } from 'src/enums/status.enum';
-import { ObjectType,InputType, Field, Int, ID, GraphQLISODateTime } from '@nestjs/graphql';
+import { InputType, Field, Int } from '@nestjs/graphql';
 
 @InputType()
 export class CreatePaymentInput {
   @Field((type) => Int)
   amount: number;
 
-  @Field()
+  @Field({ nullable: true })
   orderId: string;
+
+  @Field()
+  userId: string;
 
   @Field((type) => Status)
   status: Status;
