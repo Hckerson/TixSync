@@ -12,8 +12,6 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-#custom _libs
-/custom_libs
 
 # OS
 .DS_Store
