@@ -1,0 +1,9 @@
+schema: ./src/schema.gql
+generates:
+  ./src/generated/graphql.ts: # Output path for generated types
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo # if using Apollo Client with React
+    config:
+      withHooks: true # if using React hooks

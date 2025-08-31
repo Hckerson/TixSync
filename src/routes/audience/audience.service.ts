@@ -20,6 +20,8 @@ export class AudienceService {
         email,
         password,
       });
+
+      if(!response.data) return null;
       const { id } = response.data;
 
       const newAudience = this.prisma.audience.create({
