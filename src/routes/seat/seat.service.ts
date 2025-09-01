@@ -1,6 +1,6 @@
-import { Prisma } from 'generated/prisma';
+import { Prisma } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
-import { SeatStatus } from 'generated/prisma';
+import { SeatStatus } from '@prisma/client';
 import { UpdateSeatInput } from './dto/update-seat.input';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateSeatInput } from './dto/create-seat.input';
